@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2'
 const port = 8000
 
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoDB)
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
@@ -17,7 +17,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 // })
 
 const app = express();
-app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // app.use(
 //     session({
@@ -39,69 +39,77 @@ const User = require('./models/users')
 // '/login'
 // '/logout'
 
-app.post('/adduser', (req, res) => {
+app.post('/adduser', async (req, res) => {
+    console.log(req.body);
     const { username, password, email } = req.body;
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-
-    User.findOne({ email })
-    .then(user => {
-        res.status(400);
-        res.send("ERROR: duplicate email. Email must be unique")
-    }).catch(err => console.log(err));
-
-
-    User.findOne({ username })
-    .then(user => {
-        res.status(400);
-        res.send("ERROR: duplicate username. Username must be unique")
-    }).catch(err => console.log(err));
-
-
-    verify_key = parseInt(Math.random() * (999999 - 100000) + 100000);
-    let user = new User({
-        username,
-        password,
-        email,
-        verify_key
-    });
+    let user = null;
     
-    user.save()
-    .then(() => {
-        console.log("NEW USER");
-        res.status(200)
-        res.send("Success! Please verify")
-    }).catch(err => console.log(err))
+    try {
+        user = await User.findOne({ email });
+        if (user != null){
+            res.status(400);
+            res.send("ERROR: duplicate email. Email must be unique");
+            return;
+        }
+
+        user = await User.findOne({ username })
+        if (user != null){
+            res.status(400);
+            res.send("ERROR: duplicate email. Email must be unique");
+            return;
+        }
+
+        let verify_key = parseInt(Math.random() * (999999 - 100000) + 100000);
+        user = new User({
+            username,
+            password,
+            email,
+            verify_key
+        });
+    
+        await user.save();
+        console.log(`NEW USER: ${username}`);
+        console.log(`VERIFICATION CODE: ${verify_key}\n`);
+        res.status(200);
+        res.send("Success! Please verify");
+    } catch (err) { 
+        console.log(err)
+        res.status(500);
+        res.send("Server Error") ;
+    }
 });
 
-app.post('/verify', (req, res) => {
+app.post('/verify', async (req, res) => {
     const { email, key } = req.body;
-
-    User.findOne({ email })
-    .then(user => {
-        let verify_key = user.get("verify_key")
-        if (verify_key != key) {
-            res.status(400);
-            res.send("ERROR: Incorrect verification key")
+    try {
+        let user = User.findOne({ email })
+        if (user != null){
+            let verify_key = user.get("verify_key");
+            if (verify_key != key) {
+                res.status(400);
+                res.send("ERROR: Incorrect verification key");
+            } else {
+                await User.findOneAndReplace({ email }, { verify: true });
+                res.status(200);
+                res.send("Verified!");
+            }
         } else {
-            User.findOneAndReplace({ email }, { verify: true })
-            .then(() => {
-                res.status(200)
-                res.send("Verified!")
-            })
-            .catch(err => console.log(err))
+            res.status(400);
+            res.send("ERROR: User not found");
         }
-    })
+    } catch (err) { console.log(err); }
 });
 
 const server = app.listen(port, () => {
-    console.log(`app listening on port ${port}\n`)
+    console.log(`\napp listening on port ${port}\n`)
   })
 
 process.on('SIGINT', () => {
     if (db) {
       db.close()
         .then(() => {
-          server.close(() => console.log("Server closed. Database instance disconnected"))
+          server.close(() => console.log("\nServer closed. Database instance disconnected\n"))
         })
         .catch((err) => console.log(err))
     }
