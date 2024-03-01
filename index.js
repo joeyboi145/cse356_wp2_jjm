@@ -17,6 +17,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 // })
 
 const app = express();
+app.use(express.json())
 
 // app.use(
 //     session({
@@ -38,46 +39,58 @@ const User = require('./models/users')
 // '/login'
 // '/logout'
 
-app.post('/adduser', async (req, res) => {
+app.post('/adduser', (req, res) => {
     const { username, password, email } = req.body;
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 
-    let user = await User.findOne({ email: email });
-    if (user) {
-        // FIX: Write duplicate email error response
-        return
-    }
+    User.findOne({ email })
+    .then(user => {
+        res.status(400);
+        res.send("ERROR: duplicate email. Email must be unique")
+    }).catch(err => console.log(err));
 
-    user = await User.findOne({ username: username });
-    if (user) {
-        // FIX: Write duplicate usernmane error response
-        return
-    }
 
-    verify_key = parseInt(Math.random() * (999999));
-    user = new User({
+    User.findOne({ username })
+    .then(user => {
+        res.status(400);
+        res.send("ERROR: duplicate username. Username must be unique")
+    }).catch(err => console.log(err));
+
+
+    verify_key = parseInt(Math.random() * (999999 - 100000) + 100000);
+    let user = new User({
         username,
         password,
         email,
         verify_key
     });
     
-    await user.save();
-    console.log("NEW USER");
-    // FIX: Write successs response
+    user.save()
+    .then(() => {
+        console.log("NEW USER");
+        res.status(200)
+        res.send("Success! Please verify")
+    }).catch(err => console.log(err))
 });
 
-app.post('/verify', async (req, res) => {
+app.post('/verify', (req, res) => {
     const { email, key } = req.body;
 
-    let user = await User.findOne({ email });
-    if (!user){
-        // FIX: Write user not found error response
-    } else if (user.verify_key != key) {
-        // FIX: Write incorrect key error reponse
-    }
-
-    // FIX: Update record to be varified
-    // FIX: Write success response
+    User.findOne({ email })
+    .then(user => {
+        let verify_key = user.get("verify_key")
+        if (verify_key != key) {
+            res.status(400);
+            res.send("ERROR: Incorrect verification key")
+        } else {
+            User.findOneAndReplace({ email }, { verify: true })
+            .then(() => {
+                res.status(200)
+                res.send("Verified!")
+            })
+            .catch(err => console.log(err))
+        }
+    })
 });
 
 const server = app.listen(port, () => {
