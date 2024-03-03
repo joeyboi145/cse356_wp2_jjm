@@ -1,3 +1,5 @@
 ## Warm-up Project Node.js possible implementation
 
-I've created the user-verification server in the **application** folder and a tester web server in the **test-web-server** folder.
+I've created the a simple user-verification server in the **application** directory.  
+
+I've also created a simple tester web server in the **test-web-server** directory.

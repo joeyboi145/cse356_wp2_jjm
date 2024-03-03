@@ -1,6 +1,6 @@
 ## Tester Static Web Server
 
-An NGINX static webserver container that provides an interface to send request to the main application server
+An **NGINX** static webserver container that provides an interface to send request to the main application server
 
 Make sure to build the docker images using `docker build -t test-server .` from inside of the directory
 
