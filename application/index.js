@@ -42,7 +42,7 @@ const User = require('./models/users')
 // '/login'
 // '/logout'
 
-function send_verification_email(email, verification_key){
+function send_verification_email(email, verification_key, res){
     let transporter =  nodemailer.createTransport(smtpTransport({
         host: 'grading.cse356.compas.cs.stonybrook.edu'
     }));
@@ -101,8 +101,7 @@ app.post('/adduser', async (req, res) => {
         await user.save();
         console.log(`NEW USER: ${username}`);
         console.log(`VERIFICATION CODE: ${verify_key}\n`);
-        res.status(200);
-        res.send({ status: "OK", message: "Success! Please verify" });
+        return send_verification_email(email, verify_key, res);
     } catch (err) { 
         console.log(err);
         res.status(500)
