@@ -101,6 +101,7 @@ app.post('/adduser', async (req, res) => {
         await user.save();
         console.log(`NEW USER: ${username}`);
         console.log(`VERIFICATION CODE: ${verify_key}\n`);
+        return res.status(200).send({status: "OK", message: "Email Send"});
         return send_verification_email(email, verify_key, res);
     } catch (err) { 
         console.log(err);
