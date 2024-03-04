@@ -2,7 +2,7 @@
 
 let userArgs = process.argv.slice(2);
 
-if (userArgs.length !== 1) {
+if (userArgs.length !== 2) {
     console.log('ERROR: Incorrect number of arguments')
     console.log('Please include Server IP Address')
     return
@@ -16,8 +16,8 @@ const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = userArgs[0];
+const pass = userArgs[1];
 const port = 8000;
-const pass = 'HealthyKermit!69'
 
 mongoose.connect(mongoDB)
 const db = mongoose.connection
