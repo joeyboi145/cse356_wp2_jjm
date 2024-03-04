@@ -52,9 +52,9 @@ const User = require('./models/users')
 
 function send_verification_email(email, verification_key){
     let transporter =  nodemailer.createTransport(smtpTransport({
-        host: 'joey.cse356.compas.cs.stonybrook.edu',
+        host: 'grading.cse356.compas.cs.stonybrook.edu',
         port: 25,
-        secure: false
+        secure: false,
     }));
 
     let email_urlencoded = encodeURI(email)
