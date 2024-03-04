@@ -50,7 +50,7 @@ const User = require('./models/users')
 // '/login'
 // '/logout'
 
-function send_verification_email(email, verification_key, res){
+function send_verification_email(email, verification_key){
     let transporter =  nodemailer.createTransport(smtpTransport({
         host: 'grading.cse356.compas.cs.stonybrook.edu'
     }));
@@ -61,23 +61,22 @@ function send_verification_email(email, verification_key, res){
     let mailOptions = {
         from: 'joey@cse356.compas.cs.stonybrook.edu',
         to: email,
-        subject: 'Rest Password of Bellarena Account',
+        subject: 'Verfication Code Email',
         text: 'Your Verification Code:' + verification_key + '\n Or click here ' + link
     };
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-            return res.status(404).send({ success: false, message: "Error connecting to mail server!" });
-        } else {
-            res.status(200).send({ success: true, data: { email: email, message: "Successfully send the mail" } });
-        }
+            console.log(error);
+            return false;
+        } else return true;
+    
     });
 }
 
 
 app.post('/adduser', async (req, res) => {
-    console.log("'/adduser' POST request")
-    console.log(req.body);
+    console.log("'/adduser' POST request  " + req.body)
     const { username, password, email } = req.body;
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     let user = null;
@@ -109,8 +108,12 @@ app.post('/adduser', async (req, res) => {
         await user.save();
         console.log(`NEW USER: ${username}`);
         console.log(`VERIFICATION CODE: ${verify_key}\n`);
-        return res.status(200).send({status: "OK", message: "Verification Email Send"});
-        return send_verification_email(email, verify_key, res);
+        if (send_verification_email(email, verify_key)){
+            console.log("Verification Email sent!\n")
+            return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
+        } else {
+            return res.status(400).send({ status: 'ERROR', message: "Email not successfully sent"  });
+        }
     } catch (err) { 
         console.log(err);
         res.status(500)
@@ -151,8 +154,7 @@ app.get('/verify/:email/:key', async (req, res) => {
 });
 
 app.post('/verify', async (req, res) => {
-    console.log("'/verify' POST request")
-    console.log(req.body)
+    console.log("'/verify' POST request  " + req.body)
     const { email, key } = req.body;
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 

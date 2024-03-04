@@ -39,7 +39,7 @@ sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 
 # Install postfix
-sudo apt install postfix
+sudo apt install -y postfix
 sudo systemctl reload postfix
 sudo ufw allow 'Postfix'
 
@@ -56,7 +56,7 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Start Webserver Container
 sudo docker build -t test-server test-web-server
