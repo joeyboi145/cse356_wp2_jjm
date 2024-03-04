@@ -55,6 +55,9 @@ function send_verification_email(email, verification_key){
         host: 'grading.cse356.compas.cs.stonybrook.edu',
         port: 25,
         secure: false,
+        tls:{
+            rejectUnauthorized: false
+        }
     }));
 
     let email_urlencoded = encodeURI(email)
@@ -78,7 +81,7 @@ function send_verification_email(email, verification_key){
 
 
 app.post('/adduser', async (req, res) => {
-    console.log("'/adduser' POST request  " + req.body)
+    console.log(`\'/adduser\' POST request  ${req.body}`);
     const { username, password, email } = req.body;
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     let user = null;
@@ -86,17 +89,12 @@ app.post('/adduser', async (req, res) => {
     try {
         user = await User.findOne({ email });
         if (user != null){
-            var message = "Duplicate email. Email must be unique"
-            res.status(400);
-            res.send({status: "ERROR", message: message})
-            return;
+            return res.status(400).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
         }
+
         user = await User.findOne({ username })
         if (user != null){
-            message = "Duplicate username. Username must be unique."
-            res.status(400);
-            res.send({status: "ERROR", message: message})
-            return;
+            return res.status(400).send({status: "ERROR", message: "Duplicate username. Username must be unique."});
         }
 
         let verify_key = parseInt(Math.random() * (999999 - 100000) + 100000);
@@ -118,8 +116,7 @@ app.post('/adduser', async (req, res) => {
         }
     } catch (err) { 
         console.log(err);
-        res.status(500)
-        res.send({status: "ERROR", message: "Server Error"})
+        return res.status(500).send({status: "ERROR", message: "Server Error"})
     }
 });
 
@@ -156,7 +153,7 @@ app.get('/verify/:email/:key', async (req, res) => {
 });
 
 app.post('/verify', async (req, res) => {
-    console.log("'/verify' POST request  " + req.body)
+    console.log(`'/verify' POST request  ${req.body}`);
     const { email, key } = req.body;
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 
@@ -166,22 +163,16 @@ app.post('/verify', async (req, res) => {
             let verified = user.get("verify")
             let verify_key = user.get("verify_key");
             if (verified){
-                var message = "User already verified"
-                res.status(400);
-                res.send({status: "ERROR", message: message})
+                return res.status(400).send({status: "ERROR", message: "User already verified"})
             } else if (verify_key != key) {
-                var message = "Incorrect verification key"
-                res.status(400);
-                res.send({status: "ERROR", message: message})
+                return res.status(400).send({status: "ERROR", message: "Incorrect verification key"})
             } else {
                 await User.updateOne({ email} , { verify: true });
                 console.log("USER VERFIED\n");
-                res.status(200);
-                res.send({status: "OK", message: "Verified"});
+                return res.status(200).send({status: "OK", message: "Verified"});
             }
         } else {
-            res.status(400);
-            res.send({status: "ERROR", message: "User not found"})
+            return res.status(400).send({status: "ERROR", message: "User not found"})
         }
     } catch (err) { console.log(err); }
 });
