@@ -3,8 +3,8 @@
 # Once you've cloned the repository: 
 # git clone https://github.com/joeyboi145/cse356_wp2_jjm.git
 
-# 1. Install node.js
-# 2. Install node.js dependences
+# 1. Install node.js and npm
+# 2. Install npm dependences
 #   - express
 #   - mongoose
 #   - nodemailer
@@ -15,8 +15,10 @@
 # 6. Start Webserver Container
 
 
-# Install Node.js
-sudo apt install -y nodejs npm
+# Install current nodejs and npm
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
+sudo apt-get install -y nodejs
+sudo apt install -y npm
 
 # Install node.js dependences
 cd application

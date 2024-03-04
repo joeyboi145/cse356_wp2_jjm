@@ -1,5 +1,13 @@
 // Application Server
 
+let userArgs = process.argv.slice(2);
+
+if (userArgs.length !== 1) {
+    console.log('ERROR: Incorrect number of arguments')
+    console.log('Please include Server IP Address')
+    return
+}
+
 const express = require('express');
 // const session = require("express-session");
 // const MongoDBSession = require('connect-mongodb-session')(session);
@@ -7,7 +15,7 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
-const serverIP = '0.0.0.0';
+const serverIP = userArgs[0];
 const port = 8000;
 
 mongoose.connect(mongoDB)
@@ -101,7 +109,7 @@ app.post('/adduser', async (req, res) => {
         await user.save();
         console.log(`NEW USER: ${username}`);
         console.log(`VERIFICATION CODE: ${verify_key}\n`);
-        return res.status(200).send({status: "OK", message: "Email Send"});
+        return res.status(200).send({status: "OK", message: "Verification Email Send"});
         return send_verification_email(email, verify_key, res);
     } catch (err) { 
         console.log(err);
