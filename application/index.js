@@ -66,10 +66,10 @@ function send_verification_email(email, verification_key){
         }
     }));
 
-    let email_urlencoded = encodeURI(email)
+    let email_urlencoded = encodeURIComponent(email)
     console.log(`EMAIL: ${email_urlencoded}`);
     return true;
-    
+
     let link = `http://${serverIP}:${port}/${email_urlencoded}/${verification_key}`
 
     let mailOptions = {
