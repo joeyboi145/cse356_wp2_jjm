@@ -17,8 +17,10 @@ I've also created a simple tester web server in the **test-web-server** director
 
 4. Install & configure Postfix
 
-4. Change Server IP encoding in index.js
+5. Install Docker
 
-5. Start Webserver Container
+6. Start Webserver Container
 
-6. Start Application Server
+7. Change Server IP encoding in index.js
+
+8. Start Application Server
