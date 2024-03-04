@@ -3,3 +3,22 @@
 I've created the a simple user-verification server in the **application** directory.  
 
 I've also created a simple tester web server in the **test-web-server** directory.
+
+# Steps for running application
+1. Install node.js
+
+2. Install node.js dependences
+  - express
+  - mongoose
+  - nodemailer
+  - nodemailer-smtp-transport
+
+3. Install mongoDB
+
+4. Install & configure Postfix
+
+4. Change Server IP encoding in index.js
+
+5. Start Webserver Container
+
+6. Start Application Server
