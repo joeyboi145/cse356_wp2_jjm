@@ -10,6 +10,8 @@
 # 3. Install mongoDB
 # 4. Install & configure Postfix
 
+# Cloning repo
+# git clone https://github.com/joeyboi145/cse356_wp2_jjm.git
 
 # Intall Node.js
 sudo apt install -y nodejs
