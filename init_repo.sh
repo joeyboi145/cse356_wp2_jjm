@@ -38,7 +38,7 @@ sudo systemctl start mongod
 
 # Install postfix
 sudo apt install postfix
-systemctl reload postfix
+sudo systemctl reload postfix
 
 # Install Docker
 sudo apt-get update
