@@ -16,7 +16,7 @@
 
 
 # Install Node.js
-sudo apt install -y nodejs
+sudo apt install -y nodejs npm
 
 # Install node.js dependences
 cd application
@@ -39,6 +39,7 @@ sudo systemctl start mongod
 # Install postfix
 sudo apt install postfix
 sudo systemctl reload postfix
+sudo ufw allow 'Postfix'
 
 # Install Docker
 sudo apt-get update
@@ -56,8 +57,8 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Start Webserver Container
-docker build -t test-server test-web-server
-docker run --rm -d -p 80:80 test-server
+sudo docker build -t test-server test-web-server
+sudo docker run --rm -d -p 80:80 test-server
 
 # Remaining Manual Steps
 #5. Change Server IP encoding in index.js
