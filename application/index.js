@@ -17,6 +17,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = userArgs[0];
 const port = 8000;
+const pass = 'HealthyKermit!69'
 
 mongoose.connect(mongoDB)
 const db = mongoose.connection
@@ -52,9 +53,14 @@ const User = require('./models/users')
 
 function send_verification_email(email, verification_key){
     let transporter =  nodemailer.createTransport(smtpTransport({
-        host: 'grading.cse356.compas.cs.stonybrook.edu',
+        service: 'postfix',
+        host: 'joey.cse356.compas.cs.stonybrook.edu',
         port: 25,
         secure: false,
+        auth: {
+            user: 'joey@joey.cse356.compas.cs.stonybrook.edu',
+            pass: pass
+        },
         tls:{
             rejectUnauthorized: false
         }
