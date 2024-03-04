@@ -54,11 +54,11 @@ const User = require('./models/users')
 function send_verification_email(email, verification_key){
     let transporter =  nodemailer.createTransport(smtpTransport({
         service: 'postfix',
-        host: 'joey.cse356.compas.cs.stonybrook.edu',
+        host: 'cse356.compas.cs.stonybrook.edu',
         port: 25,
         secure: false,
         auth: {
-            user: 'joey@joey.cse356.compas.cs.stonybrook.edu',
+            user: 'joey@cse356.compas.cs.stonybrook.edu',
             pass: pass
         },
         tls:{
@@ -70,7 +70,7 @@ function send_verification_email(email, verification_key){
     let link = `http://${serverIP}:${port}/${email_urlencoded}/${verification_key}`
 
     let mailOptions = {
-        from: 'test-server@cse356.compas.cs.stonybrook.edu',
+        from: 'joey@cse356.compas.cs.stonybrook.edu',
         to: email,
         subject: 'Verfication Code Email',
         text: 'Your Verification Code:' + verification_key + '\n Or click here ' + link
