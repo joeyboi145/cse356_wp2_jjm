@@ -9,8 +9,8 @@ if (userArgs.length !== 1) {
 }
 
 const express = require('express');
-// const session = require("express-session");
-// const MongoDBSession = require('connect-mongodb-session')(session);
+const session = require("express-session");
+//const MongoDBSession = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -31,16 +31,18 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'))
 const app = express();
 app.use(express.urlencoded({ extended: true }))
 
-// app.use(
-//     session({
-//       name: 'session_name',
-//       secret: "supersecret difficult to guess string",
-//       cookie: {},
-//       resave: false,
-//       saveUninitialized: false,
-//       store: store
-//     })
-// )
+app.use(
+    session({
+        genid: function(req) {
+            return genuuid();
+        },
+        secret: "wp2 supersecret string",
+        cookie: {},
+        resave: false,
+        saveUninitialized: true,
+        //store: store
+    })
+)
 
 
 const User = require('./models/users')
@@ -52,11 +54,10 @@ const User = require('./models/users')
 // '/logout'
 
 
-
 async function send_verification_email(email, verification_key){
     let transporter =  nodemailer.createTransport(smtpTransport({
         service: 'postfix',
-        host: 'grading.cse356.compas.cs.stonybrook.edu',
+        host: 'cse356.compas.cs.stonybrook.edu',
         port: 25,
         secure: false,
         auth: {
@@ -69,14 +70,13 @@ async function send_verification_email(email, verification_key){
     }));
 
     let email_urlencoded = encodeURIComponent(email)
-
     let link = `http://${serverIP}:${port}/${email_urlencoded}/${verification_key}`
 
     let mailOptions = {
         from: 'joey@cse356.compas.cs.stonybrook.edu',
         to: email,
         subject: 'Verfication Code Email',
-        text: 'Hey Babe,\nYour Verification Code:' + verification_key + '\nOr click here:\n' + link
+        text: 'Your Verification Code:' + verification_key + '\nOr click here:\n' + link
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -84,14 +84,14 @@ async function send_verification_email(email, verification_key){
             console.log(error);
             return false;
         } else return true;
-    
     });
 }
 
 
 app.post('/adduser', async (req, res) => {
-    console.log(`\'/adduser\' POST request  ${req.body}`);
     const { username, password, email } = req.body;
+    console.log(`\'/adduser\' POST request `);
+    console.log(`{ ${username}, ${password}, ${email}}`)
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     let user = null;
 
@@ -135,36 +135,6 @@ app.get('/verify/:email/:key', async (req, res) => {
     let email = req.params.email
     let key = req.params.key
     console.log(`{${email}, ${key}}`)
-
-    try {
-        let user = await User.findOne({ email })
-        if (user != null){
-            let verified = user.get("verify")
-            let verify_key = user.get("verify_key");
-            if (verified){
-                var message = "User already verified"
-                res.status(400);
-                res.send({status: "ERROR", message: message})
-            } else if (verify_key != key) {
-                var message = "Incorrect verification key"
-                res.status(400);
-                res.send({status: "ERROR", message: message})
-            } else {
-                await User.updateOne({ email} , { verify: true });
-                console.log("USER VERFIED\n");
-                res.status(200);
-                res.send({status: "OK", message: "Verified"});
-            }
-        } else {
-            res.status(400);
-            res.send({status: "ERROR", message: "User not found"})
-        }
-    } catch (err) { console.log(err); }
-});
-
-app.post('/verify', async (req, res) => {
-    console.log(`'/verify' POST request  ${req.body}`);
-    const { email, key } = req.body;
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 
     try {
@@ -184,12 +154,15 @@ app.post('/verify', async (req, res) => {
         } else {
             return res.status(400).send({status: "ERROR", message: "User not found"})
         }
-    } catch (err) { console.log(err); }
+    } catch (err) { 
+        console.log(err); 
+        return res.status(500).send({status: "ERROR", message: "Server Error"})
+    }
 });
 
 const server = app.listen(port, () => {
-    console.log(`\napp listening on port ${port}\n`)
-  })
+    console.log(`\napp listening on ${serverIP} port ${port}\n`)
+});
 
 process.on('SIGINT', () => {
     if (db) {
@@ -199,4 +172,4 @@ process.on('SIGINT', () => {
         })
         .catch((err) => console.log(err))
     }
-  })
+});
