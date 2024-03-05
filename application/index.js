@@ -87,6 +87,10 @@ async function send_verification_email(email, verification_key){
     });
 }
 
+function buildHTML(layer, vertical, horizontal){
+    return "<!DOCTYPE html>"
+}
+
 
 app.post('/adduser', async (req, res) => {
     const { username, password, email } = req.body;
