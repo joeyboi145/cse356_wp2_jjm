@@ -134,10 +134,10 @@ app.post('/adduser', async (req, res) => {
     }
 });
 
-app.get('/verify/:email/:key', async (req, res) => {
+app.get('/verify', async (req, res) => {
     console.log("'/verify' GET request")
-    let email = req.params.email
-    let key = req.params.key
+    let email = req.query.email
+    let key = req.query.key
     console.log(`{${email}, ${key}}`)
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 
