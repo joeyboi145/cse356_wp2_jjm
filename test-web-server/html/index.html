@@ -14,13 +14,23 @@
         </form>
         <br>
         <br>
+
         <h2>Verify User</h2>
-        <form action="http://localhost:8000/verify" method="post">
+        <form action="http://localhost:8000/verify" method="get">
             Email: <input type="text" name="email"><br>
             Verification key: <input type="text" name="key"><br>
             <br>
             <input type="submit">
         </form>
+        <br>
+        <br>
 
+        <h2>User Login</h2>
+        <form action="http://localhost:8000/verify" method="get">
+            Email: <input type="text" name="email"><br>
+            Password: <input type="text" name="password"><br>
+            <br>
+            <input type="submit">
+        </form>
     </body>
 </html>

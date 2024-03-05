@@ -10,7 +10,6 @@ if (userArgs.length !== 1) {
 
 const express = require('express');
 const session = require("express-session");
-//const MongoDBSession = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -19,17 +18,14 @@ const serverIP = userArgs[0];
 const pass = 'HealthyKermit!69';
 const port = 8000;
 
-mongoose.connect(mongoDB)
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+console.log(`Pass: ${pass}`);
 
-// const store = new MongoDBSession({
-//     uri: mongoDB,
-//     collection: 'sessions'
-// })
+mongoose.connect(mongoDB);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const app = express();
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
     session({
@@ -40,7 +36,6 @@ app.use(
         cookie: {},
         resave: false,
         saveUninitialized: true,
-        //store: store
     })
 )
 
@@ -87,11 +82,6 @@ async function send_verification_email(email, verification_key){
     });
 }
 
-function buildHTML(layer, vertical, horizontal){
-    return "<!DOCTYPE html>"
-}
-
-
 app.post('/adduser', async (req, res) => {
     const { username, password, email } = req.body;
     console.log(`\'/adduser\' POST request `);
@@ -100,11 +90,10 @@ app.post('/adduser', async (req, res) => {
     let user = null;
 
     try {
-        user = await User.findOne({ email });
+        user = await User.find({ email });
         if (user != null){
             return res.status(400).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
         }
-
         user = await User.findOne({ username })
         if (user != null){
             return res.status(400).send({status: "ERROR", message: "Duplicate username. Username must be unique."});
@@ -119,14 +108,13 @@ app.post('/adduser', async (req, res) => {
         });
     
         await user.save();
-        console.log(`NEW USER: ${username}`);
-        console.log(`VERIFICATION CODE: ${verify_key}\n`);
+        console.log(`NEW USER: ${username}, Verification: ${verify_key}`);
         let email_sent = await send_verification_email(email, verify_key)
         if (email_sent){
             console.log("Verification Email sent!\n")
             return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
         } else {
-            return res.status(400).send({ status: 'ERROR', message: "Email not successfully sent"  });
+            return res.status(400).send({ status: 'ERROR', message: "Email not successfully sent" });
         }
     } catch (err) { 
         console.log(err);
@@ -151,7 +139,7 @@ app.get('/verify', async (req, res) => {
             } else if (verify_key != key) {
                 return res.status(400).send({status: "ERROR", message: "Incorrect verification key"})
             } else {
-                await User.updateOne({ email} , { verify: true });
+                await User.updateOne({ email } , { verify: true });
                 console.log("USER VERFIED\n");
                 return res.status(200).send({status: "OK", message: "Verified"});
             }
@@ -162,6 +150,64 @@ app.get('/verify', async (req, res) => {
         console.log(err); 
         return res.status(500).send({status: "ERROR", message: "Server Error"})
     }
+});
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    console.log(`\'/login\' POST request `);
+    console.log(`{ ${username}, ${password} }`);
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+    let user = null;
+
+    try {
+        user = await User.findOne({$and: [{ email }, { password }]});
+        if (user != null){
+            return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
+        } 
+        
+        let verified = user.get("verify");
+        if (!verified) {
+            return res.status(400).send({status: "ERROR", message: "User not verified"});
+        }
+        
+        req.session.username = user.get("username");
+        if (!req.session.login) {
+            req.session.login = true;
+            // req.session.level = 1;
+            // req.session.vertical = 1;
+            // req.session.horizontal = 1;
+        }
+
+        // FIX: Return HTML file
+        // This HTML File will fetch the correct tile
+
+
+    } catch (err) { 
+        console.log(err);
+        return res.status(500).send({status: "ERROR", message: "Server Error"})
+    }
+});
+
+app.post('/logout', async (req,res) => {
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+    if (req.session.login){
+        req.session.destroy();
+        res.status(200).send({status: "OK", message: "Successfully Logged Out"});
+    } else {
+        res.status(400).send({status: "ERROR", message: 'Log out failed. Not previously logged in'});
+    }
+});
+
+app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
+    console.log("'/tiles' GET request");
+    let layer = req.params.LAYER;
+    let vertical = req.params.V;
+    let horizontal = req.params.H;
+    let style = req.query.style;
+    console.log(`{${layer}, ${vertical}, ${horizontal}, ${style}}`);
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+
+    // Get file path and return image
 });
 
 const server = app.listen(port, () => {
