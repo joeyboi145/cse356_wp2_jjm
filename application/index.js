@@ -16,7 +16,7 @@ const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = userArgs[0];
-const pass = userArgs[1];
+const pass = 'HealthyKermit!69';
 const port = 8000;
 
 mongoose.connect(mongoDB)
