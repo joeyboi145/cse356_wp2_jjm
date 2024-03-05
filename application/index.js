@@ -56,7 +56,7 @@ const User = require('./models/users')
 async function send_verification_email(email, verification_key){
     let transporter =  nodemailer.createTransport(smtpTransport({
         service: 'postfix',
-        host: 'joey@cse356.compas.cs.stonybrook.edu',
+        host: 'cse356.compas.cs.stonybrook.edu',
         port: 25,
         secure: false,
         auth: {
@@ -117,7 +117,8 @@ app.post('/adduser', async (req, res) => {
         await user.save();
         console.log(`NEW USER: ${username}`);
         console.log(`VERIFICATION CODE: ${verify_key}\n`);
-        if (send_verification_email(email, verify_key)){
+        let email_sent = await send_verification_email(email, verify_key)
+        if (email_sent){
             console.log("Verification Email sent!\n")
             return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
         } else {
