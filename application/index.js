@@ -2,7 +2,7 @@
 
 let userArgs = process.argv.slice(2);
 
-if (userArgs.length !== 2) {
+if (userArgs.length !== 1) {
     console.log('ERROR: Incorrect number of arguments')
     console.log('Please include Server IP Address')
     return
@@ -56,7 +56,7 @@ const User = require('./models/users')
 async function send_verification_email(email, verification_key){
     let transporter =  nodemailer.createTransport(smtpTransport({
         service: 'postfix',
-        host: 'joey.cse356.compas.cs.stonybrook.edu',
+        host: 'grading.cse356.compas.cs.stonybrook.edu',
         port: 25,
         secure: false,
         auth: {
