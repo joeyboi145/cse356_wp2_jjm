@@ -69,8 +69,6 @@ async function send_verification_email(email, verification_key){
     }));
 
     let email_urlencoded = encodeURIComponent(email)
-    console.log(`EMAIL: ${email_urlencoded}`);
-    return true;
 
     let link = `http://${serverIP}:${port}/${email_urlencoded}/${verification_key}`
 
@@ -78,7 +76,7 @@ async function send_verification_email(email, verification_key){
         from: 'joey@cse356.compas.cs.stonybrook.edu',
         to: email,
         subject: 'Verfication Code Email',
-        text: 'Your Verification Code:' + verification_key + '\nOr click here:\n' + link
+        text: 'Hey Babe,\nYour Verification Code:' + verification_key + '\nOr click here:\n' + link
     };
 
     transporter.sendMail(mailOptions, function(error, info){
