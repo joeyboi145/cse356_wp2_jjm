@@ -29,7 +29,7 @@ npm install nodemailer-smtp-transport
 cd ..
 
 # Install mongoDB
-sudo apt-get install gnupg curl
+sudo apt-get install -y gnupg curl
 curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
    --dearmor
@@ -45,7 +45,7 @@ sudo ufw allow 'Postfix'
 
 # Install Docker
 sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo apt-get install -y ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
