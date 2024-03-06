@@ -42,22 +42,24 @@ const User = require('./models/users');
 
 
 async function send_verification_email(email, verification_key){
+    // In /etc/postfix/main.cf:
+    // ...
+    // mydestination = joey.cse356.compas.cs.stonybrook.edu, joey.cse356.compas.cs.stonybrook.edu, localhost.c>
+    // relayhost = cse356.compas.cs.stonybrook.edu
+    // ...
+    //
     let transporter =  nodemailer.createTransport(smtpTransport({
         service: 'postfix',
         host: 'cse356.compas.cs.stonybrook.edu',
         port: 25,
         secure: false,
-        // auth: {
-        //     user: 'root@joey.cse356.compas.cs.stonybrook.edu',
-        //     pass: 'wp2_pass'
-        // },
         tls:{
             rejectUnauthorized: false
         }
     }));
 
     let email_urlencoded = encodeURIComponent(email)
-    let link = `http://${serverIP}/${email_urlencoded}/${verification_key}`
+    let link = `http://${serverIP}/verify?email=${email_urlencoded}&key=${verification_key}`
 
     let mailOptions = {
         from: 'root@cse356.compas.cs.stonybrook.edu',
@@ -101,7 +103,8 @@ app.post('/adduser', async (req, res) => {
     
         await user.save();
         console.log(`NEW USER: ${username}, Verification: ${verify_key}`);
-        let email_sent = await send_verification_email(email, verify_key)
+        let email_sent = await send_verification_email(email, verify_key);
+        console.log("EMAIL SENT" + email_sent);
         if (email_sent){
             console.log("Verification Email sent!\n")
             return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
