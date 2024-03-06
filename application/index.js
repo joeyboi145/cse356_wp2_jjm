@@ -182,6 +182,7 @@ app.post('/login', async (req, res, next) => {
         } else {
             console.log("already logged in");
         }
+        req.method = 'GET'
         next()
         //return res.status(200).send({status: "OK", message: "Logged in"});
         // res.setHeader('content-type', 'text/html');
