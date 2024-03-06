@@ -200,6 +200,12 @@ console.log(home_directory)
 app.use('/login', express.static((__dirname + "/html")))
 
 app.use('/html', function (req, res, next) {
+    console.log("yes");
+    res.sendFile("/html", {root: __dirname})
+})
+
+app.use('/', function (req, res, next) {
+    console.log("yes");
     res.sendFile("/html", {root: __dirname})
 })
 
