@@ -30,9 +30,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
     session({
-        genid: function(req) {
-            return genuuid();
-        },
         secret: "wp2 supersecret string",
         cookie: {},
         resave: false,
