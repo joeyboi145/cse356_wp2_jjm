@@ -11,6 +11,7 @@ The following endpoints have been implemented:
 - GET /verify
 - POST /login
 - POST /logout
+- GET /tiles/l$LAYER/$V/$H.jpg
 
 **I haven't added html content to /login yet**
 

@@ -22,28 +22,28 @@
             console.log("MOUSE LIFT");
         }
 
-        function getOffset(element) {
-            let rect = element.getBoundingClientRect();
-            return {
-                left: rect.left + window.scrollX,
-                top: rect.top + window.scrollY
-            };
-        }
+        // function getOffset(element) {
+        //     let rect = element.getBoundingClientRect();
+        //     return {
+        //         left: rect.left + window.scrollX,
+        //         top: rect.top + window.scrollY
+        //     };
+        // }
 
-        function handleDragMovement(event){
-            if (dragme) {
-                let X_offset = event.movementX;
-                let Y_offset = event.movementY;
+        // function handleDragMovement(event){
+        //     if (dragme) {
+        //         let X_offset = event.movementX;
+        //         let Y_offset = event.movementY;
 
-                var d = document.getElementById('display');
-                d.style.position = "absolute";
-                d.style.left = getOffset(event.target).left + X_offset + 'px';
-                d.style.top = getOffset(event.target).top + y_pos+'px';
-            }
-        }
+        //         var d = document.getElementById('display');
+        //         d.style.position = "absolute";
+        //         d.style.left = getOffset(event.target).left + X_offset + 'px';
+        //         d.style.top = getOffset(event.target).top + y_pos+'px';
+        //     }
+        // }
 
         async function get_display_image(){
-            let path = "http://localhost/tiles/";
+            let path = "http://209.151.148.61/tiles/";
             path += "l" + level + "/" + verticle + "/" + horizontal + ".jpg?style=" + style;
             const response = await fetch(path);
             const image = await reponse.blob()

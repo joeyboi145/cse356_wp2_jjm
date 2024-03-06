@@ -17,9 +17,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
-const pass = 'wp2_pass';
 const port = 80;
-// const path = require("path")
 
 console.log(`Pass: ${pass}`);
 
@@ -182,17 +180,12 @@ app.post('/login', async (req, res) => {
         if (!req.session.login) {
             console.log("New login\n")
             req.session.login = true;
-            // req.session.level = 1;
-            // req.session.vertical = 1;
-            // req.session.horizontal = 1;
         } else {
             console.log("already logged in\n")
         }
-        return res.status(200).send({status: "OK", message: "Logged In"});
-
-        // FIX: Return HTML file
-        // This HTML File will fetch the correct tile
-
+        res.setHeader('content-type', 'test/html');
+        res.status(200).sendFile("html/index.html", {root: __dirname + '/'} ); 
+        console.log("index.html servered\n")
 
     } catch (err) { 
         console.log(err);
@@ -212,11 +205,10 @@ app.post('/logout', async (req,res) => {
 });
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
-    console.log("'/tiles' GET request");
     let filepath = 'html' + req.path;
     let style = req.query.style;
+    console.log("'/tiles' GET request");
     console.log(`{ ${filepath}, ${style}}`);
-
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     res.setHeader('content-type', 'image/jpeg');
 
@@ -227,16 +219,14 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
         } else {
             const image = await jimp.read(filepath)
             const grey_image = image.grayscale();
-
             const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
-
             res.status(200).send(Buffer.from(buffer, 'binary'))
-            console.log(`Sent in bw: ${filepath}\n`);
+            console.log(`Sent in black and white: ${filepath}\n`);
         }
     } catch (err) {
         console.log(err);
         res.setHeader('content-type', 'application/json');
-        return res.status(500).send({status: "ERROR", message: "Server Error"});
+        res.status(500).send({status: "ERROR", message: "Server Error"});
     }
 });
 
