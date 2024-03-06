@@ -225,14 +225,10 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
             res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
             console.log(`Sent in color: ${filepath}\n`);
         } else {
-            let image = jimp.read(filepath, async (err, image) => {
-                console.log(image);
-            })
-            res.sendStatus(400);
-            return
-            grayscale()
+            let image = (await jimp.read(filepath)).grayscale();
             console.log(image)
-            res.status(200).send(image);
+            const base64_image = await image.getBase64Async(image.getMIME());
+            res.status(200).send(base64_image);
             console.log(`Sent in bw: ${filepath}\n`);
         }
     } catch (err) {
