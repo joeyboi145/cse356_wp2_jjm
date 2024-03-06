@@ -1,12 +1,13 @@
 // Application Server
 
-let userArgs = process.argv.slice(2);
+// Ignore: Used for changing server IP, take in as argument
+// let userArgs = process.argv.slice(2);
 
-if (userArgs.length !== 1) {
-    console.log('ERROR: Incorrect number of arguments')
-    console.log('Please include Server IP Address')
-    return
-}
+// if (userArgs.length !== 1) {
+//     console.log('ERROR: Incorrect number of arguments')
+//     console.log('Please include Server IP Address')
+//     return
+// }
 
 const express = require('express');
 const session = require("express-session");
@@ -14,9 +15,9 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
-const serverIP = userArgs[0];
-const pass = 'HealthyKermit!69';
-const port = 8000;
+const serverIP = '209.151.148.61';
+const pass = 'wp2_pass';
+const port = 80;
 
 console.log(`Pass: ${pass}`);
 
@@ -40,13 +41,7 @@ app.use(
 )
 
 
-const User = require('./models/users')
-
-// ***=== POST Requests ===***
-// '/adduser'
-// '/verify'
-// '/login'
-// '/logout'
+const User = require('./models/users');
 
 
 async function send_verification_email(email, verification_key){
@@ -56,7 +51,7 @@ async function send_verification_email(email, verification_key){
         port: 25,
         secure: false,
         auth: {
-            user: 'joey@cse356.compas.cs.stonybrook.edu',
+            user: 'root@cse356.compas.cs.stonybrook.edu',
             pass: pass
         },
         tls:{
@@ -65,10 +60,10 @@ async function send_verification_email(email, verification_key){
     }));
 
     let email_urlencoded = encodeURIComponent(email)
-    let link = `http://${serverIP}:${port}/${email_urlencoded}/${verification_key}`
+    let link = `http://${serverIP}/${email_urlencoded}/${verification_key}`
 
     let mailOptions = {
-        from: 'joey@cse356.compas.cs.stonybrook.edu',
+        from: 'root@cse356.compas.cs.stonybrook.edu',
         to: email,
         subject: 'Verfication Code Email',
         text: 'Your Verification Code:' + verification_key + '\nOr click here:\n' + link
@@ -177,6 +172,7 @@ app.post('/login', async (req, res) => {
             // req.session.vertical = 1;
             // req.session.horizontal = 1;
         }
+        return req.status(200).send({status: "OK", message: "Logged In"});
 
         // FIX: Return HTML file
         // This HTML File will fetch the correct tile

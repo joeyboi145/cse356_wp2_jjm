@@ -3,6 +3,7 @@
 # Once you've cloned the repository: 
 # git clone https://github.com/joeyboi145/cse356_wp2_jjm.git
 
+# THIS IS FOR UBUNTU 22.04
 # 1. Install node.js and npm
 # 2. Install npm dependences
 #   - express
@@ -16,8 +17,11 @@
 
 
 # Install current nodejs and npm
+echo Install Node.js
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
+
+echo Install NPM
 sudo apt install -y npm
 
 # Install node.js dependences
@@ -29,6 +33,7 @@ npm install nodemailer-smtp-transport
 cd ..
 
 # Install mongoDB
+echo Install MongoDB
 sudo apt-get install -y gnupg curl
 curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
@@ -39,11 +44,14 @@ sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 
 # Install postfix
+echo install postfix
+echo domain 'cse356.compas.cs.stonybrook.edu'
 sudo apt install -y postfix
 sudo systemctl reload postfix
 sudo ufw allow 'Postfix'
 
 # Install Docker
+echo Install Docker
 sudo apt-get update
 sudo apt-get install -y ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -59,9 +67,15 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Start Webserver Container
+echo Start test web-server contianer
 sudo docker build -t test-server test-web-server
-sudo docker run --rm -d -p 80:80 test-server
+sudo docker run --rm -d -p 8080:80 test-server
+
+# Server routing commands
+sudo ip6tables -I OUTPUT -p tcp -m tcp --dport 25 -j DROP
+sudo iptables -t nat -I OUTPUT -o eth0 -p tcp -m tcp --dport 25 -j DNAT --to-destination 130.245.171.151:11587
 
 # Remaining Manual Steps
-#5. Change Server IP encoding in index.js
-#6. Start Application Server
+#- Change /etc/postfix/main.cf replay option
+#- Make sure that DNS system is set up appropriately
+#- Start Application Server
