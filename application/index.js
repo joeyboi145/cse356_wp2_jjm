@@ -213,7 +213,7 @@ app.post('/logout', async (req,res) => {
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     console.log("'/tiles' GET request");
-    let filepath = '/html' + req.path;
+    let filepath = 'html' + req.path;
     let style = req.query.style;
     console.log(`{ ${filepath}, ${style}}`);
 
@@ -222,7 +222,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
     try {
         if (style == 'color'){
-            res.sendFile(filepath, {root: __dirname} );
+            res.sendFile(filepath); //{root: __dirname + '/'}
             console.log(`Sent: ${filepath}\n`);
         } else {
             let image = (await jimp.read(filepath)).grayscale()
