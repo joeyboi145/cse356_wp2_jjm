@@ -185,14 +185,15 @@ app.use('/login', async (req, res, next) => {
 
             // Go to next middleware, which servers html files
             req.method = 'GET'
-            next()
+            express.static(( __dirname + "/html"))
 
         } catch (err) { 
             console.log(err);
             return res.status(500).send({status: "ERROR", message: "Server Error"})
         }
     } else res.sendStatus(404) //next()
-}, express.static(( __dirname + "/html")));
+});
+// , express.static(( __dirname + "/html")));
 
 // app.use('/login', express.static(( __dirname + "/html")))
 
