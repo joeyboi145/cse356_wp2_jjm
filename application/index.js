@@ -154,10 +154,9 @@ app.get('/verify', async (req, res) => {
     }
 });
 
-var home_directory = __dirname + '/html'
-console.log(home_directory)
-app.use('/login', express.static(('html')))
-
+// var home_directory = __dirname + '/html'
+// console.log(home_directory)
+// app.use('/login', express.static(('html')))
 
 app.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
@@ -186,6 +185,7 @@ app.post('/login', async (req, res, next) => {
         } else {
             console.log("already logged in");
         }
+        return res.status(200).send({status: "OK", message: "Logged in"});
         // res.setHeader('content-type', 'text/html');
         // res.status(200).render(__dirname + "/html/index"); 
         // console.log("index.html servered\n")
