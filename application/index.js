@@ -154,7 +154,7 @@ app.get('/verify', async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
     console.log(`\'/login\' POST request `);
     console.log(`{ ${username}, ${password} }`);
@@ -181,15 +181,30 @@ app.post('/login', async (req, res) => {
         } else {
             console.log("already logged in");
         }
-        res.setHeader('content-type', 'text/html');
-        res.status(200).render(__dirname + "/html/index"); 
-        console.log("index.html servered\n")
+        // res.setHeader('content-type', 'text/html');
+        // res.status(200).render(__dirname + "/html/index"); 
+        // console.log("index.html servered\n")
+        next()
 
     } catch (err) { 
         console.log(err);
         return res.status(500).send({status: "ERROR", message: "Server Error"})
     }
 });
+
+var options = {
+    dotfiles: 'ignore',
+    etag: false,
+    extensions: ['htm', 'html', 'css', 'js'],
+    index: true,
+    maxAge: '1d',
+    redirect: false,
+    setHeaders: function (res, path, stat) {
+      res.set('x-timestamp', Date.now())
+    }
+  }
+
+app.use('/login', express.static(__dirname + '/html', options))
 
 app.post('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
