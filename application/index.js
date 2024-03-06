@@ -155,43 +155,45 @@ app.get('/verify', async (req, res) => {
 });
 
 
-app.post('/login', async (req, res, next) => {
-    const { username, password } = req.body;
-    console.log(`\'/login\' POST request `);
-    console.log(`{ ${username}, ${password} }`);
-    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-    let user = null;
+app.use('/login', async (req, res, next) => {
+    if ('POST' == req.method) {
+        const { username, password } = req.body;
+        console.log(`\'/login\' POST request `);
+        console.log(`{ ${username}, ${password} }`);
+        res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+        let user = null;
 
-    try {
-        user = await User.findOne({$and: [{ username }, { password }]});
-        if (user == null){
-            console.log("Invalid Credentials\n")
-            return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
-        } 
-        
-        let verified = user.get("verify");
-        if (!verified) {
-            console.log("User not verified\n");
-            return res.status(400).send({status: "ERROR", message: "User not verified"});
-        }
-        
-        req.session.username = username;
-        if (!req.session.login) {
-            console.log("New login");
-            req.session.login = true;
-        } else {
-            console.log("already logged in");
-        }
-        req.method = 'GET'
-        next()
-        //return res.status(200).send({status: "OK", message: "Logged in"});
-        // res.setHeader('content-type', 'text/html');
-        // res.status(200).render(__dirname + "/html/index"); 
-        // console.log("index.html servered\n")
+        try {
+            user = await User.findOne({$and: [{ username }, { password }]});
+            if (user == null){
+                console.log("Invalid Credentials\n")
+                return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
+            } 
+            
+            let verified = user.get("verify");
+            if (!verified) {
+                console.log("User not verified\n");
+                return res.status(400).send({status: "ERROR", message: "User not verified"});
+            }
+            
+            req.session.username = username;
+            if (!req.session.login) {
+                console.log("New login");
+                req.session.login = true;
+            } else {
+                console.log("already logged in");
+            }
+            // Go to file middleware
+            next()
+            //return res.status(200).send({status: "OK", message: "Logged in"});
+            // res.setHeader('content-type', 'text/html');
+            // res.status(200).render(__dirname + "/html/index"); 
+            // console.log("index.html servered\n")
 
-    } catch (err) { 
-        console.log(err);
-        return res.status(500).send({status: "ERROR", message: "Server Error"})
+        } catch (err) { 
+            console.log(err);
+            return res.status(500).send({status: "ERROR", message: "Server Error"})
+        }
     }
 });
 
@@ -199,15 +201,7 @@ var home_directory = __dirname + '/html'
 console.log(home_directory)
 app.use('/login', express.static((__dirname + "/html")))
 
-app.use('/html', function (req, res, next) {
-    console.log("yes");
-    res.sendFile("/html", {root: __dirname})
-})
 
-app.use('/', function (req, res, next) {
-    console.log("yes");
-    res.sendFile("/html", {root: __dirname})
-})
 
 // var options = {
 //     dotfiles: 'ignore',
