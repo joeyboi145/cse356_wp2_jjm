@@ -18,7 +18,7 @@ const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
 const pass = 'wp2_pass';
 const port = 80;
-const path = require("path")
+// const path = require("path")
 
 console.log(`Pass: ${pass}`);
 
@@ -219,9 +219,9 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     let URIpath = req.path;
     console.log(`{ ${URIpath}, ${style}}`);
 
-    console.log("__dirname: " + __dirname)
+    //console.log("__dirname: " + __dirname)
     var options = {
-        root: path.join(__dirname),
+        // root: path.join(__dirname),
         dotfiles: 'deny',
         headers: {
           'x-timestamp': Date.now(),
@@ -229,7 +229,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
         }
       }
 
-    let filename = "html" + URIpath;
+    let filename =  __dirname + "/html" + URIpath;
     console.log(filename)
     // return res.status(200).send({status: "test", message: "check console"});
 
