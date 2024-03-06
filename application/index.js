@@ -213,19 +213,19 @@ app.post('/logout', async (req,res) => {
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     console.log("'/tiles' GET request");
-    let filename = req.path;
+    let filepath = '/html' + req.path;
     let style = req.query.style;
-    console.log(`{ ${filename}, ${style}}`);
+    console.log(`{ ${filepath}, ${style}}`);
 
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     res.setHeader('content-type', 'image/jpeg');
 
     try {
         if (style == 'color'){
-            res.sendFile(filename, {root: __dirname + '/html'} );
-            console.log(`Sent: ${filename}\n`);
+            res.sendFile(filepath, {root: __dirname} );
+            console.log(`Sent: ${filepath}\n`);
         } else {
-            let image = (await jimp.read(filename)).grayscale()
+            let image = (await jimp.read(filepath)).grayscale()
             return res.status(200).send(image);
         }
     } catch (err) {
