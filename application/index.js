@@ -155,7 +155,7 @@ app.post('/login', async (req, res) => {
     let user = null;
 
     try {
-        user = await User.findOne({$and: [{ email }, { password }]});
+        user = await User.findOne({$and: [{ username }, { password }]});
         if (user != null){
             return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
         } 
