@@ -40,7 +40,7 @@ async function get_display_image(){
     path += "l" + level + "/" + verticle + "/" + horizontal + ".jpg?style=" + style;
     console.log("GETTING IMAGE: " + path)
     const response = await fetch(path);
-    const image = await reponse.blob()
+    const image = await response.blob()
 
     if (response.status === 200) {
         const imageBlob = await response.blob()
