@@ -220,7 +220,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
     console.log("__dirname: " + __dirname)
     var options = {
-        root: __dirname + '/',
+        root: path.join(__dirname),
         dotfiles: 'deny',
         headers: {
           'x-timestamp': Date.now(),
