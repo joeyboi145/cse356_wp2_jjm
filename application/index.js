@@ -225,7 +225,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          console.log('Sent:', filename);
+          console.log(`Sent: ${filename}\n`);
         }
     });
 });
