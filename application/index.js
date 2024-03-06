@@ -18,6 +18,7 @@ const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
 const pass = 'wp2_pass';
 const port = 80;
+const path = require("path")
 
 console.log(`Pass: ${pass}`);
 
