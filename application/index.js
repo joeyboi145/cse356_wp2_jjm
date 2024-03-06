@@ -185,6 +185,7 @@ app.use('/login', async (req, res, next) => {
             }
             // Go to file middleware
             req.method = 'GET'
+            console.log(next);
             next()
             //return res.status(200).send({status: "OK", message: "Logged in"});
             // res.setHeader('content-type', 'text/html');
