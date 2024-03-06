@@ -197,17 +197,7 @@ app.use('/login', async (req, res, next) => {
 app.use('/login', express.static(( __dirname + "/html")))
 
 
-
-// var options = {
-//     dotfiles: 'ignore',
-//     etag: false,
-//     extensions: ['htm', 'html', 'css', 'js'],
-//     index: true,
-//     maxAge: '1d',
-//     redirect: false,
-// }
-
-app.get('/logout', async (req,res) => {
+app.post('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     if (req.session.login){
