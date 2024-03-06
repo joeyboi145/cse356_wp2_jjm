@@ -184,6 +184,7 @@ app.use('/login', async (req, res, next) => {
                 console.log("already logged in");
             }
             // Go to file middleware
+            req.method = 'GET'
             next()
             //return res.status(200).send({status: "OK", message: "Logged in"});
             // res.setHeader('content-type', 'text/html');
@@ -196,9 +197,6 @@ app.use('/login', async (req, res, next) => {
         }
     }
 });
-
-var home_directory = __dirname + '/html'
-console.log(home_directory)
 app.use('/login', express.static((__dirname + "/html")))
 
 
