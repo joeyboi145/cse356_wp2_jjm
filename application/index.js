@@ -65,7 +65,7 @@ async function send_verification_email(email, verification_key){
         from: 'root@cse356.compas.cs.stonybrook.edu',
         to: email,
         subject: 'Verfication Code Email',
-        text: 'Your Verification Code:' + verification_key + '\nOr click here:\n' + link
+        text: 'Hey babe!\nYour Verification Code:' + verification_key + '\nOr click here:\n' + link
     };
 
     transporter.sendMail(mailOptions, function(error, info){
