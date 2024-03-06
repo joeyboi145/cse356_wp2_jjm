@@ -216,12 +216,12 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     let style = req.query.style;
     console.log(`{ ${URIpath}, ${style}}`);
 
-    let filename =  "" + "/html" + URIpath;
+    let filename =  URIpath;
     console.log(filename)
 
     res.setHeader('content-type', 'image/jpeg');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-    return res.sendFile(filename, {root: __dirname},  function (err) {
+    return res.sendFile(filename, {root: __dirname + '/html'},  function (err) {
         if (err) {
           console.log(err);
         } else {
