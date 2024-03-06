@@ -215,16 +215,27 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     let vertical = req.params.V;
     let horizontal = req.params.H;
     let style = req.query.style;
-    let path = req.path;
+    let URIpath = req.path;
     console.log(`{ ${path}, ${style}}`);
+    console.log(path)
 
-    let filename = "html" + path + '.jpg';
+
+    var options = {
+        root: path.join(__dirname, 'public'),
+        dotfiles: 'deny',
+        headers: {
+          'x-timestamp': Date.now(),
+          'x-sent': true
+        }
+      }
+    console.log()
+    let filename = "html" + URIpath + '.jpg';
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     res.sendFile(filename, function (err) {
         if (err) {
           console.log(err);
         } else {
-          console.log('Sent:', fileName);
+          console.log('Sent:', filename);
         }
     });
     // FIX: Get file path and return image
