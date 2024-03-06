@@ -176,10 +176,10 @@ app.post('/login', async (req, res) => {
         
         req.session.username = username;
         if (!req.session.login) {
-            console.log("New login\n")
+            console.log("New login");
             req.session.login = true;
         } else {
-            console.log("already logged in\n")
+            console.log("already logged in");
         }
         res.setHeader('content-type', 'text/html');
         res.status(200).sendFile("html/index.html", {root: __dirname + '/'} ); 

@@ -45,6 +45,7 @@
         async function get_display_image(){
             let path = "http://209.151.148.61/tiles/";
             path += "l" + level + "/" + verticle + "/" + horizontal + ".jpg?style=" + style;
+            console.log("GETTING IMAGE: " + path)
             const response = await fetch(path);
             const image = await reponse.blob()
 
@@ -62,14 +63,16 @@
                 console.log("HTTP-Error: " + response.status)
             }
         }
-
     </script>
 
     <body>
         <div id="wp2">
-            <input type="radio" value="Color">
-            <input type="radio" value="Black and White">
-            <div id="display_image" onload="get_display_image">
+            <input id="color" type="radio" value="color">
+            <label for="color">Color</label><br>
+            <input id="bw" type="radio" value="bw">
+            <label for="bw">Black and White</label><br>
+
+            <div id="display_image" onload="get_display_image" alt="image here">
                 <!-- <img id='display' src ='index.jpg' 
                 onmouseup="handleDragOnClick" 
                 onmousedown="handleDragOffClick" 
