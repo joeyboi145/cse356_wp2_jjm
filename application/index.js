@@ -165,7 +165,7 @@ app.post('/login', async (req, res) => {
             return res.status(400).send({status: "ERROR", message: "User not verified"});
         }
         
-        req.session.username = user.get("username");
+        req.session.username = username;
         if (!req.session.login) {
             req.session.login = true;
             // req.session.level = 1;
