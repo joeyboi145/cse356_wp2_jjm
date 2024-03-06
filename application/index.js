@@ -156,7 +156,6 @@ app.get('/verify', async (req, res) => {
 
 
 app.use('/login', async (req, res, next) => {
-    console.log("In first /login");
     if ('POST' == req.method) {
         const { username, password } = req.body;
         console.log(`\'/login\' POST request `);
