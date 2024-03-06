@@ -72,6 +72,7 @@ sudo docker build -t test-server test-web-server
 sudo docker run --rm -d -p 8080:80 test-server
 
 # Server routing commands
+# RUN THESE EACH RESTART
 sudo ip6tables -I OUTPUT -p tcp -m tcp --dport 25 -j DROP
 sudo iptables -t nat -I OUTPUT -o eth0 -p tcp -m tcp --dport 25 -j DNAT --to-destination 130.245.171.151:11587
 

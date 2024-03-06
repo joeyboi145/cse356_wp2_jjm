@@ -106,7 +106,7 @@ app.post('/adduser', async (req, res) => {
         await user.save();
         console.log(`NEW USER: ${username}, Verification: ${verify_key}`);
         let email_sent = await send_verification_email(email, verify_key);
-        console.log("EMAIL SENT" + email_sent);
+        console.log("EMAIL SENT CONDITION:" + email_sent);
         if (email_sent){
             console.log("Verification Email sent!\n")
             return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
@@ -120,9 +120,9 @@ app.post('/adduser', async (req, res) => {
 });
 
 app.get('/verify', async (req, res) => {
-    console.log("'/verify' GET request")
     let email = req.query.email
     let key = req.query.key
+    console.log("'/verify' GET request")
     console.log(`{${email}, ${key}}`)
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 
@@ -213,7 +213,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     console.log(`{${layer}, ${vertical}, ${horizontal}, ${style}}`);
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 
-    // Get file path and return image
+    // FIX: Get file path and return image
 });
 
 const server = app.listen(port, () => {
