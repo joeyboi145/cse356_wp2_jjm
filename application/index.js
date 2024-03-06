@@ -48,7 +48,7 @@ async function send_verification_email(email, verification_key){
         secure: false,
         port: 25,
         auth: {
-            user: 'root@cse356.compas.cs.stonybrook.edu',
+            user: 'root@joey.cse356.compas.cs.stonybrook.edu',
             pass: 'wp2_pass'
         },
         tls:{ rejectUnauthorized: false }
