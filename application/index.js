@@ -69,10 +69,10 @@ async function send_verification_email(email, verification_key){
 
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-                console.log("ERROR: " + error);
+                console.log("\nEmail ERROR: " + error);
                 reject(false);
             } else {
-                console.log('OK: ' + info.response);
+                console.log('\nEmail OK: ' + info.response);
                 resolve(true);
             }
         });
@@ -110,7 +110,6 @@ app.post('/adduser', async (req, res) => {
         await user.save();
         console.log(`NEW USER: ${username}, Verification: ${verify_key}`);
         let email_sent = await send_verification_email(email, verify_key);
-        console.log("EMAIL SENT CONDITION:" + email_sent);
         if (email_sent){
             console.log("Verification Email sent!\n")
             return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
@@ -139,7 +138,7 @@ app.get('/verify', async (req, res) => {
             if (verified){
                 console.log("Already Verified");
                 return res.status(400).send({status: "ERROR", message: "User already verified"})
-            } else if (verify_key != key) {
+            } else if (verify_key !== key) {
                 console.log("Incorrect Key\n")
                 return res.status(400).send({status: "ERROR", message: "Incorrect verification key"})
             } else {
