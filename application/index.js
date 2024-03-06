@@ -230,7 +230,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
     let filename = "html" + URIpath + '.jpg';
     console.log(filename)
-    return res.status(200).send({status: "test", message: "check console"});
+    // return res.status(200).send({status: "test", message: "check console"});
 
     res.append('X-CSE356', options, '65b99885c9f3cb0d090f2059');
     res.sendFile(filename, function (err) {
