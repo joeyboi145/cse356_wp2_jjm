@@ -207,7 +207,7 @@ app.use('/login', express.static((__dirname + "/html")))
 //     redirect: false,
 // }
 
-app.post('/logout', async (req,res) => {
+app.get('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     if (req.session.login){
