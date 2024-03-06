@@ -31,6 +31,7 @@ npm install express-sessions
 npm install mongoose
 npm install nodemailer
 npm install nodemailer-smtp-transport
+npm install jimp
 cd ..
 
 # Install mongoDB
