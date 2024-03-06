@@ -83,6 +83,7 @@ app.post('/adduser', async (req, res) => {
 
     try {
         user = await User.find({ email });
+        console.log(user);
         if (user != null){
             return res.status(400).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
         }
