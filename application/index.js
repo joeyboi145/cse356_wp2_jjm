@@ -192,21 +192,18 @@ app.post('/login', async (req, res, next) => {
     }
 });
 
-var options = {
-    dotfiles: 'ignore',
-    etag: false,
-    extensions: ['htm', 'html', 'css', 'js'],
-    index: true,
-    maxAge: '1d',
-    redirect: false,
-    setHeaders: function (res, path, stat) {
-      res.set('x-timestamp', Date.now())
-    }
-}
+// var options = {
+//     dotfiles: 'ignore',
+//     etag: false,
+//     extensions: ['htm', 'html', 'css', 'js'],
+//     index: true,
+//     maxAge: '1d',
+//     redirect: false,
+// }
 
 var home_directory = __dirname + '/html'
 console.log(home_directory)
-app.use('/login', express.static((home_directory, options)))
+app.use('/login', express.static((home_directory)))
 
 app.post('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
