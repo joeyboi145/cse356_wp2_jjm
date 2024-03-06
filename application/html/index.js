@@ -56,7 +56,7 @@ async function get_display_image(){
     }
 }
 
-document.getElementById("display_image").addEventListener("load", myScript);
+document.getElementById("wp2").addEventListener("load", myScript);
 
 console.log("this is working!")
 // get_display_image()
