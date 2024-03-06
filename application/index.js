@@ -228,7 +228,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
         }
       }
 
-    let filename = "html" + URIpath + '.jpg';
+    let filename = "/html" + URIpath + '.jpg';
     console.log(filename)
     // return res.status(200).send({status: "test", message: "check console"});
 
