@@ -196,7 +196,7 @@ app.post('/login', async (req, res, next) => {
 
 var home_directory = __dirname + '/html'
 console.log(home_directory)
-app.use('/html', express.static((_dirname + "/public")))
+app.use('/html', express.static((__dirname + "/public")))
 
 // var options = {
 //     dotfiles: 'ignore',
