@@ -57,7 +57,4 @@ async function get_display_image(){
 }
 
 document.addEventListener('DOMContentLoaded', get_display_image);
-//window.getElementById("display_image").addEventListener("load", get_display_image);
-
-console.log("this is working!")
-// get_display_image()
+console.log(document.getElementById('display_image'))
