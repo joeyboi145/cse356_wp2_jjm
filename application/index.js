@@ -198,7 +198,7 @@ app.use('/login', async (req, res, next) => {
         }
     }
 });
-app.use('/login', express.static(("./html")))
+app.use('/login', express.static(( __dirname + "/html")))
 
 
 
