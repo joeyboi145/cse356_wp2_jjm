@@ -212,36 +212,22 @@ app.post('/logout', async (req,res) => {
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     console.log("'/tiles' GET request");
-    let layer = req.params.LAYER;
-    let vertical = req.params.V;
-    let horizontal = req.params.H;
-    let style = req.query.style;
     let URIpath = req.path;
+    let style = req.query.style;
     console.log(`{ ${URIpath}, ${style}}`);
 
-    //console.log("__dirname: " + __dirname)
-    var options = {
-        // root: path.join(__dirname),
-        dotfiles: 'deny',
-        headers: {
-          'x-timestamp': Date.now(),
-          'x-sent': true
-        }
-      }
-
-    let filename =  __dirname + "/html" + URIpath;
+    let filename =  "" + "/html" + URIpath;
     console.log(filename)
-    // return res.status(200).send({status: "test", message: "check console"});
 
+    res.setHeader('content-type', 'image/jpeg');
     res.append('X-CSE356', options, '65b99885c9f3cb0d090f2059');
-    res.sendFile(filename, function (err) {
+    return res.sendFile(filename, {root: __dirname},  function (err) {
         if (err) {
           console.log(err);
         } else {
           console.log('Sent:', filename);
         }
     });
-    // FIX: Get file path and return image
 });
 
 const server = app.listen(port, () => {
