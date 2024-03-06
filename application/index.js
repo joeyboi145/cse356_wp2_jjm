@@ -181,7 +181,7 @@ app.post('/login', async (req, res) => {
         } else {
             console.log("already logged in\n")
         }
-        res.setHeader('content-type', 'test/html');
+        res.setHeader('content-type', 'text/html');
         res.status(200).sendFile("html/index.html", {root: __dirname + '/'} ); 
         console.log("index.html servered\n")
 
