@@ -182,7 +182,7 @@ app.post('/login', async (req, res) => {
             console.log("already logged in");
         }
         res.setHeader('content-type', 'text/html');
-        res.status(200).attachment("html/index.html").send(); 
+        res.status(200).render("html/index.html"); 
         console.log("index.html servered\n")
 
     } catch (err) { 
