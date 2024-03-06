@@ -222,11 +222,13 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
     try {
         if (style == 'color'){
-            res.sendFile(filepath, {root: __dirname + '/'} ); 
-            console.log(`Sent: ${filepath}\n`);
+            res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
+            console.log(`Sent in color: ${filepath}\n`);
         } else {
             let image = (await jimp.read(filepath)).grayscale()
-            return res.status(200).send(image);
+            console.log(image)
+            res.status(200).send(image);
+            console.log(`Sent in bw: ${filepath}\n`);
         }
     } catch (err) {
         console.log(err);
