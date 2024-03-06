@@ -56,8 +56,8 @@ async function get_display_image(){
     }
 }
 
-let image_element = document.getElementById('display_image');
-console.log(image_element)
-image_element.addEventListener("load", get_display_image)
+// let image_element = document.getElementById('display_image');
+// // console.log(image_element)
+// // image_element.addEventListener("load", get_display_image)
 
-//document.addEventListener('DOMContentLoaded', get_display_image);
+document.addEventListener('DOMContentLoaded', get_display_image);
