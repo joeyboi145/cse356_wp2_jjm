@@ -177,10 +177,10 @@ app.use('/login', async (req, res, next) => {
             
             req.session.username = username;
             if (!req.session.login) {
-                console.log("New login");
+                console.log("New login\n");
                 req.session.login = true;
             } else {
-                console.log("already logged in");
+                console.log("already logged in\n");
             }
 
             // Go to next middleware, which servers html files

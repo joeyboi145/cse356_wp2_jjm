@@ -56,5 +56,7 @@ async function get_display_image(){
     }
 }
 
-console.log("this is working")
+document.getElementById("display_image").addEventListener("load", myScript);
+
+console.log("this is working!")
 // get_display_image()
