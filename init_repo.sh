@@ -5,7 +5,7 @@
 
 # THIS IS FOR UBUNTU 22.04
 # 1. Install node.js and npm
-# 2. Install npm dependences
+# 2. Install node.js dependences
 #   - express
 #   - mongoose
 #   - nodemailer
@@ -25,14 +25,17 @@ echo Install NPM
 sudo apt install -y npm
 
 # Install node.js dependences
-cd application
-npm install express
-npm install express-sessions
-npm install mongoose
-npm install nodemailer
-npm install nodemailer-smtp-transport
-npm install jimp
-cd ..
+# MANUAL: Reboot first and install each dependency
+# For some reason, the automatic install doesn't seem to work first try
+
+# cd application
+# npm install express
+# npm install express-sessions
+# npm install mongoose
+# npm install nodemailer
+# npm install nodemailer-smtp-transport
+# npm install jimp
+# cd ..
 
 # Install mongoDB
 echo Install MongoDB
@@ -46,6 +49,7 @@ sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 
 # Install postfix
+# MANUAL:  Add 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf
 echo install postfix
 echo domain 'cse356.compas.cs.stonybrook.edu'
 sudo apt install -y postfix
