@@ -47,10 +47,10 @@ async function send_verification_email(email, verification_key){
         host: 'cse356.compas.cs.stonybrook.edu',
         secure: false,
         port: 25,
-        // auth: {
-        //     user: 'root@cse356.compas.cs.stonybrook.edu',
-        //     pass: 'wp2_pass'
-        // },
+        auth: {
+            user: 'root@cse356.compas.cs.stonybrook.edu',
+            pass: 'wp2_pass'
+        },
         tls:{ rejectUnauthorized: false }
     }));
 
