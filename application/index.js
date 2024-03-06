@@ -162,7 +162,6 @@ app.use('/login', async (req, res, next) => {
         console.log(`{ ${username}, ${password} }`);
         res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
         let user = null;
-
         try {
             user = await User.findOne({$and: [{ username }, { password }]});
             if (user == null){
@@ -183,14 +182,10 @@ app.use('/login', async (req, res, next) => {
             } else {
                 console.log("already logged in");
             }
-            // Go to file middleware
+            
+            // Go to next middleware, which servers html files
             req.method = 'GET'
-            console.log(next);
-            return next()
-            //return res.status(200).send({status: "OK", message: "Logged in"});
-            // res.setHeader('content-type', 'text/html');
-            // res.status(200).render(__dirname + "/html/index"); 
-            // console.log("index.html servered\n")
+            next()
 
         } catch (err) { 
             console.log(err);
