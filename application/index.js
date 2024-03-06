@@ -216,21 +216,23 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     let horizontal = req.params.H;
     let style = req.query.style;
     let URIpath = req.path;
-    console.log(`{ ${path}, ${style}}`);
-    console.log(path)
+    console.log(`{ ${URIpath}, ${style}}`);
 
-
+    console.log("__dirname: " + __dirname)
     var options = {
-        root: path.join(__dirname, 'public'),
+        root: __dirname,
         dotfiles: 'deny',
         headers: {
           'x-timestamp': Date.now(),
           'x-sent': true
         }
       }
-    console.log()
+
     let filename = "html" + URIpath + '.jpg';
-    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+    console.log(filename)
+    return res.status(200).send({status: "test", message: "check console"});
+
+    res.append('X-CSE356', options, '65b99885c9f3cb0d090f2059');
     res.sendFile(filename, function (err) {
         if (err) {
           console.log(err);
