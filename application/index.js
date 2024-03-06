@@ -14,6 +14,7 @@ const session = require("express-session");
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+const jimp = require('jimp');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
 const pass = 'wp2_pass';
@@ -212,22 +213,26 @@ app.post('/logout', async (req,res) => {
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     console.log("'/tiles' GET request");
-    let URIpath = req.path;
+    let filename = req.path;
     let style = req.query.style;
     console.log(`{ ${URIpath}, ${style}}`);
 
-    let filename =  URIpath;
-    console.log(filename)
-
-    res.setHeader('content-type', 'image/jpeg');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-    return res.sendFile(filename, {root: __dirname + '/html'},  function (err) {
-        if (err) {
-          console.log(err);
+    res.setHeader('content-type', 'image/jpeg');
+
+    try {
+        if (style == 'color'){
+            res.sendFile(filename, {root: __dirname + '/html'} );
+            console.log(`Sent: ${filename}\n`);
         } else {
-          console.log(`Sent: ${filename}\n`);
+            let image = (await jimp.read(filename)).grayscale()
+            return res.status(200).send(image);
         }
-    });
+    } catch (err) {
+        console.log(err);
+        res.setHeader('content-type', 'application/json');
+        return res.status(500).send({status: "ERROR", message: "Server Error"});
+    }
 });
 
 const server = app.listen(port, () => {
