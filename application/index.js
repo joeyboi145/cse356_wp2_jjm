@@ -182,7 +182,7 @@ app.post('/login', async (req, res) => {
             console.log("already logged in");
         }
         res.setHeader('content-type', 'text/html');
-        res.status(200).sendFile("html/index.html", {root: __dirname + '/'} ); 
+        res.status(200).sendFile("html", {root: __dirname + '/'} ); 
         console.log("index.html servered\n")
 
     } catch (err) { 
@@ -203,7 +203,7 @@ app.post('/logout', async (req,res) => {
 });
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
-    let filepath = 'html' + req.path;
+    let filepath = req.path.slice(1);
     let style = req.query.style;
     console.log("'/tiles' GET request");
     console.log(`{ ${filepath}, ${style}}`);
