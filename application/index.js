@@ -220,7 +220,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     console.log(filename)
 
     res.setHeader('content-type', 'image/jpeg');
-    res.append('X-CSE356', options, '65b99885c9f3cb0d090f2059');
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     return res.sendFile(filename, {root: __dirname},  function (err) {
         if (err) {
           console.log(err);
