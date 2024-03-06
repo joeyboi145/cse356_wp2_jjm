@@ -230,7 +230,8 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
             const base64_image = await image.getBase64Async(image.getMIME());
             // console.log(base64_image)
-            res.contentType('jpeg').status(200).send(base64_image);
+            res.contentType('jpeg').status(200)
+            res.send(Buffer.from(base64_image, 'binary'))
             console.log(`Sent in bw: ${filepath}\n`);
         }
     } catch (err) {
