@@ -204,7 +204,7 @@ var options = {
     }
 }
 
-app.use('/login', express.static((__dirname + '/html', options)))
+app.use('/login', express.static(((__dirname + '/html'), options)))
 
 app.post('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
