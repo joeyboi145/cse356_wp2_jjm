@@ -42,7 +42,6 @@ async function get_display_image(){
     const response = await fetch(path);
 
     if (response.status === 200) {
-        console.log(response)
         const imageBlob = await response.blob()
         const imageObjectURL = URL.createObjectURL(imageBlob);
 
@@ -58,4 +57,4 @@ async function get_display_image(){
 }
 
 console.log("this is working")
-get_display_image()
+// get_display_image()
