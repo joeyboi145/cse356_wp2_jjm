@@ -217,7 +217,7 @@ app.use('/login', function (req, res, next) {
         }
     }
     console.log(__dirname + '/html')
-    express.static(__dirname + '/html', options)
+    res.send(express.static(__dirname + '/html', options))
 })
 
 app.post('/logout', async (req,res) => {
