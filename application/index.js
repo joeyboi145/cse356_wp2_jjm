@@ -199,6 +199,10 @@ var home_directory = __dirname + '/html'
 console.log(home_directory)
 app.use('/login', express.static((__dirname + "/html")))
 
+app.use('/html', function (req, res, next) {
+    res.sendFile("/html", {root: __dirname})
+})
+
 // var options = {
 //     dotfiles: 'ignore',
 //     etag: false,
