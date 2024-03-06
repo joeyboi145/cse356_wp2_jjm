@@ -182,7 +182,7 @@ app.use('/login', async (req, res, next) => {
             } else {
                 console.log("already logged in");
             }
-            
+
             // Go to next middleware, which servers html files
             req.method = 'GET'
             next()
@@ -191,7 +191,7 @@ app.use('/login', async (req, res, next) => {
             console.log(err);
             return res.status(500).send({status: "ERROR", message: "Server Error"})
         }
-    } else next()
+    } else res.send(404)
 });
 
 app.use('/login', express.static(( __dirname + "/html")))
