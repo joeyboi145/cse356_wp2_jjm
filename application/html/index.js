@@ -1,3 +1,4 @@
+
 let dragme = false;
 let level = 1;
 let horizontal = 1;
@@ -55,3 +56,6 @@ async function get_display_image(){
         console.log("HTTP-Error: " + response.status)
     }
 }
+
+console.log("this is working")
+get_display_image()
