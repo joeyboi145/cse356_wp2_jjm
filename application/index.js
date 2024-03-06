@@ -156,7 +156,7 @@ app.get('/verify', async (req, res) => {
 
 // var home_directory = __dirname + '/html'
 // console.log(home_directory)
-// app.use('/login', express.static(('html')))
+app.use('/login', express.static(('html')))
 
 app.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
