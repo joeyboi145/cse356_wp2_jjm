@@ -174,10 +174,13 @@ app.post('/login', async (req, res) => {
         
         req.session.username = username;
         if (!req.session.login) {
+            console.log("New login\n")
             req.session.login = true;
             // req.session.level = 1;
             // req.session.vertical = 1;
             // req.session.horizontal = 1;
+        } else {
+            console.log("already logged in\n")
         }
         return res.status(200).send({status: "OK", message: "Logged In"});
 
