@@ -191,7 +191,7 @@ app.use('/login', async (req, res, next) => {
             console.log(err);
             return res.status(500).send({status: "ERROR", message: "Server Error"})
         }
-    } else next()
+    } else res.sendStatus(404) //next()
 }, express.static(( __dirname + "/html")));
 
 // app.use('/login', express.static(( __dirname + "/html")))
