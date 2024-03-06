@@ -230,7 +230,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
             const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
 
-            res.status(200).send(Buffer.from(base64_image, 'binary'))
+            res.status(200).send(Buffer.from(buffer, 'binary'))
             console.log(`Sent in bw: ${filepath}\n`);
         }
     } catch (err) {
