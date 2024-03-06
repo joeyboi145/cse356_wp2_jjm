@@ -215,7 +215,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     console.log("'/tiles' GET request");
     let filename = req.path;
     let style = req.query.style;
-    console.log(`{ ${URIpath}, ${style}}`);
+    console.log(`{ ${filename}, ${style}}`);
 
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     res.setHeader('content-type', 'image/jpeg');
