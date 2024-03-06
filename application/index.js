@@ -134,12 +134,11 @@ app.get('/verify', async (req, res) => {
         let user = await User.findOne({ email })
         if (user != null){
             let verified = user.get("verify");
-            let verify_key = user.get("verify_key\n");
+            let verify_key = user.get("verify_key");
             if (verified){
-                console.log("Already Verified");
+                console.log("Already Verified\n");
                 return res.status(400).send({status: "ERROR", message: "User already verified"})
-            } else if (verify_key !== key) {
-                console.log(`${verify_key} == ${key}`);
+            } else if (verify_key != key) {
                 console.log("Incorrect Key\n")
                 return res.status(400).send({status: "ERROR", message: "Incorrect verification key"})
             } else {
