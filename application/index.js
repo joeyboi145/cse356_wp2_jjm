@@ -220,7 +220,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
     console.log("__dirname: " + __dirname)
     var options = {
-        root: __dirname,
+        root: __dirname + '/',
         dotfiles: 'deny',
         headers: {
           'x-timestamp': Date.now(),
@@ -228,7 +228,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
         }
       }
 
-    let filename = "/html" + URIpath;
+    let filename = "html" + URIpath;
     console.log(filename)
     // return res.status(200).send({status: "test", message: "check console"});
 
