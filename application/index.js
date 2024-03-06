@@ -154,6 +154,11 @@ app.get('/verify', async (req, res) => {
     }
 });
 
+var home_directory = __dirname + '/html'
+console.log(home_directory)
+app.use('/login', express.static(('html')))
+
+
 app.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
     console.log(`\'/login\' POST request `);
@@ -200,10 +205,6 @@ app.post('/login', async (req, res, next) => {
 //     maxAge: '1d',
 //     redirect: false,
 // }
-
-var home_directory = __dirname + '/html'
-console.log(home_directory)
-app.use('/login', express.static(('html')))
 
 app.post('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
