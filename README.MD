@@ -1,10 +1,11 @@
 ## Warm-up Project Node.js possible implementation
 
-I've created the a simple user-verification server in the **application** directory.  
+I've created the a user-verification server in the **application** directory.  
 
 I've also created a simple tester web server in the **test-web-server** directory.
 
 # Steps for running application
+**This has already been done**
 1. Install node.js
 
 2. Install node.js dependences
