@@ -86,10 +86,12 @@ app.post('/adduser', async (req, res) => {
     try {
         user = await User.findOne({ email });
         if (user != null){
+            console.log("Duplicate email\n")
             return res.status(400).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
         }
         user = await User.findOne({ username })
         if (user != null){
+            console.log("Duplicate username\n");
             return res.status(400).send({status: "ERROR", message: "Duplicate username. Username must be unique."});
         }
 
@@ -128,17 +130,20 @@ app.get('/verify', async (req, res) => {
         let user = await User.findOne({ email })
         if (user != null){
             let verified = user.get("verify")
-            let verify_key = user.get("verify_key");
+            let verify_key = user.get("verify_key\n");
             if (verified){
+                console.log("Already Verified");
                 return res.status(400).send({status: "ERROR", message: "User already verified"})
             } else if (verify_key != key) {
+                console.log("Incorrect Key\n")
                 return res.status(400).send({status: "ERROR", message: "Incorrect verification key"})
             } else {
                 await User.updateOne({ email } , { verify: true });
-                console.log("USER VERFIED\n");
+                console.log("USER VERFIED!\n");
                 return res.status(200).send({status: "OK", message: "Verified"});
             }
         } else {
+            console.log("User not found\n");
             return res.status(400).send({status: "ERROR", message: "User not found"})
         }
     } catch (err) { 
@@ -157,11 +162,13 @@ app.post('/login', async (req, res) => {
     try {
         user = await User.findOne({$and: [{ username }, { password }]});
         if (user == null){
+            console.log("Invalid Credentials\n")
             return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
         } 
         
         let verified = user.get("verify");
         if (!verified) {
+            console.log("User not verified\n");
             return res.status(400).send({status: "ERROR", message: "User not verified"});
         }
         
