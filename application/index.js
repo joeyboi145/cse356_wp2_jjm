@@ -179,7 +179,7 @@ app.post('/login', async (req, res) => {
             // req.session.vertical = 1;
             // req.session.horizontal = 1;
         }
-        return req.status(200).send({status: "OK", message: "Logged In"});
+        return res.status(200).send({status: "OK", message: "Logged In"});
 
         // FIX: Return HTML file
         // This HTML File will fetch the correct tile
