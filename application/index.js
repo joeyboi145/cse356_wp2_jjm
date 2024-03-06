@@ -186,7 +186,7 @@ app.post('/login', async (req, res, next) => {
             console.log("already logged in");
         }
         next()
-        return res.status(200).send({status: "OK", message: "Logged in"});
+        //return res.status(200).send({status: "OK", message: "Logged in"});
         // res.setHeader('content-type', 'text/html');
         // res.status(200).render(__dirname + "/html/index"); 
         // console.log("index.html servered\n")
@@ -194,7 +194,7 @@ app.post('/login', async (req, res, next) => {
 
     } catch (err) { 
         console.log(err);
-        return res.status(500).send({status: "ERROR", message: "Server Error"})
+        //return res.status(500).send({status: "ERROR", message: "Server Error"})
     }
 });
 
