@@ -27,6 +27,7 @@ sudo apt install -y npm
 # Install node.js dependences
 cd application
 npm install express
+npm install express-sessions
 npm install mongoose
 npm install nodemailer
 npm install nodemailer-smtp-transport
@@ -77,6 +78,6 @@ sudo ip6tables -I OUTPUT -p tcp -m tcp --dport 25 -j DROP
 sudo iptables -t nat -I OUTPUT -o eth0 -p tcp -m tcp --dport 25 -j DNAT --to-destination 130.245.171.151:11587
 
 # Remaining Manual Steps
-#- Change /etc/postfix/main.cf replay option
-#- Make sure that DNS system is set up appropriately
-#- Start Application Server
+# - Change /etc/postfix/main.cf relays option
+# - Make sure that DNS system is set up appropriately
+# - Start Application Server
