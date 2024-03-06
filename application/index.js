@@ -37,9 +37,7 @@ app.use(
     })
 )
 
-
 const User = require('./models/users');
-
 
 async function send_verification_email(email, verification_key){
     // In /etc/postfix/main.cf:
@@ -48,31 +46,36 @@ async function send_verification_email(email, verification_key){
     // relayhost = cse356.compas.cs.stonybrook.edu
     // ...
     //
-    let transporter =  nodemailer.createTransport(smtpTransport({
-        service: 'postfix',
-        host: 'cse356.compas.cs.stonybrook.edu',
-        port: 25,
-        secure: false,
-        tls:{
-            rejectUnauthorized: false
-        }
-    }));
+    return new Promise((resolve, reject) => {
+        let transporter =  nodemailer.createTransport(smtpTransport({
+            service: 'postfix',
+            host: 'cse356.compas.cs.stonybrook.edu',
+            port: 25,
+            secure: false,
+            tls:{
+                rejectUnauthorized: false
+            }
+        }));
 
-    let email_urlencoded = encodeURIComponent(email)
-    let link = `http://${serverIP}/verify?email=${email_urlencoded}&key=${verification_key}`
+        let email_urlencoded = encodeURIComponent(email)
+        let link = `http://${serverIP}/verify?email=${email_urlencoded}&key=${verification_key}`
 
-    let mailOptions = {
-        from: 'root@cse356.compas.cs.stonybrook.edu',
-        to: email,
-        subject: 'Verfication Code Email',
-        text: 'Your Verification Code: ' + verification_key + '\nOr click here:\n' + link
-    };
+        let mailOptions = {
+            from: 'root@cse356.compas.cs.stonybrook.edu',
+            to: email,
+            subject: 'Verfication Code Email',
+            text: 'Your Verification Code: ' + verification_key + '\nOr click here:\n' + link
+        };
 
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-            return false;
-        } else return true;
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log("ERROR: " + error);
+                reject(false);
+            } else {
+                console.log('OK: ' + info.response);
+                resolve(true);
+            }
+        });
     });
 }
 
@@ -80,6 +83,7 @@ app.post('/adduser', async (req, res) => {
     const { username, password, email } = req.body;
     console.log(`\'/adduser\' POST request `);
     console.log(`{ ${username}, ${password}, ${email}}`)
+    res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     let user = null;
 
@@ -120,10 +124,11 @@ app.post('/adduser', async (req, res) => {
 });
 
 app.get('/verify', async (req, res) => {
-    let email = req.query.email
-    let key = req.query.key
-    console.log("'/verify' GET request")
-    console.log(`{${email}, ${key}}`)
+    let email = req.query.email;
+    let key = req.query.key;
+    console.log("'/verify' GET request");
+    console.log(`{${email}, ${key}}`);
+    res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
 
     try {
@@ -195,6 +200,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/logout', async (req,res) => {
+    res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     if (req.session.login){
         req.session.destroy();
