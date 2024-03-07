@@ -22,6 +22,7 @@ function onRadioChange(event) {
     //imageLayer.getElement().style.filter = '';
     console.log("color");
     STYLE = 'color'
+    imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
   }
     imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
     image_map.off();
