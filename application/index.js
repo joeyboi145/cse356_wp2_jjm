@@ -26,7 +26,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var store = new MongoDBStore({
-    uri: 'mongodb://127.0.0.1:27017/connect_mongodb_session_test',
+    uri: 'mongodb://127.0.0.1:27017/wp2',
     collection: 'mySessions'
   });
 
