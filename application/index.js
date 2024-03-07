@@ -223,17 +223,17 @@ app.post('/login', async (req, res, next) => {
     }
 });
 
-app.use('/', (req, res, next) => {
-    if (req.method == "GET" && req.session.login) {
-        console.log("Serving HTML");
-        // res.json({
-        //     status: "OK",
-        //     html: "<div><h1>Hello, World!</h1></div>"
-        // })
-        res.status(200)
-        next();
-    } else res.send({status: "ERROR", message: "Not Logged in"});
-})
+// app.use('/', (req, res, next) => {
+//     if (req.method == "GET" && req.session.login) {
+//         console.log("Serving HTML");
+//         // res.json({
+//         //     status: "OK",
+//         //     html: "<div><h1>Hello, World!</h1></div>"
+//         // })
+//         res.status(200)
+//         next();
+//     } else res.send({status: "ERROR", message: "Not Logged in"});
+// })
 
 app.use('/', express.static( __dirname + "/html"))
 
