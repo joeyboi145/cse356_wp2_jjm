@@ -28,7 +28,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var store = new MongoDBStore({
     uri: 'mongodb://127.0.0.1:27017/wp2',
     collection: 'mySessions'
-  });
+});
 
 const app = express();
 app.use(express.json());
