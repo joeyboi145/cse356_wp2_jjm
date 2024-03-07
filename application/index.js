@@ -37,7 +37,9 @@ app.use(express.json());
 app.use(
     session({
         secret: "wp2 supersecret string",
-        cookie: {},
+        cookie: {
+            name: 'token'
+        },
         resave: true,
         saveUninitialized: true,
         store: store
