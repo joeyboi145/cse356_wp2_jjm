@@ -156,7 +156,7 @@ app.get('/verify', async (req, res) => {
 
 app.get('/login', async (req,res,next) => {
     let username = req.query.username;
-    let password = req.query.username;
+    let password = req.query.password;
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     let user = null;
     try {
