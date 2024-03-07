@@ -73,7 +73,9 @@ function get_image_map(){
     });
 
     var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
-        noWrap: true
+        noWrap: true,
+        minZoom: 1,
+        maxZoom: 8,
     })
 
     // var bounds = tileLayer.getBounds();
