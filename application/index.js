@@ -232,7 +232,7 @@ app.post('/login', async (req, res, next) => {
     }
 });
 
-app.get('/html', (req, res, next) => {
+app.get('/', (req, res, next) => {
     console.log("line 236")
     console.log(req.session)
     // if (req.method == "GET" && req.session.login) {
