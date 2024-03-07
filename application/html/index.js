@@ -13,12 +13,12 @@ var imageLayer;
 function onRadioChange(event) {
   var selectedValue = event.target.value;
 
-  if(selectedValue === 'bw') {
+  if(selectedValue === 'bw' && STYLE != 'bw') {
     //imageLayer.getElement().style.filter = 'grayscale(100%)';
     console.log("gray");
     STYLE = 'bw'
     imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
-  } else {
+  } else if (selectedValue === 'color' && STYLE != 'color') {
     //imageLayer.getElement().style.filter = '';
     console.log("color");
     STYLE = 'color'
