@@ -58,7 +58,7 @@ function get_image_map(){
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
-            center: [imageHeight / 2, imageWidth / 2],
+            // center: [imageHeight / 2, imageWidth / 2],
             zoom: 1,
             maxBounds: [
                 [0, 0],
