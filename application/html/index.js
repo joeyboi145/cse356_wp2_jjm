@@ -74,7 +74,7 @@ function get_image_map(){
 
 
     var corner1 = L.latLng(40.712, -74.227)
-    orner2 = L.latLng(40.774, -74.125),
+    corner2 = L.latLng(40.774, -74.125),
     bounds = L.latLngBounds(corner1, corner2);
 
     var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
@@ -100,7 +100,7 @@ function get_image_map(){
     });
     
     tileLayer.addTo(map);
-    // map.fitBounds(bounds)
+    console.log("hi")
     image_map = map;
     console.log("TO STRING: " + bounds.getCenter().toString())
     map.setView(bounds.getCenter(), 4)
