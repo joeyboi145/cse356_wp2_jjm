@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="style.css">
 
         <style>
-            #multi-image {
+            #map {
                 width: 80vh;
                 height: 80vh;
                 position: relative;
@@ -26,7 +26,7 @@
         </div>
         <br/>
         <div id="wp2">
-            <canvas id="multi-image"></canvas>
+            <div id="'map"></div>>
         </div>
 
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -121,7 +121,7 @@ function get_image_map(){
     // var latLng = bounds.getCenter();
     // console.log(latLng.toString())
 
-        var map = L.map('multi-image', {
+        var map = L.map('map', {
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
