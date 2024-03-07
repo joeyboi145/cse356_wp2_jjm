@@ -199,7 +199,7 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
-        //req.session.save()
+        res.cookie('token', req.cookie)
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -236,7 +236,7 @@ app.post('/login', async (req, res, next) => {
         }
         // console.log("line 217")
         // console.log(req.session)
-        //req.session.save()
+        res.cookie('token', req.cookie)
         res.status(200).send({status: 'OK', message: "Logged in"})
         //res.redirect('/')
 
@@ -248,6 +248,8 @@ app.post('/login', async (req, res, next) => {
 
 app.get('/', (req, res, next) => {
     console.log(req.session)
+    if (req.session.login) {
+        res.cookie('token', req.cookie)
         console.log("Serving HTML");
         // res.json({
         //     status: "OK",
@@ -267,6 +269,7 @@ app.get('/', (req, res, next) => {
         // res.setHeader("content-type", "text/html")
         //res.sendFile('html', {root: __dirname + '/'})
         express.static(__dirname + "/html")(req, res, next);
+    } else next();
 })
 
 app.use(function (req, res, next) {
@@ -279,7 +282,7 @@ app.post('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     if (req.session.login){
-        req.session.destroy();
+        req.session = null
         res.status(200).send({status: "OK", message: "Successfully Logged Out"});
     } else {
         res.status(400).send({status: "ERROR", message: 'Log out failed. Not previously logged in'});
@@ -295,6 +298,8 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     res.setHeader('content-type', 'image/jpeg');
 
     try {
+        if (req.session.login) res.cookie('token', req.cookie)
+        
         if (style == 'bw'){
             const image = await jimp.read(filepath)
             const grey_image = image.grayscale();
