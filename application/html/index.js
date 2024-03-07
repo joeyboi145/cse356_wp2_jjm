@@ -77,9 +77,9 @@ function get_image_map(){
     })
 
     var bounds = tileLayer.getBounds();
-    console.log(bounds)
+    console.log(bounds.toString())
     var latLng = bounds.getCenter();
-    console.log(latLng)
+    console.log(latLng.toString())
 
     var map = L.map('wp2', {
         zoomControl: false,
@@ -87,10 +87,10 @@ function get_image_map(){
         maxZoom: 8,
         center: latLng,
         zoom: 4,
-        bounds: bounds
     });
     
     tileLayer.addTo(map);
+    map.fitBounds(bounds)
     image_map = map;
     };
     img.src = imageUrl;
