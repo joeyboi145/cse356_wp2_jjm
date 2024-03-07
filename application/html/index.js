@@ -76,21 +76,22 @@ function get_image_map(){
         noWrap: true
     })
 
-    var bounds = tileLayer.getBounds();
-    console.log(bounds.toString())
-    var latLng = bounds.getCenter();
-    console.log(latLng.toString())
+    // var bounds = tileLayer.getBounds();
+    // console.log(bounds.toString())
+    // var latLng = bounds.getCenter();
+    // console.log(latLng.toString())
 
     var map = L.map('wp2', {
         zoomControl: false,
         minZoom: 1,
         maxZoom: 8,
-        center: latLng,
         zoom: 4,
+        bound: [[500,-500], [-500,500]],
+        center: [0, 0]
     });
     
     tileLayer.addTo(map);
-    map.fitBounds(bounds)
+    // map.fitBounds(bounds)
     image_map = map;
     };
     img.src = imageUrl;
