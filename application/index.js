@@ -237,7 +237,6 @@ app.post('/login', async (req, res, next) => {
             console.log("already logged in\n");
         }
         // console.log("line 217")
-        req.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
         //res.redirect('/')
 
@@ -250,7 +249,6 @@ app.post('/login', async (req, res, next) => {
 app.get('/', (req, res, next) => {
     console.log(req.session)
     if (req.session.login) {
-        req.session.save()
         console.log(req.cookie)
         console.log("Serving HTML");
         // res.json({
