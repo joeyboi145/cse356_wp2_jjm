@@ -72,6 +72,11 @@ function get_image_map(){
         }
     });
 
+
+    var corner1 = L.latLng(40.712, -74.227)
+    orner2 = L.latLng(40.774, -74.125),
+    bounds = L.latLngBounds(corner1, corner2);
+
     var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
         noWrap: true,
         minZoom: 1,
@@ -84,12 +89,14 @@ function get_image_map(){
     // var latLng = bounds.getCenter();
     // console.log(latLng.toString())
 
+
     var map = L.map('wp2', {
         zoomControl: false,
         minZoom: 4,
         maxZoom: 8,
         zoom: 4,
-        center: [10000, 10000]
+        bounds: bounds,
+        center: bound.getCenter(0)
     });
     
     tileLayer.addTo(map);
