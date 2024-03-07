@@ -53,16 +53,8 @@ function get_image_map(){
         var imageHeight = img.height;
 
 
-        var map = L.map('wp2', {
-            zoomControl: false,
-            minZoom: 1,
-            maxZoom: 8,
-            center: [imageHeight / 2, imageWidth / 2],
-            zoom: 4,
-        });
-
-        console.log(map.zoom);
-        map.setView([imageHeight / 2, imageWidth / 2]);
+        // console.log(map.zoom);
+        // map.setView([imageHeight / 2, imageWidth / 2]);
 
       //   var tileLayer = L.tileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
       //     noWrap: true
@@ -82,9 +74,21 @@ function get_image_map(){
 
     var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
         noWrap: true
-    }).addTo(map);
+    })
 
-        image_map = map;
+    var bounds = tileLayer.getBounds();
+    var latLng = bounds.getCenter();
+
+    var map = L.map('wp2', {
+        zoomControl: false,
+        minZoom: 1,
+        maxZoom: 8,
+        center: latLng,
+        zoom: 4,
+    });
+    
+    tileLayer.addTo(map);
+    image_map = map;
     };
     img.src = imageUrl;
 }
