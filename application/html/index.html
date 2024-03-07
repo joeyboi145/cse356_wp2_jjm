@@ -25,7 +25,7 @@
             <label for="bw-option">Black and White</label><br>
         </div>
         <br/>
-        <canvas id="wp2"></canvas>
+        <div id="wp2"></div>
 
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
@@ -102,25 +102,21 @@ function get_image_map(){
         });
 
 
-        var corner1 = L.latLng(90, -180.227)
-        corner2 = L.latLng(-60, 70),
-        bounds = L.latLngBounds(corner1, corner2);
+        var corner1 = L.latLng(90, -180)
+        var corner2 = L.latLng(-90, 180)
+        var bounds = L.latLngBounds(corner1, corner2);
 
         var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
             noWrap: true,
             minZoom: 1,
             maxZoom: 8,
-            bound: [[500,-500], [-500,500]],
+            // bound: [[500,-500], [-500,500]],
         })
 
     // var bounds = tileLayer.getBounds();
     // console.log(bounds.toString())
     // var latLng = bounds.getCenter();
     // console.log(latLng.toString())
-
-    var corner1 = L.latLng(90, -180)
-    var corner2 = L.latLng(-90, 180)
-    var bounds = L.latLngBounds(corner1, corner2);
 
         var map = L.map('wp2', {
             zoomControl: false,
