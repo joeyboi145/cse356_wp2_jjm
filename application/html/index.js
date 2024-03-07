@@ -3,7 +3,8 @@ var LAYER = 1;
 var V = 1;
 var H = 2;
 var STYLE = "color";
-var imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
+var domain = "209.151.148.61"
+var imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
 var radioOption = "color";
 
 console.log(window.location.href);
@@ -17,14 +18,14 @@ function onRadioChange(event) {
     //imageLayer.getElement().style.filter = 'grayscale(100%)';
     console.log("gray");
     STYLE = 'bw'
-    imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
+    imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
   } else if (selectedValue === 'color' && STYLE != 'color') {
     //imageLayer.getElement().style.filter = '';
     console.log("color");
     STYLE = 'color'
-    imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
+    imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
   }
-    imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
+    imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
     image_map.off();
     image_map.remove();
     get_image_map();
@@ -39,11 +40,11 @@ radios.forEach(function(radio) {
 });
 
 function get_image_map(){
+  console.log("rended");
     var img = new Image();
+    // img.style.width = 500 + 'px'
+    // img.style.height = 500 + 'px'
 
-    // const picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{x}/{y}.jpg?style=${STYLE}`, {
-    //     maxZoom: 19,
-    // });
 
     img.onload = function() {
         console.log(img.width)
@@ -56,33 +57,33 @@ function get_image_map(){
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
-            center: [imageWidth / 2, imageHeight / 2],
+            // center: [imageHeight / 2, imageWidth / 2],
             zoom: 1,
-            // maxBounds: [
-            //     [0, 0],
-            //     [imageWidth, imageHeight]
-            //   ]
-            crs: L.CRS.Simple
         });
 
-        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
-            minZoom: 1,
-            maxZoom: 8,
-            noWrap: true
-            // bounds: [
-            //     [0, 0],
-            //     [imageWidth, imageHeight]
-            //   ]
-            // bounds:[
-            //     new L.LatLng(0,100.834236),
-            //     new L.LatLng(15.097866,145.676994)
-            // ]
-        }).addTo(map);
+        console.log(map.zoom);
+        map.setView([imageHeight / 2, imageWidth / 2]);
 
-        var southWest = map.unproject([0, imageHeight], map.getMaxZoom() - 1);
-        var northEast = map.unproject([imageWidth, 0], map.getMaxZoom() - 1);
-        var bounds = new L.LatLngBounds(southWest, northEast);
-        map.fitBounds(bounds);
+      //   var tileLayer = L.tileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
+      //     noWrap: true
+      // }).addTo(map);
+
+      var CustomTileLayer = L.TileLayer.extend({
+        getTileUrl: function(coords) {
+            // Clamp x, y, and z values to the range of 1 to 10
+            var x = coords.x;
+            var y = coords.y;
+            var z = coords.z;
+            console.log(z, y, x);
+
+            return `http://${domain}/tiles/l${z}/${y+1}/${x+1}.jpg?style=${STYLE}`;
+        }
+    });
+
+    var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
+        noWrap: true
+    }).addTo(map);
+
         image_map = map;
     };
     img.src = imageUrl;

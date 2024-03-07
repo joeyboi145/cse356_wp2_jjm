@@ -228,6 +228,7 @@ app.use('/', (req, res, next) => {
 
         console.log("Serving HTML");
         res.json({
+            status: "OK",
             html: "<div><h1>Hello, World!</h1></div>"
         })
         //next();
