@@ -249,8 +249,7 @@ app.post('/login', async (req, res, next) => {
 app.get('/', (req, res, next) => {
     console.log(req.session)
     if (req.session.login) {
-        console.log(req.cookie)
-        res.cookie('token', req.cookie, { expires: new Date(Date.now() + 900000)})
+        console.log(req.session)
         console.log("Serving HTML");
         // res.json({
         //     status: "OK",
