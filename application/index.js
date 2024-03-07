@@ -226,6 +226,7 @@ app.post('/login', async (req, res, next) => {
         console.log("line 217")
         console.log(req.session)
         res.status(200).send({status: 'OK', message: "Logged in"})
+        res.redirect('/')
 
     } catch (err) { 
         console.log(err);
@@ -254,7 +255,7 @@ app.get('/', (req, res, next) => {
         });
         //res.status(200).send({status: 'OK'})
         // res.setHeader("content-type", "text/html")
-        express.static(__dirname + "/html")(req, res, next);
+        // express.static(__dirname + "/html")(req, res, next);
     // } else res.send({status: "ERROR", message: "Not Logged in"});
 })
 
