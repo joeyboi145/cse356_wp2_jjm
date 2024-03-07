@@ -46,6 +46,8 @@ function get_image_map(){
     // });
 
     img.onload = function() {
+        console.log(img.width)
+        console.log(img.height)
         var imageWidth = img.width;
         var imageHeight = img.height;
 
@@ -63,9 +65,13 @@ function get_image_map(){
             // crs: L.CRS.Simple
         });
 
-        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
+        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l1/{y}/{x}.jpg?style=${STYLE}`, {
             minZoom: 1,
             maxZoom: 8,
+            bounds: [
+                [0, 0],
+                [imageHeight, imageWidth]
+              ]
             // bounds:[
             //     new L.LatLng(0,100.834236),
             //     new L.LatLng(15.097866,145.676994)
