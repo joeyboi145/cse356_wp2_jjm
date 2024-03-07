@@ -118,12 +118,19 @@ function get_image_map(){
     // var latLng = bounds.getCenter();
     // console.log(latLng.toString())
 
+    var corner1 = L.latLng(90, -180.227)
+        corner2 = L.latLng(-60, 70),
+        bounds = L.latLngBounds(corner1, corner2);
 
         var map = L.map('wp2', {
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
             zoom: 1,
+            bounds: [
+                [90, -180.227], 
+                [-60, 70]
+            ]
         });
 
         // Define a function to handle click events on the map
@@ -133,10 +140,6 @@ function get_image_map(){
 
         // Add a click event listener to the map, which calls the onMapClick function
         map.on('click', onMapClick);
-
-        var corner1 = L.latLng(40.712, -74.227)
-        corner2 = L.latLng(40.774, -74.125),
-        bounds = L.latLngBounds(corner1, corner2);
         
         // Calculate the center of the image bounds
         var center = bounds.getCenter();
@@ -145,7 +148,7 @@ function get_image_map(){
         map.setView(center, 1);
 
         // Fit the map bounds to the image bounds
-        map.fitBounds(bounds);
+        //map.fitBounds(bounds);
 
         tileLayer.addTo(map);
         image_map = map;
