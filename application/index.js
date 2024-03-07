@@ -201,7 +201,6 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
-        req.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -248,7 +247,8 @@ app.post('/login', async (req, res, next) => {
 
 app.get('/', (req, res, next) => {
     console.log(req.session)
-    if (req.session.login) {
+    // if (req.session.login) {
+        req.session.served = true
         console.log(req.cookie)
         console.log("Serving HTML");
         // res.json({
@@ -269,7 +269,7 @@ app.get('/', (req, res, next) => {
         // res.setHeader("content-type", "text/html")
         //res.sendFile('html', {root: __dirname + '/'})
         express.static(__dirname + "/html")(req, res, next);
-    } else next();
+    // } else next();
 })
 
 // app.use(function (req, res, next) {
