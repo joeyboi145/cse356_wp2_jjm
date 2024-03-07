@@ -24,6 +24,8 @@ function onRadioChange(event) {
     STYLE = 'color'
   }
     imageUrl = `http://209.151.148.61/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
+    image_map.off();
+    image_map.remove();
     get_image_map();
 }
 
