@@ -242,7 +242,7 @@ app.get('/', (req, res, next) => {
         //     html: "<div><h1>Hello, World!</h1></div>"
         // })
         //res.status(200).send({status: 'OK'})
-        res.setHeader("content-type", "application/json")
+        res.setHeader("content-type", "application/javascript")
         express.static(__dirname + "/html")(req, res, next);
     } else res.send({status: "ERROR", message: "Not Logged in"});
 })
