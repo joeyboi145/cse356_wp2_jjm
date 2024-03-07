@@ -56,7 +56,7 @@ function get_image_map(){
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
-            center: [imageHeight, imageWidth],
+            center: [imageWidth, imageHeight],
             zoom: 1,
             maxBounds: [
                 [0, 0],
@@ -70,7 +70,7 @@ function get_image_map(){
             maxZoom: 8,
             bounds: [
                 [0, 0],
-                [500, 800]
+                [500, 300]
               ]
             // bounds:[
             //     new L.LatLng(0,100.834236),
