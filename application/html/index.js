@@ -40,6 +40,8 @@ radios.forEach(function(radio) {
 
 function get_image_map(){
     var img = new Image();
+    img.style.width = 500 + 'px'
+    img.style.height = 500 + 'px'
 
     // const picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{x}/{y}.jpg?style=${STYLE}`, {
     //     maxZoom: 19,
@@ -65,7 +67,7 @@ function get_image_map(){
             // crs: L.CRS.Simple
         });
 
-        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l1/{y}/{x}.jpg?style=${STYLE}`, {
+        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
             minZoom: 1,
             maxZoom: 8,
             bounds: [
