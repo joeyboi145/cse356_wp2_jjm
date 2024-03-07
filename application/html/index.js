@@ -46,8 +46,8 @@ function get_image_map(){
     // });
 
     img.onload = function() {
-        // var imageWidth = img.width;
-        // var imageHeight = img.height;
+        var imageWidth = 500;
+        var imageHeight = 500;
 
 
         var map = L.map('wp2', {
