@@ -83,7 +83,7 @@ function get_image_map(){
 
     var map = L.map('wp2', {
         zoomControl: false,
-        minZoom: 1,
+        minZoom: 4,
         maxZoom: 8,
         zoom: 4,
         bound: [[500,-500], [-500,500]],
