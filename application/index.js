@@ -154,39 +154,39 @@ app.get('/verify', async (req, res) => {
     }
 });
 
-app.get('/login', async (req,res,next) => {
-    let username = req.query.username;
-    let password = req.query.password;
-    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-    let user = null;
-    try {
-        user = await User.findOne({$and: [{ username }, { password }]});
-        if (user == null){
-            console.log("Invalid Credentials\n")
-            return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
-        } 
+// app.get('/login', async (req,res,next) => {
+//     let username = req.query.username;
+//     let password = req.query.password;
+//     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+//     let user = null;
+//     try {
+//         user = await User.findOne({$and: [{ username }, { password }]});
+//         if (user == null){
+//             console.log("Invalid Credentials\n")
+//             return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
+//         } 
             
-        let verified = user.get("verify");
-        if (!verified) {
-            console.log("User not verified\n");
-            return res.status(400).send({status: "ERROR", message: "User not verified"});
-        }
+//         let verified = user.get("verify");
+//         if (!verified) {
+//             console.log("User not verified\n");
+//             return res.status(400).send({status: "ERROR", message: "User not verified"});
+//         }
             
-        req.session.username = username;
-        if (!req.session.login) {
-            console.log("New login\n");
-            req.session.login = true;
-        } else {
-            console.log("already logged in\n");
-        }
+//         req.session.username = username;
+//         if (!req.session.login) {
+//             console.log("New login\n");
+//             req.session.login = true;
+//         } else {
+//             console.log("already logged in\n");
+//         }
 
-        res.status(200).send({status: 'OK', message: "Logged in"})
+//         res.status(200).send({status: 'OK', message: "Logged in"})
 
-    } catch (err) { 
-        console.log(err);
-        return res.status(500).send({status: "ERROR", message: "Server Error"})
-    }
-})
+//     } catch (err) { 
+//         console.log(err);
+//         return res.status(500).send({status: "ERROR", message: "Server Error"})
+//     }
+// })
 
 app.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
@@ -225,12 +225,12 @@ app.post('/login', async (req, res, next) => {
 
 app.use('/', (req, res, next) => {
     if (req.method == "GET" && req.session.login) {
-
         console.log("Serving HTML");
         // res.json({
         //     status: "OK",
         //     html: "<div><h1>Hello, World!</h1></div>"
         // })
+        res.status(200)
         next();
     } else res.send({status: "ERROR", message: "Not Logged in"});
 })
