@@ -25,10 +25,13 @@
             <label for="bw-option">Black and White</label><br>
         </div>
         <br/>
-        <div id="wp2"></div>
+        <div id="wp2">
+            <canvas id="multi-image"></canvas>
+        </div>
 
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
+
 let image_map = null
 var LAYER = 1;
 var V = 1;
@@ -118,7 +121,7 @@ function get_image_map(){
     // var latLng = bounds.getCenter();
     // console.log(latLng.toString())
 
-        var map = L.map('wp2', {
+        var map = L.map('multi-image', {
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
