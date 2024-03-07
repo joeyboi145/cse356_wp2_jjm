@@ -238,10 +238,10 @@ app.get('/', (req, res, next) => {
     console.log(req.session)
     // if (req.session.login) {
         console.log("Serving HTML");
-        res.json({
-            status: "OK",
-            html: 'html/index.html'
-        })
+        // res.json({
+        //     status: "OK",
+        //     html: 'html/index.html'
+        // })
 
         fs.readFile("html", 'utf8', (err, htmlContent) => {
             if (err) {
