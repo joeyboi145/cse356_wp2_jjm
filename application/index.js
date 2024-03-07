@@ -235,7 +235,7 @@ app.post('/login', async (req, res, next) => {
 app.get('/', (req, res, next) => {
     console.log("line 236")
     console.log(req.session)
-    // if (req.method == "GET" && req.session.login) {
+    if (req.session.login) {
         console.log("Serving HTML");
         // res.json({
         //     status: "OK",
@@ -244,7 +244,7 @@ app.get('/', (req, res, next) => {
         //res.status(200).send({status: 'OK'})
         res.setHeader("content-type", "application/json")
         express.static(__dirname + "/html")(req, res, next);
-    // } else res.send({status: "ERROR", message: "Not Logged in"});
+    } else res.send({status: "ERROR", message: "Not Logged in"});
 })
 
 //app.use('/', express.static( __dirname + "/html"))
