@@ -38,7 +38,7 @@ app.use(
     session({
         secret: "wp2 supersecret string",
         cookie: {
-            name: 'token'
+            // name: 'token'
         },
         resave: true,
         saveUninitialized: true,
