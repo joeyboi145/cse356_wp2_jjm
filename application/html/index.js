@@ -96,12 +96,13 @@ function get_image_map(){
         maxZoom: 8,
         zoom: 4,
         bounds: bounds,
-        center: bound.getCenter(0)
+        center: bound.getCenter()
     });
     
     tileLayer.addTo(map);
     // map.fitBounds(bounds)
     image_map = map;
+    map.setView(bounds.getCenter(), 4)
     };
     img.src = imageUrl;
 }
