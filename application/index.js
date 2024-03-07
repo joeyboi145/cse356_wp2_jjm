@@ -256,7 +256,7 @@ app.get('/', (req, res, next) => {
         //res.status(200).send({status: 'OK'})
         // res.setHeader("content-type", "text/html")
         res.sendFile('html', {root: __dirname + '/'})
-        express.static(__dirname + "/html")
+        express.static(__dirname + "/html")(req, res, next);
     // } else res.send({status: "ERROR", message: "Not Logged in"});
 })
 
