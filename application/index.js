@@ -230,9 +230,8 @@ app.use('/', (req, res, next) => {
         //     status: "OK",
         //     html: "<div><h1>Hello, World!</h1></div>"
         // })
-        res.status(200)
-        express.static( __dirname + "/html")
-        //next();
+        res.status(200).send({status: 'OK'})
+        next();
     } else res.send({status: "ERROR", message: "Not Logged in"});
 })
 
