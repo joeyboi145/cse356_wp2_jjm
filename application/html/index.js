@@ -59,7 +59,7 @@ function get_image_map(){
             // crs: L.CRS.Simple
         });
 
-        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{x}/{y}.jpg?style=${STYLE}`, {
+        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
             maxZoom: 8,
         }).addTo(map);
 
