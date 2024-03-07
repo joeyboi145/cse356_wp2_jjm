@@ -248,7 +248,6 @@ app.post('/login', async (req, res, next) => {
 
 app.get('/', (req, res, next) => {
     console.log(req.session)
-    if (req.session.login) {
         console.log("Serving HTML");
         // res.json({
         //     status: "OK",
@@ -268,7 +267,6 @@ app.get('/', (req, res, next) => {
         // res.setHeader("content-type", "text/html")
         //res.sendFile('html', {root: __dirname + '/'})
         express.static(__dirname + "/html")(req, res, next);
-    } else next();
 })
 
 app.use(function (req, res, next) {
