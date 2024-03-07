@@ -62,10 +62,10 @@ function get_image_map(){
         var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
             minZoom: 1,
             maxZoom: 8,
-            bounds:[
-                new L.LatLng(15.292019,145.834236),
-                new L.LatLng(15.097866,145.676994)
-            ]
+            // bounds:[
+            //     new L.LatLng(0,100.834236),
+            //     new L.LatLng(15.097866,145.676994)
+            // ]
         }).addTo(map);
 
         // var southWest = map.unproject([0, imageHeight], map.getMaxZoom() - 1);
