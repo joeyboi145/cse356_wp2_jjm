@@ -58,20 +58,20 @@ function get_image_map(){
             maxZoom: 8,
             center: [imageWidth / 2, imageHeight / 2],
             zoom: 1,
-            maxBounds: [
-                [0, 0],
-                [imageWidth, imageHeight]
-              ]
+            // maxBounds: [
+            //     [0, 0],
+            //     [imageWidth, imageHeight]
+            //   ]
             // crs: L.CRS.Simple
         });
 
         var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
             minZoom: 1,
             maxZoom: 8,
-            bounds: [
-                [0, 0],
-                [imageWidth, imageHeight]
-              ]
+            // bounds: [
+            //     [0, 0],
+            //     [imageWidth, imageHeight]
+            //   ]
             // bounds:[
             //     new L.LatLng(0,100.834236),
             //     new L.LatLng(15.097866,145.676994)
