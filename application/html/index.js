@@ -40,10 +40,8 @@ radios.forEach(function(radio) {
 });
 
 function get_image_map(){
-  console.log("rended");
+    console.log("rended");
     var img = new Image();
-    // img.style.width = 500 + 'px'
-    // img.style.height = 500 + 'px'
 
 
     img.onload = function() {
@@ -56,33 +54,33 @@ function get_image_map(){
         // console.log(map.zoom);
         // map.setView([imageHeight / 2, imageWidth / 2]);
 
-      //   var tileLayer = L.tileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
-      //     noWrap: true
-      // }).addTo(map);
+        //   var tileLayer = L.tileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
+        //     noWrap: true
+        // }).addTo(map);
 
-      var CustomTileLayer = L.TileLayer.extend({
-        getTileUrl: function(coords) {
-            // Clamp x, y, and z values to the range of 1 to 10
-            var x = coords.x;
-            var y = coords.y;
-            var z = coords.z;
-            console.log(z, y, x);
+        var CustomTileLayer = L.TileLayer.extend({
+            getTileUrl: function(coords) {
+                // Clamp x, y, and z values to the range of 1 to 10
+                var x = coords.x;
+                var y = coords.y;
+                var z = coords.z;
+                console.log(z, y, x);
 
-            return `http://${domain}/tiles/l${z}/${y+1}/${x+1}.jpg?style=${STYLE}`;
-        }
-    });
+                return `http://${domain}/tiles/l${z}/${y+1}/${x+1}.jpg?style=${STYLE}`;
+            }
+        });
 
 
-    var corner1 = L.latLng(40.712, -74.227)
-    corner2 = L.latLng(40.774, -74.125),
-    bounds = L.latLngBounds(corner1, corner2);
+        var corner1 = L.latLng(40.712, -74.227)
+        corner2 = L.latLng(40.774, -74.125),
+        bounds = L.latLngBounds(corner1, corner2);
 
-    var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
-        noWrap: true,
-        minZoom: 1,
-        maxZoom: 8,
-        bound: [[500,-500], [-500,500]],
-    })
+        var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
+            noWrap: true,
+            minZoom: 1,
+            maxZoom: 8,
+            bound: [[500,-500], [-500,500]],
+        })
 
     // var bounds = tileLayer.getBounds();
     // console.log(bounds.toString())
@@ -90,20 +88,38 @@ function get_image_map(){
     // console.log(latLng.toString())
 
 
-    var map = L.map('wp2', {
-        zoomControl: false,
-        minZoom: 4,
-        maxZoom: 8,
-        zoom: 4,
-        bounds: bounds,
-        center: bound.getCenter()
-    });
-    
-    tileLayer.addTo(map);
-    console.log("hi")
-    image_map = map;
-    console.log("TO STRING: " + bounds.getCenter().toString())
-    map.setView(bounds.getCenter(), 4)
+        var map = L.map('wp2', {
+            zoomControl: false,
+            minZoom: 4,
+            maxZoom: 8,
+            zoom: 4,
+        });
+
+        // Define a function to handle click events on the map
+        function onMapClick(e) {
+            alert("You clicked the map at " + e.latlng);
+        }
+
+        // Add a click event listener to the map, which calls the onMapClick function
+        map.on('click', onMapClick);
+
+        var corner1 = L.latLng(40.712, -74.227)
+        corner2 = L.latLng(40.774, -74.125),
+        bounds = L.latLngBounds(corner1, corner2);
+        
+        // Calculate the center of the image bounds
+        var center = bounds.getCenter();
+
+        // Set the center of the map to the center of the image bounds
+        map.setView(center, 4);
+
+        // Fit the map bounds to the image bounds
+        map.fitBounds(bounds);
+
+        tileLayer.addTo(map);
+        image_map = map;
+        console.log("hi")
+        console.log("TO STRING: " + bounds.getCenter().toString())
     };
     img.src = imageUrl;
 }
