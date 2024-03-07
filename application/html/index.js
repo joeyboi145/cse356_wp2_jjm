@@ -52,10 +52,10 @@ function get_image_map(){
 
         var map = L.map('wp2', {
             zoomControl: false,
-            minZoom: 1,
+            minZoom: 2,
             maxZoom: 8,
             center: [imageHeight / 2, imageWidth / 2],
-            zoom: 1,
+            zoom: 2,
             // crs: L.CRS.Simple
         });
 
