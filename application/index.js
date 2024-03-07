@@ -31,7 +31,7 @@ var store = new MongoDBStore({
 });
 
 const app = express();
-app.use(express.json());
+app.use(express.urlencoded());
 
 
 app.use(
