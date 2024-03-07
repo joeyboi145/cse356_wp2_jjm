@@ -76,6 +76,7 @@ function get_image_map(){
         noWrap: true,
         minZoom: 1,
         maxZoom: 8,
+        bound: [[500,-500], [-500,500]],
     })
 
     // var bounds = tileLayer.getBounds();
@@ -88,7 +89,6 @@ function get_image_map(){
         minZoom: 4,
         maxZoom: 8,
         zoom: 4,
-        bound: [[500,-500], [-500,500]],
         center: [10000, 10000]
     });
     
