@@ -243,7 +243,7 @@ app.get('/', (req, res, next) => {
         //     html: 'html/index.html'
         // })
 
-        fs.readFile("html", 'utf8', (err, htmlContent) => {
+        fs.readFile("html/index.html", 'utf8', (err, htmlContent) => {
             if (err) {
                 console.error('Error reading HTML file:', err);
                 return res.status(500).json({ error: 'Internal Server Error' });
