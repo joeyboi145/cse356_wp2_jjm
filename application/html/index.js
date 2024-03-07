@@ -87,7 +87,7 @@ function get_image_map(){
         maxZoom: 8,
         zoom: 4,
         bound: [[500,-500], [-500,500]],
-        center: [1000, 1000]
+        center: [10000, 10000]
     });
     
     tileLayer.addTo(map);
