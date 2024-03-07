@@ -10,13 +10,13 @@
 // }
 
 const express = require('express');
-const session = require("express-session");
+const cookieSession = require('cookie-session')
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
 const fs = require('fs');
-var MongoDBStore = require('connect-mongodb-session')(session);
+// var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
 const port = 80;
@@ -25,26 +25,31 @@ mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-var store = new MongoDBStore({
-    uri: 'mongodb://127.0.0.1:27017/wp2',
-    collection: 'mySessions'
-});
+// var store = new MongoDBStore({
+//     uri: 'mongodb://127.0.0.1:27017/wp2',
+//     collection: 'mySessions'
+// });
 
 const app = express();
 app.use(express.json());
 
+app.use(cookieSession({
+    name: 'token',
+    keys: ['key1', 'key2']
+  }))
 
-app.use(
-    session({
-        secret: "wp2 supersecret string",
-        cookie: {
-            name: 'token'
-        },
-        resave: true,
-        saveUninitialized: true,
-        store: store
-    })
-)
+
+// app.use(
+//     session({
+//         secret: "wp2 supersecret string",
+//         cookie: {
+//             name: 'token'
+//         },
+//         resave: true,
+//         saveUninitialized: true,
+//         store: store
+//     })
+// )
 
 const User = require('./models/users');
 
@@ -190,7 +195,7 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
-        req.session.save()
+        //req.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
