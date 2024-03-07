@@ -155,48 +155,48 @@ app.get('/verify', async (req, res) => {
 });
 
 
-app.use('/login', async (req, res, next) => {
-    if ('POST' == req.method) {
-        const { username, password } = req.body;
-        console.log(`\'/login\' POST request `);
-        console.log(`{ ${username}, ${password} }`);
-        res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-        let user = null;
-        try {
-            user = await User.findOne({$and: [{ username }, { password }]});
-            if (user == null){
-                console.log("Invalid Credentials\n")
-                return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
-            } 
+app.post('/login', async (req, res, next) => {
+    const { username, password } = req.body;
+    console.log(`\'/login\' POST request `);
+    console.log(`{ ${username}, ${password} }`);
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+    let user = null;
+    try {
+        user = await User.findOne({$and: [{ username }, { password }]});
+        if (user == null){
+            console.log("Invalid Credentials\n")
+            return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
+        } 
             
-            let verified = user.get("verify");
-            if (!verified) {
-                console.log("User not verified\n");
-                return res.status(400).send({status: "ERROR", message: "User not verified"});
-            }
-            
-            req.session.username = username;
-            if (!req.session.login) {
-                console.log("New login\n");
-                req.session.login = true;
-            } else {
-                console.log("already logged in\n");
-            }
-
-            // Go to next middleware, which servers html files
-            req.method = 'GET'
-            next()
-
-        } catch (err) { 
-            console.log(err);
-            return res.status(500).send({status: "ERROR", message: "Server Error"})
+        let verified = user.get("verify");
+        if (!verified) {
+            console.log("User not verified\n");
+            return res.status(400).send({status: "ERROR", message: "User not verified"});
         }
-    } else if (req.session.login) next()
-    else res.sendStatus(404);
+            
+        req.session.username = username;
+        if (!req.session.login) {
+            console.log("New login\n");
+            req.session.login = true;
+        } else {
+            console.log("already logged in\n");
+        }
+
+        res.status(200).send({status: 'OK', message: "Logged in"})
+
+    } catch (err) { 
+        console.log(err);
+        return res.status(500).send({status: "ERROR", message: "Server Error"})
+    }
 });
 
+app.use('/', (req, res, next) => {
+    if (req.method = "GET" && req.session.login) {
+        next();
+    } else req.send({status: "ERROR", message: "Not Logged in"});
+})
 
-app.use('/login', express.static( __dirname + "/html"))
+app.use('/', express.static( __dirname + "/html"))
 
 
 app.post('/logout', async (req,res) => {
