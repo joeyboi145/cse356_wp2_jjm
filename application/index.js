@@ -30,7 +30,7 @@ app.use(
     session({
         secret: "wp2 supersecret string",
         cookie: {},
-        resave: false,
+        resave: true,
         saveUninitialized: true,
     })
 )
