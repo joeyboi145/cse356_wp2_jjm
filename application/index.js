@@ -232,7 +232,7 @@ app.post('/login', async (req, res, next) => {
         }
         // console.log("line 217")
         // console.log(req.session)
-        req.session.save()
+        //req.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
         //res.redirect('/')
 
