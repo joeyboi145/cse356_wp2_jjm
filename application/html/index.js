@@ -78,10 +78,10 @@ function get_image_map(){
             // ]
         }).addTo(map);
 
-        // var southWest = map.unproject([0, imageHeight], map.getMaxZoom() - 1);
-        // var northEast = map.unproject([imageWidth, 0], map.getMaxZoom() - 1);
-        // var bounds = new L.LatLngBounds(southWest, northEast);
-        // map.fitBounds(bounds);
+        var southWest = map.unproject([0, imageHeight], map.getMaxZoom() - 1);
+        var northEast = map.unproject([imageWidth, 0], map.getMaxZoom() - 1);
+        var bounds = new L.LatLngBounds(southWest, northEast);
+        map.fitBounds(bounds);
         image_map = map;
     };
     img.src = imageUrl;
