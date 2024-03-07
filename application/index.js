@@ -244,18 +244,19 @@ app.get('/', (req, res, next) => {
         //     html: 'html/index.html'
         // })
 
-        fs.readFile("html/index.html", 'utf8', (err, htmlContent) => {
-            if (err) {
-                console.error('Error reading HTML file:', err);
-                return res.status(500).json({ error: 'Internal Server Error' });
-            }
+        // fs.readFile("html/index.html", 'utf8', (err, htmlContent) => {
+        //     if (err) {
+        //         console.error('Error reading HTML file:', err);
+        //         return res.status(500).json({ error: 'Internal Server Error' });
+        //     }
     
-            res.json({ status: "OK", html: htmlContent });
-            // res.status(200).send()
-        });
+        //     res.json({ status: "OK", html: htmlContent });
+        //     // res.status(200).send()
+        // });
         //res.status(200).send({status: 'OK'})
         // res.setHeader("content-type", "text/html")
-        // express.static(__dirname + "/html")(req, res, next);
+        res.sendFile('html', {root: __dirname + '/'})
+        //express.static(__dirname + "/html")(req, res, next);
     // } else res.send({status: "ERROR", message: "Not Logged in"});
 })
 
