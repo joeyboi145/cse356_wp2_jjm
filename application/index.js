@@ -36,11 +36,11 @@ app.set('trust proxy', 1)
 
 app.use(express.json());
 
-app.use(cookieSession({
-    name: 'token',
-    keys: ['key1', 'key2'],
-    maxAge: 24 * 60 * 60 * 1000
-  }))
+// app.use(cookieSession({
+//     name: 'token',
+//     keys: ['key1', 'key2'],
+//     maxAge: 24 * 60 * 60 * 1000
+//   }))
 
 
 app.use(
@@ -298,7 +298,6 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     res.setHeader('content-type', 'image/jpeg');
 
     try {
-        if (req.session.login) res.cookie('token', req.cookie)
         
         if (style == 'bw'){
             const image = await jimp.read(filepath)
