@@ -10,13 +10,13 @@
 // }
 
 const express = require('express');
-const session = require('express-session')
+const cookieSession = require('cookie-session')
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
 const fs = require('fs');
-var MongoDBStore = require('connect-mongodb-session')(session);
+// var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
 const port = 80;
@@ -25,33 +25,35 @@ mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-var store = new MongoDBStore({
-    uri: 'mongodb://127.0.0.1:27017/wp2',
-    collection: 'mySessions'
-});
+// var store = new MongoDBStore({
+//     uri: 'mongodb://127.0.0.1:27017/wp2',
+//     collection: 'mySessions'
+// });
 
 const app = express();
 
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 
 app.use(express.json());
 
-// app.use(cookieSession({
-//     name: 'token',
-//     keys: ['key1', 'key2'],
-//     maxAge: 24 * 60 * 60 * 1000
-//   }))
+app.use(cookieSession({
+    name: 'token',
+    keys: ['key1', 'key2'],
+    maxAge: 24 * 60 * 60 * 1000
+  }))
 
 
-app.use(
-    session({
-        secret: "wp2 supersecret string",
-        cookie: {},
-        resave: true,
-        saveUninitialized: true,
-        store: store
-    })
-)
+// app.use(
+//     session({
+//         secret: "wp2 supersecret string",
+//         cookie: {
+//             name: 'token'
+//         },
+//         resave: true,
+//         saveUninitialized: true,
+//         store: store
+//     })
+// )
 
 const User = require('./models/users');
 
@@ -199,7 +201,7 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
-        //req.session.save()
+        req.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -235,8 +237,7 @@ app.post('/login', async (req, res, next) => {
             console.log("already logged in\n");
         }
         // console.log("line 217")
-        // console.log(req.session)
-        //req.session.save()
+        req.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
         //res.redirect('/')
 
@@ -249,7 +250,8 @@ app.post('/login', async (req, res, next) => {
 app.get('/', (req, res, next) => {
     console.log(req.session)
     if (req.session.login) {
-        console.log(req.session)
+        req.session.save()
+        console.log(req.cookie)
         console.log("Serving HTML");
         // res.json({
         //     status: "OK",
@@ -298,6 +300,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     res.setHeader('content-type', 'image/jpeg');
 
     try {
+        if (req.session.login) res.cookie('token', req.cookie)
         
         if (style == 'bw'){
             const image = await jimp.read(filepath)
