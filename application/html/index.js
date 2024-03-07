@@ -58,7 +58,7 @@ function get_image_map(){
             minZoom: 1,
             maxZoom: 8,
             // center: [imageHeight / 2, imageWidth / 2],
-            zoom: 1,
+            zoom: 4,
         });
 
         console.log(map.zoom);
