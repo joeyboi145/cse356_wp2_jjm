@@ -31,11 +31,15 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // });
 
 const app = express();
+
+app.set('trust proxy', 1)
+
 app.use(express.json());
 
 app.use(cookieSession({
     name: 'token',
-    keys: ['key1', 'key2']
+    keys: ['key1', 'key2'],
+    maxAge: 24 * 60 * 60 * 1000
   }))
 
 
@@ -267,7 +271,10 @@ app.get('/', (req, res, next) => {
     } else next();
 })
 
-//app.use('/', express.static( __dirname + "/html"))
+app.use(function (req, res, next) {
+    req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
+    next()
+});
 
 
 app.post('/logout', async (req,res) => {
