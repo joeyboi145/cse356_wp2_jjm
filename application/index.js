@@ -15,6 +15,7 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
+const fs = require('fs');
 var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
@@ -235,16 +236,26 @@ app.post('/login', async (req, res, next) => {
 app.get('/', (req, res, next) => {
     console.log("line 236")
     console.log(req.session)
-    if (req.session.login) {
+    // if (req.session.login) {
         console.log("Serving HTML");
-        // res.json({
-        //     status: "OK",
-        //     html: "<div><h1>Hello, World!</h1></div>"
-        // })
+        res.json({
+            status: "OK",
+            html: 'html/index.html'
+        })
+
+        fs.readFile("html", 'utf8', (err, htmlContent) => {
+            if (err) {
+                console.error('Error reading HTML file:', err);
+                return res.status(500).json({ error: 'Internal Server Error' });
+            }
+    
+            res.json({ status: "OK", html: htmlContent });
+            res.status(200).send()
+        });
         //res.status(200).send({status: 'OK'})
         // res.setHeader("content-type", "text/html")
         express.static(__dirname + "/html")(req, res, next);
-    } else res.send({status: "ERROR", message: "Not Logged in"});
+    // } else res.send({status: "ERROR", message: "Not Logged in"});
 })
 
 //app.use('/', express.static( __dirname + "/html"))
