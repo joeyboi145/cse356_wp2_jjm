@@ -15,7 +15,6 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
-var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
