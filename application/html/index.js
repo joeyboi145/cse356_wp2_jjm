@@ -102,6 +102,7 @@ function get_image_map(){
     tileLayer.addTo(map);
     // map.fitBounds(bounds)
     image_map = map;
+    console.log("TO STRING: " + bounds.getCenter().toString())
     map.setView(bounds.getCenter(), 4)
     };
     img.src = imageUrl;
