@@ -250,7 +250,7 @@ app.get('/', (req, res, next) => {
             }
     
             res.json({ status: "OK", html: htmlContent });
-            res.status(200).send()
+            // res.status(200).send()
         });
         //res.status(200).send({status: 'OK'})
         // res.setHeader("content-type", "text/html")
