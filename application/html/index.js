@@ -49,9 +49,6 @@ function get_image_map(){
         var imageWidth = img.width;
         var imageHeight = img.height;
 
-        const picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{x}/{y}.jpg?style=${STYLE}`, {
-            maxZoom: 19,
-        });
 
         var map = L.map('wp2', {
             zoomControl: false,
@@ -62,11 +59,15 @@ function get_image_map(){
             // crs: L.CRS.Simple
         });
 
+        var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{x}/{y}.jpg?style=${STYLE}`, {
+            maxZoom: 8,
+        }).addTo(map);
 
         var southWest = map.unproject([0, imageHeight], map.getMaxZoom() - 1);
         var northEast = map.unproject([imageWidth, 0], map.getMaxZoom() - 1);
         var bounds = new L.LatLngBounds(southWest, northEast);
 
+        map.add
         L.control.layers(picture_layer).addTo(map);
         // imageLayer = L.imageOverlay(imageUrl, bounds).addTo(map);
         map.fitBounds(bounds);
