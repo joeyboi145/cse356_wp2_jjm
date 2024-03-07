@@ -218,15 +218,15 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     res.setHeader('content-type', 'image/jpeg');
 
     try {
-        if (style == 'color'){
-            res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
-            console.log(`Sent in color: ${filepath}\n`);
-        } else {
+        if (style == 'bw'){
             const image = await jimp.read(filepath)
             const grey_image = image.grayscale();
             const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
             res.status(200).send(Buffer.from(buffer, 'binary'))
             console.log(`Sent in black and white: ${filepath}\n`);
+        } else {
+            res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
+            console.log(`Sent in color: ${filepath}\n`);
         }
     } catch (err) {
         console.log(err);

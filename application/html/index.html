@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-
 <html>
     <head>
-        <title>WP2</title>
+        <title>Leaflet Image Viewer</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <style>
+            #wp2 {
+                border: 2px solid #000;
+                height: 80vh;
+                background-color: transparent;
+            }
+        </style>
     </head>
-
-
-
     <body>
-        <div id="wp2">
-            <input id="color" type="radio" value="color">
-            <label for="color">Color</label><br>
-            <input id="bw" type="radio" value="bw">
-            <label for="bw">Black and White</label><br>
-
-            <div id="display_image" onmouseup="handleDragOnClick" 
-                onmousedown="handleDragOffClick" alt="image here">
-                <!-- <img id='display' src ='index.jpg' 
-                onmouseup="handleDragOnClick" 
-                onmousedown="handleDragOffClick" 
-                onmousemove="handleDragMovement"> -->
-                <!-- onscroll="" -->
-            </div>
+        
+        <div id="radios" style="height: 10vh;">
+            <input type="radio" id="color" name="option" value="color">
+            <label for="color-option">Color</label><br>
+        
+            <input type="radio" id="bw" name="option" value="bw">
+            <label for="bw-option">Black and White</label><br>
         </div>
+        <br/>
+        <div id="wp2" style="height: 80vh;"></div>
+
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script src="src/index.js"></script> <!-- Your custom JS script -->
     </body>
-    <script src="index.js"></script>
 </html>
