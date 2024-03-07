@@ -46,8 +46,8 @@ function get_image_map(){
     // });
 
     img.onload = function() {
-        var imageWidth = 500;
-        var imageHeight = 500;
+        var imageWidth = img.width;
+        var imageHeight = img.height;
 
 
         var map = L.map('wp2', {
@@ -56,6 +56,10 @@ function get_image_map(){
             maxZoom: 8,
             center: [imageHeight / 2, imageWidth / 2],
             zoom: 1,
+            maxBounds: [
+                [0, 0],
+                [imageHeight, imageWidth]
+              ]
             // crs: L.CRS.Simple
         });
 
