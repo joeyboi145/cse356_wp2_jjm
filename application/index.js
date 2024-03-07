@@ -225,8 +225,12 @@ app.post('/login', async (req, res, next) => {
 
 app.use('/', (req, res, next) => {
     if (req.method == "GET" && req.session.login) {
+
         console.log("Serving HTML");
-        next();
+        res.json({
+            html: "<div><h1>Hello, World!</h1></div>"
+        })
+        //next();
     } else res.send({status: "ERROR", message: "Not Logged in"});
 })
 
