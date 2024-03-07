@@ -60,6 +60,7 @@ function get_image_map(){
         });
 
         var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
+            minZoom: 1,
             maxZoom: 8,
         }).addTo(map);
 
