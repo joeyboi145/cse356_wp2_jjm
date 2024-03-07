@@ -62,12 +62,13 @@ function get_image_map(){
             //     [0, 0],
             //     [imageWidth, imageHeight]
             //   ]
-            // crs: L.CRS.Simple
+            crs: L.CRS.Simple
         });
 
         var picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
             minZoom: 1,
             maxZoom: 8,
+            noWrap: true
             // bounds: [
             //     [0, 0],
             //     [imageWidth, imageHeight]
