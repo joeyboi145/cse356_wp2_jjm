@@ -147,7 +147,7 @@ function get_image_map(){
         //map.fitBounds(bounds);
 
         tileLayer.addTo(map);
-        map.invalidateSize()
+        L.map('map').invalidateSize()
         image_map = map;
         console.log("hi")
         console.log("TO STRING: " + bounds.getCenter().toString())
