@@ -40,7 +40,7 @@ app.use(cookieSession({
     name: 'token',
     keys: ['key1', 'key2'],
     maxAge: 24 * 60 * 60 * 1000,
-    httpOnly: true 
+    httpOnly: true,
     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu'
   }))
 
