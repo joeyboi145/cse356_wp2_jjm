@@ -46,16 +46,16 @@ function get_image_map(){
     // });
 
     img.onload = function() {
-        var imageWidth = img.width;
-        var imageHeight = img.height;
+        // var imageWidth = img.width;
+        // var imageHeight = img.height;
 
 
         var map = L.map('wp2', {
             zoomControl: false,
-            minZoom: 2,
+            minZoom: 1,
             maxZoom: 8,
             center: [imageHeight / 2, imageWidth / 2],
-            zoom: 2,
+            zoom: 1,
             // crs: L.CRS.Simple
         });
 
