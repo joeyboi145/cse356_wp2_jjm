@@ -274,10 +274,10 @@ app.get('/', (req, res, next) => {
     } else next();
 })
 
-app.use(function (req, res, next) {
-    req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
-    next()
-});
+// app.use(function (req, res, next) {
+//     req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
+//     next()
+// });
 
 
 app.post('/logout', async (req,res) => {
