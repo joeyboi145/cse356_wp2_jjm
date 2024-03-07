@@ -56,11 +56,11 @@ function get_image_map(){
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
-            center: [0, 0],
+            center: [imageWidth / 2, imageHeight / 2],
             zoom: 1,
             maxBounds: [
                 [0, 0],
-                [500, 800]
+                [imageWidth, imageHeight]
               ]
             // crs: L.CRS.Simple
         });
@@ -70,7 +70,7 @@ function get_image_map(){
             maxZoom: 8,
             bounds: [
                 [0, 0],
-                [500, 300]
+                [imageWidth, imageHeight]
               ]
             // bounds:[
             //     new L.LatLng(0,100.834236),
