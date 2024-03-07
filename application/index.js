@@ -199,8 +199,8 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
-        console.log(req.cookie)
         res.cookie('token', req.cookie)
+        console.log(req.cookie)
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -237,8 +237,8 @@ app.post('/login', async (req, res, next) => {
         }
         // console.log("line 217")
         // console.log(req.session)
-        console.log(req.cookie)
         res.cookie('token', req.cookie)
+        console.log(req.cookie)
         res.status(200).send({status: 'OK', message: "Logged in"})
         //res.redirect('/')
 
