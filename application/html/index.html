@@ -25,7 +25,7 @@
             <label for="bw-option">Black and White</label><br>
         </div>
         <br/>
-        <div id="wp2"></div>
+        <canvas id="wp2"></canvas>
 
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script>
@@ -118,19 +118,16 @@ function get_image_map(){
     // var latLng = bounds.getCenter();
     // console.log(latLng.toString())
 
-    var corner1 = L.latLng(90, -180.227)
-        corner2 = L.latLng(-60, 70),
-        bounds = L.latLngBounds(corner1, corner2);
+    var corner1 = L.latLng(90, -180)
+    var corner2 = L.latLng(-90, 180)
+    var bounds = L.latLngBounds(corner1, corner2);
 
         var map = L.map('wp2', {
             zoomControl: false,
             minZoom: 1,
             maxZoom: 8,
             zoom: 1,
-            bounds: [
-                [90, -180.227], 
-                [-60, 70]
-            ]
+            bounds: bounds
         });
 
         // Define a function to handle click events on the map
