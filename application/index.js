@@ -226,7 +226,7 @@ app.post('/login', async (req, res, next) => {
         console.log("line 217")
         console.log(req.session)
         res.status(200).send({status: 'OK', message: "Logged in"})
-        res.redirect('/')
+        //res.redirect('/')
 
     } catch (err) { 
         console.log(err);
@@ -234,7 +234,7 @@ app.post('/login', async (req, res, next) => {
     }
 });
 
-app.get('/', (req, res, next) => {
+app.post('/', (req, res, next) => {
     console.log("line 236")
     console.log(req.session)
     // if (req.session.login) {
