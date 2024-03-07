@@ -10,13 +10,13 @@
 // }
 
 const express = require('express');
-const cookieSession = require('cookie-session')
+const session = require('express-session')
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
 const fs = require('fs');
-// var MongoDBStore = require('connect-mongodb-session')(session);
+var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
 const port = 80;
@@ -25,10 +25,10 @@ mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// var store = new MongoDBStore({
-//     uri: 'mongodb://127.0.0.1:27017/wp2',
-//     collection: 'mySessions'
-// });
+var store = new MongoDBStore({
+    uri: 'mongodb://127.0.0.1:27017/wp2',
+    collection: 'mySessions'
+});
 
 const app = express();
 
@@ -43,17 +43,15 @@ app.use(cookieSession({
   }))
 
 
-// app.use(
-//     session({
-//         secret: "wp2 supersecret string",
-//         cookie: {
-//             name: 'token'
-//         },
-//         resave: true,
-//         saveUninitialized: true,
-//         store: store
-//     })
-// )
+app.use(
+    session({
+        secret: "wp2 supersecret string",
+        cookie: {},
+        resave: true,
+        saveUninitialized: true,
+        store: store
+    })
+)
 
 const User = require('./models/users');
 
@@ -201,6 +199,7 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
+        res.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -237,6 +236,7 @@ app.post('/login', async (req, res, next) => {
         }
         // console.log("line 217")
         // console.log(req.session)
+        res.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
         //res.redirect('/')
 
