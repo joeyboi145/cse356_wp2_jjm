@@ -195,9 +195,6 @@ app.use('/login', async (req, res, next) => {
     else res.sendStatus(404);
 });
 
-var options = {
-    
-}
 
 app.use('/login', express.static( __dirname + "/html"))
 

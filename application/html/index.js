@@ -1,3 +1,4 @@
+let image_map = null
 var LAYER = 1;
 var V = 1;
 var H = 2;
@@ -48,6 +49,7 @@ function get_image_map(){
             zoom: 1,
             crs: L.CRS.Simple
         });
+        image_map = map;
 
         var southWest = map.unproject([0, imageHeight], map.getMaxZoom() - 1);
         var northEast = map.unproject([imageWidth, 0], map.getMaxZoom() - 1);
