@@ -89,12 +89,12 @@ app.post('/adduser', async (req, res) => {
         user = await User.findOne({ email });
         if (user != null){
             console.log("Duplicate email\n")
-            return res.status(400).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
+            return res.status(200).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
         }
         user = await User.findOne({ username })
         if (user != null){
             console.log("Duplicate username\n");
-            return res.status(400).send({status: "ERROR", message: "Duplicate username. Username must be unique."});
+            return res.status(200).send({status: "ERROR", message: "Duplicate username. Username must be unique."});
         }
 
         let verify_key = parseInt(Math.random() * (999999 - 100000) + 100000);
@@ -112,7 +112,7 @@ app.post('/adduser', async (req, res) => {
             console.log("Verification Email sent!\n")
             return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
         } else {
-            return res.status(400).send({ status: 'ERROR', message: "Email not successfully sent" });
+            return res.status(200).send({ status: 'ERROR', message: "Email not successfully sent" });
         }
     } catch (err) { 
         console.log(err);
