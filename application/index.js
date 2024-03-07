@@ -237,6 +237,7 @@ app.post('/login', async (req, res, next) => {
         } else {
             console.log("already logged in\n");
         }
+        console.log(req.session)
         // console.log("line 217")
         res.status(200).send({status: 'OK', message: "Logged in"})
         //res.redirect('/')
@@ -299,7 +300,9 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     res.setHeader('content-type', 'image/jpeg');
 
     try {
+        console.log(req.session)
         if (req.session.login) res.cookie('token', req.cookie)
+        
         
         if (style == 'bw'){
             const image = await jimp.read(filepath)
