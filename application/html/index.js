@@ -40,26 +40,37 @@ radios.forEach(function(radio) {
 
 function get_image_map(){
     var img = new Image();
+
+    // const picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{x}/{y}.jpg?style=${STYLE}`, {
+    //     maxZoom: 19,
+    // });
+
     img.onload = function() {
         var imageWidth = img.width;
         var imageHeight = img.height;
 
+        const picture_layer = L.tileLayer(`http://209.151.148.61/tiles/l{z}/{x}/{y}.jpg?style=${STYLE}`, {
+            maxZoom: 19,
+        });
+
         var map = L.map('wp2', {
             zoomControl: false,
             minZoom: 1,
-            maxZoom: 4,
+            maxZoom: 8,
             center: [imageHeight / 2, imageWidth / 2],
             zoom: 1,
-            crs: L.CRS.Simple
+            // crs: L.CRS.Simple
         });
-        image_map = map;
+
 
         var southWest = map.unproject([0, imageHeight], map.getMaxZoom() - 1);
         var northEast = map.unproject([imageWidth, 0], map.getMaxZoom() - 1);
         var bounds = new L.LatLngBounds(southWest, northEast);
 
-        imageLayer = L.imageOverlay(imageUrl, bounds).addTo(map);
+        L.control.layers(picture_layer).addTo(map);
+        // imageLayer = L.imageOverlay(imageUrl, bounds).addTo(map);
         map.fitBounds(bounds);
+        image_map = map;
     };
     img.src = imageUrl;
 }
