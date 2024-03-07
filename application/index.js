@@ -191,7 +191,7 @@ app.post('/login', async (req, res, next) => {
 });
 
 app.use('/', (req, res, next) => {
-    if (req.method = "GET" && req.session.login) {
+    if (req.method == "GET" && req.session.login) {
         next();
     } else res.send({status: "ERROR", message: "Not Logged in"});
 })
