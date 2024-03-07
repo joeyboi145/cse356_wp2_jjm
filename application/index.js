@@ -39,7 +39,9 @@ app.use(express.json());
 app.use(cookieSession({
     name: 'token',
     keys: ['key1', 'key2'],
-    maxAge: 24 * 60 * 60 * 1000
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true 
+    domain: 'jrgroup.cse356.compas.cs.stonybrook.edu'
   }))
 
 
@@ -249,7 +251,6 @@ app.get('/', (req, res, next) => {
     console.log(req.session)
     // if (req.session.login) {
         req.session.served = true
-        console.log(req.cookie)
         console.log("Serving HTML");
         // res.json({
         //     status: "OK",
