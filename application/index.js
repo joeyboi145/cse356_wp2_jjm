@@ -251,14 +251,17 @@ app.post('/login', async (req, res, next) => {
 
 app.get('/', (req, res, next) => {
     console.log(`\'/login\' POST request `);
-    console.log(req.session + '\n')
+    console.log(req.session)
     if (req.session.login) {
         console.log("Session Present\n");
         req.session.login = true;
 
         console.log("Serving HTML");
         express.static(__dirname + "/html")(req, res, next);
-    } else next();
+    } else {
+        console.log('No Session Present\n')
+        next();
+    }
 })
 
 
