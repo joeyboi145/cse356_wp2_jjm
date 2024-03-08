@@ -304,7 +304,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
         if (req.session.login) {
             console.log("Session Present");
             req.session.login = true;
-        }
+        } else if (LOGOUT) return res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} )
         
         if (style == 'bw'){
             const image = await jimp.read(filepath)
