@@ -241,6 +241,7 @@ app.post('/login', async (req, res, next) => {
         if (!req.session.login) {
             console.log("New login");
             req.session.login = true;
+            res.set('Set-Cookie', 'token:true')
         } else {
             req.session.login = true;
             console.log("already logged in");
@@ -250,7 +251,6 @@ app.post('/login', async (req, res, next) => {
         console.log(cookie)
         console.log(req.session)
         console.log()
-
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
