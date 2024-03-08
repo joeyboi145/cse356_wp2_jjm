@@ -41,6 +41,7 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
     domain: '209.151.148.61',
+    secure: true,
     sameSite: 'None'  // Set to 'None' for cross-origin requests
 }));
 
