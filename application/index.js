@@ -260,7 +260,8 @@ app.get('/', (req, res, next) => {
         console.log('No Session Present\n')
         express.static(__dirname + "/html")(req, res, next);
     } else {
-        res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} ); 
+        console.log("Logged Out, can't server HTML\n");
+        return res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} ); 
     }
 
     // if (req.session.login) {
@@ -306,7 +307,10 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
             req.session.login = true;
         } 
         
-        if (LOGOUT) return res.status(400).send({status: "ERROR", message: "Logged out"});
+        if (LOGOUT) {
+            console.log("Logged Out, can't server pictures\n");
+            return res.status(400).send({status: "ERROR", message: "Logged out"});
+        }
         
         if (style == 'bw'){
             const image = await jimp.read(filepath)
