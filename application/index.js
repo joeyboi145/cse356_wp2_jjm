@@ -196,15 +196,15 @@ app.get('/login', async (req,res,next) => {
             return res.status(400).send({status: "ERROR", message: "User not verified"});
         }
             
-        res.session.username = username;
-        if (!res.session.login) {
+        req.session.username = username;
+        if (!req.session.login) {
             console.log("New login\n");
-            res.session.login = true;
-            res.cookie.set("token")
+            req.session.login = true;
+            req.cookie.set("token")
         } else {
             console.log("already logged in\n");
         }
-        res.status(200).send({status: 'OK', message: "Logged in"})
+        req.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
         console.log(err);
