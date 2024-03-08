@@ -34,7 +34,6 @@ const app = express();
 // app.set('trust proxy', 1)
 
 app.use(express.json());
-
 app.use(cookieSession({
     name: 'token',
     keys: ['key1', 'key2'],
@@ -251,7 +250,8 @@ app.post('/login', async (req, res, next) => {
 });
 
 app.get('/', (req, res, next) => {
-    console.log(req.session)
+    console.log(`\'/login\' POST request `);
+    console.log(req.session + '\n')
     if (req.session.login) {
         console.log("Session Present\n");
         req.session.login = true;
