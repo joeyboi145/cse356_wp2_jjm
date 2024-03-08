@@ -305,14 +305,15 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
     try {
         console.log(req.session)
-        if (req.session.login) res.cookie('token', req.cookie)
-        
+        if (req.session.login) {
+            console.log("Session Present\n");
+            req.session.login = true;
+        }
         
         if (style == 'bw'){
             const image = await jimp.read(filepath)
             const grey_image = image.grayscale();
             const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
-            console.log(buffer.length)
             res.status(200).send(Buffer.from(buffer, 'binary'))
             console.log(`Sent in black and white: ${filepath}\n`);
         } else {
