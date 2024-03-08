@@ -68,15 +68,17 @@
             radio.addEventListener('change', onRadioChange);
         });
 
-        const viewer = OpenSeadragon({
-            id: "openseadragon-container",
-            prefixUrl:     "/openseadragon/images/",
-            // navigatorSizeRatio: 0.25,
-            tileSources:   {
-                maxLevel: 8,
-                minLevel: 1,
-                getTileUrl: function( level, x, y ){
-                    return `http://jrgroup.cse356.compas.cs.stonybrook.edu/tiles/l$`+ (level) + "/" + y + "/" + x + `.jpg?style=${STYLE}`;
+        var viewer = OpenSeadragon({
+            id: "openseadragon-viewer",
+            prefixUrl: `http://${domain}`, // optional path to OpenSeadragon images
+            tileSources: {
+                width: 256, // Width of each tile
+                height: 256, // Height of each tile
+                tileSize: 256, // Size of each tile
+                tileOverlap: 0, // Overlap between tiles
+                maxLevel: 8, // Maximum level
+                getTileUrl: function(level, x, y) {
+                    return `/tiles/l${level}/${y}/${x}.jpg?style${STYLE}`; // Construct URL for each tile
                 }
             }
         });
