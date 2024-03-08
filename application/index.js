@@ -204,7 +204,7 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
-        req.status(200).send({status: 'OK', message: "Logged in"})
+        res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
         console.log(err);
