@@ -259,6 +259,8 @@ app.get('/', (req, res, next) => {
     if (!LOGOUT)  {
         console.log('No Session Present\n')
         express.static(__dirname + "/html")(req, res, next);
+    } else {
+        res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} ); 
     }
 
     // if (req.session.login) {
