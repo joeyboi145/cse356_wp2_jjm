@@ -93,8 +93,22 @@ async function send_verification_email(email, verification_key){
     });
 }
 
-app.post('/adduser', async (req, res) => {
-    const { username, password, email } = req.body;
+app.use('/adduser', async (req, res) => {
+    let username = null;
+    let password = null;
+    let email = null;
+
+    if (req.method == 'GET') {
+        username = req.query.username;
+        password = req.query.password;
+        email = req.query.email;
+    } else if (req.method == 'POST'){
+        console.log(req.body)
+        username = req.body.username;
+        password = req.body.password;
+        email = req.body.email;
+    }
+
     console.log(`\'/adduser\' POST request `);
     console.log(`{ ${username}, ${password}, ${email}}`)
     res.setHeader('content-type', 'application/json');
@@ -104,12 +118,12 @@ app.post('/adduser', async (req, res) => {
     try {
         user = await User.findOne({ email });
         if (user != null){
-            console.log("Duplicate email\n")
+            console.log("ERROR: Duplicate email\n")
             return res.status(200).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
         }
         user = await User.findOne({ username })
         if (user != null){
-            console.log("Duplicate username\n");
+            console.log("ERROR: Duplicate username\n");
             return res.status(200).send({status: "ERROR", message: "Duplicate username. Username must be unique."});
         }
 
@@ -128,6 +142,7 @@ app.post('/adduser', async (req, res) => {
             console.log("Verification Email sent!\n")
             return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
         } else {
+            console.log("ERROR: Verification Email not sent!\n")
             return res.status(200).send({ status: 'ERROR', message: "Email not successfully sent" });
         }
     } catch (err) { 
@@ -150,19 +165,19 @@ app.get('/verify', async (req, res) => {
             let verified = user.get("verify");
             let verify_key = user.get("verify_key");
             if (verified){
-                console.log("Already Verified\n");
-                return res.status(400).send({status: "ERROR", message: "User already verified"})
+                console.log("ERROR: Already Verified\n");
+                return res.status(200).send({status: "ERROR", message: "User already verified"})
             } else if (verify_key != key) {
-                console.log("Incorrect Key\n")
-                return res.status(400).send({status: "ERROR", message: "Incorrect verification key"})
+                console.log("ERROR: Incorrect Key\n")
+                return res.status(200).send({status: "ERROR", message: "Incorrect verification key"})
             } else {
                 await User.updateOne({ email } , { verify: true });
                 console.log("USER VERFIED!\n");
                 return res.status(200).send({status: "OK", message: "Verified"});
             }
         } else {
-            console.log("User not found\n");
-            return res.status(400).send({status: "ERROR", message: "User not found"})
+            console.log("ERROR: User not found\n");
+            return res.status(200).send({status: "ERROR", message: "User not found"})
         }
     } catch (err) { 
         console.log(err); 
@@ -190,28 +205,24 @@ app.use('/login', async (req,res,next) => {
     try {
         user = await User.findOne({$and: [{ username }, { password }]});
         if (user == null){
-            console.log("Invalid Credentials\n")
+            console.log("ERROR: Invalid Credentials\n")
             return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
         } 
             
         let verified = user.get("verify");
         if (!verified) {
-            console.log("User not verified\n");
+            console.log("ERROR: User not verified\n");
             return res.status(400).send({status: "ERROR", message: "User not verified"});
         }
         
-        console.log(user)
         req.session.username = username;
-        if (!req.session.login) {
-            console.log("New login");
-            req.session.login = true;
-        } else {
-            req.session.login = true;
-            console.log("already logged in");
+        if (!req.session.login) console.log("New login!\n");
+        else {
+            console.log("Already logged in!\n");
             //req.session.save()    // FOR: mongodb stored sessions
         }
-        console.log(req.session)
-        console.log()
+        req.session.login = true;
+        console.log(req.session.toString() + '\n')
 
         // When sessions don't work, use a server variable to log server access
         LOGIN = true
@@ -223,60 +234,17 @@ app.use('/login', async (req,res,next) => {
     }
 });
 
-// app.post('/login', async (req, res) => {
-//     const { username, password } = req.body;
-//     console.log(`\'/login\' POST request `);
-//     console.log(`{ ${username}, ${password} }`);
-//     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-//     let user = null;
-//     try {
-//         user = await User.findOne({$and: [{ username }, { password }]});
-//         if (user == null){
-//             console.log("Invalid Credentials\n")
-//             return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
-//         } 
-            
-//         let verified = user.get("verify");
-//         if (!verified) {
-//             console.log("User not verified\n");
-//             return res.status(400).send({status: "ERROR", message: "User not verified"});
-//         }
-            
-//         req.session.username = username;
-//         if (!req.session.login) {
-//             console.log("New login");
-//             req.session.login = true;
-//         } else {
-//             req.session.login = true;
-//             console.log("already logged in");
-//         }
-//         console.log(req.session)
-//         console.log()
-
-//         LOGOUT = false
-//         res.status(200).send({status: 'OK', message: "Logged in"})
-
-//     } catch (err) { 
-//         console.log(err);
-//         return res.status(500).send({status: "ERROR", message: "Server Error"})
-//     }
-// });
-
 app.get('/', (req, res, next) => {
     console.log(`\'/\' GET request `);
     console.log(req.session)
 
     if (req.session.login || LOGIN) {
-        console.log("Session Present\n");
         req.session.login = true;
-
         console.log("Serving HTML\n");
         express.static(__dirname + "/html")(req, res, next);
     } else if (!LOGIN){
-        console.log('No Session Present')
         console.log("Logged Out, can't server HTML\n");
         res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} ); 
-
     }
 })
 
@@ -304,12 +272,8 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
 
     try {
         console.log(req.session)
-        if (req.session.login) {
-            console.log("Session Present");
-            req.session.login = true;
-        } 
-        
-        if (!LOGIN) {
+        if (req.session.login || LOGIN) req.session.login = true;
+        else if (!LOGIN) {
             console.log("Logged Out, can't server pictures\n");
             res.setHeader('content-type', 'application/json');
             return res.status(400).send({status: "ERROR", message: "Logged out"});
@@ -328,7 +292,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
     } catch (err) {
         console.log(err);
         res.setHeader('content-type', 'application/json');
-        res.status(500).send({status: "ERROR", message: "Server Error"});
+        return res.status(500).send({status: "ERROR", message: "Server Error"});
     }
 });
 
