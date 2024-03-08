@@ -11,7 +11,6 @@
 
 const express = require('express');
 const cookieSession = require('cookie-session');
-const cookieParser = require("cookie-parser");
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -275,7 +274,7 @@ app.use('/logout', async (req,res) => {
         req.session = null
         res.status(200).send({status: "OK", message: "Successfully Logged Out"});
     } else {
-        res.status(400).send({status: "ERROR", message: 'Log out failed. Not previously logged in'});
+        res.status(400).send({status: "OK", message: 'Log out failed. Not previously logged in'});
     }
 });
 
