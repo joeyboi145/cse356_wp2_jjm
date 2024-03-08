@@ -18,7 +18,7 @@ const jimp = require('jimp');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';  //userArgs[0]
 const port = 80;
-let LOGIN = false;
+let LOGIN = true;
 
 mongoose.connect(mongoDB);
 const db = mongoose.connection;
