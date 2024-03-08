@@ -54,7 +54,7 @@
                 console.log("color");
                 STYLE = 'color'
             }
-                imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
+                // imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
                 // image_map.off();
                 // image_map.remove();
                 // get_image_map();
@@ -75,7 +75,7 @@
                 maxLevel: 8,
                 minLevel: 1,
                 getTileUrl: function( level, x, y ){
-                    return `http://${domain}/tiles/l$`+ (level) + "/" + y + "/" + x + `.jpg?style=${STYLE}`;
+                    return `http://jrgroup.cse356.compas.cs.stonybrook.edu/tiles/l$`+ (level) + "/" + y + "/" + x + `.jpg?style=${STYLE}`;
                 }
             }
         });
