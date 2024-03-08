@@ -66,7 +66,7 @@ async function send_verification_email(email, verification_key){
     // ...
     //
     return new Promise((resolve, reject) => {
-        let transporter =  nodemailer.createTransport(smtpTransport({
+        let transporter =  nodemailer.createTransport({
             service: 'postfix',
             host: 'cse356.compas.cs.stonybrook.edu',
             port: 25,
@@ -74,7 +74,7 @@ async function send_verification_email(email, verification_key){
             tls:{
                 rejectUnauthorized: false
             }
-        }));
+        });
 
         let email_urlencoded = encodeURIComponent(email)
         let link = `http://${serverIP}/verify?email=${email_urlencoded}&key=${verification_key}`
