@@ -250,32 +250,32 @@ app.post('/login', async (req, res, next) => {
     }
 });
 
-app.get('/', (req, res, next) => {
+// app.get('/', (req, res, next) => {
 
-    console.log(req.session)
-    // if (req.session.login) {
-        // req.session.served = true
-        console.log("Serving HTML");
-        // res.json({
-        //     status: "OK",
-        //     html: 'html/index.html'
-        // })
+//     console.log(req.session)
+//     // if (req.session.login) {
+//         // req.session.served = true
+//         console.log("Serving HTML");
+//         // res.json({
+//         //     status: "OK",
+//         //     html: 'html/index.html'
+//         // })
 
-        // fs.readFile("html/index.html", 'utf8', (err, htmlContent) => {
-        //     if (err) {
-        //         console.error('Error reading HTML file:', err);
-        //         return res.status(500).json({ error: 'Internal Server Error' });
-        //     }
+//         // fs.readFile("html/index.html", 'utf8', (err, htmlContent) => {
+//         //     if (err) {
+//         //         console.error('Error reading HTML file:', err);
+//         //         return res.status(500).json({ error: 'Internal Server Error' });
+//         //     }
     
-        //     res.json({ status: "OK", html: htmlContent });
-        //     // res.status(200).send()
-        // });
-        //res.status(200).send({status: 'OK'})
-        // res.setHeader("content-type", "text/html")
-        //res.sendFile('html', {root: __dirname + '/'})
-        express.static(__dirname + "/html")(req, res, next);
-    // } else next();
-})
+//         //     res.json({ status: "OK", html: htmlContent });
+//         //     // res.status(200).send()
+//         // });
+//         //res.status(200).send({status: 'OK'})
+//         // res.setHeader("content-type", "text/html")
+//         //res.sendFile('html', {root: __dirname + '/'})
+//         express.static(__dirname + "/html")(req, res, next);
+//     // } else next();
+// })
 
 // app.use(function (req, res, next) {
 //     req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
