@@ -9,11 +9,11 @@ All users are stored in a local MongoDB database called **wp2** in a collection 
 The following endpoints have been implemented:
 - POST /addusers
 - GET /verify
-- POST /login
-- POST /logout
+- USE /login
+- USE /logout
 - GET /tiles/l$LAYER/$V/$H.jpg
 
-**I haven't added html content to /login yet**
+
 
 
 

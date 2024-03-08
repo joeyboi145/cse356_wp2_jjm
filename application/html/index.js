@@ -1,128 +1,56 @@
+// INSERTED inside of index.html
+
 var STYLE = "color";
 var domain = "jrgroup.cse356.compas.cs.stonybrook.edu"
-var imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
 var radioOption = "color";
 
-//console.log(window.location.href);
-
 function onRadioChange(event) {
-  var selectedValue = event.target.value;
+    var selectedValue = event.target.value;
 
-  if(selectedValue === 'bw' && STYLE != 'bw') {
-    console.log("gray");
-    STYLE = 'bw'
-  } else if (selectedValue === 'color' && STYLE != 'color') {
-    console.log("color");
-    STYLE = 'color'
-  }
-    imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
-    // image_map.off();
-    // image_map.remove();
-    // get_image_map();
+    if (selectedValue === 'bw' && STYLE != 'bw') {
+        console.log("gray");
+        STYLE = 'bw'
+    } else if (selectedValue === 'color' && STYLE != 'color') {
+        console.log("color");
+        STYLE = 'color'
+    }
 }
 
 var radios = document.getElementById('radios').querySelectorAll('input[type="radio"][name="option"]');
-radios.forEach(function(radio) {
-    if(radio.id == radioOption){
-      radio.checked = true;
+radios.forEach(function (radio) {
+    if (radio.id == radioOption) {
+        radio.checked = true;
     }
     radio.addEventListener('change', onRadioChange);
 });
 
-const viewer = OpenSeadragon({
+var viewer = OpenSeadragon({
     id: "openseadragon-container",
-    navigatorSizeRatio: 0.25,
-    tileSources:   {
-        maxLevel: 8,
-        minLevel: 1,
-        getTileUrl: function( level, x, y ){
-            return `http://${domain}/tiles/l$`+ (level) + "/" + y + "/" + x + `.jpg?style=${STYLE}`;
+    prefixUrl: `http://${domain}`, // optional path to OpenSeadragon images
+    tileSources: {
+        height: 512 * 512,
+        width: 512 * 512,
+        tileSize: 512, // Size of each tile
+        tileOverlap: 0, // Overlap between tiles
+        maxLevel: 7, // Maximum level
+        getTileUrl: function (level, x, y) {
+            return `/tiles/l${level + 1}/${y + 1}/${x + 1}.jpg?style=${STYLE}`; // Construct URL for each tile
         }
     }
 });
 
-// function get_image_map(){
-//     console.log("rended");
-//     var img = new Image();
+viewer.addHandler("tile-loaded", function (event) {
+    var tile = event.tiledImage;
+    var tileUrl = tile.source;
 
-
-//     img.onload = function() {
-//         console.log(img.width)
-//         console.log(img.height)
-//         var imageWidth = img.width;
-//         var imageHeight = img.height;
-
-
-//         // console.log(map.zoom);
-//         // map.setView([imageHeight / 2, imageWidth / 2]);
-
-//         //   var tileLayer = L.tileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
-//         //     noWrap: true
-//         // }).addTo(map);
-
-//         var CustomTileLayer = L.TileLayer.extend({
-//             getTileUrl: function(coords) {
-//                 // Clamp x, y, and z values to the range of 1 to 10
-//                 var x = coords.x;
-//                 var y = coords.y;
-//                 var z = coords.z;
-//                 console.log(z, y, x);
-
-//                 return `http://${domain}/tiles/l${z}/${y+1}/${x+1}.jpg?style=${STYLE}`;
-//             }
-//         });
-
-
-//         var corner1 = L.latLng(40.712, -74.227)
-//         corner2 = L.latLng(40.774, -74.125),
-//         bounds = L.latLngBounds(corner1, corner2);
-
-//         var tileLayer = new CustomTileLayer(`http://${domain}/tiles/l{z}/{y}/{x}.jpg?style=${STYLE}`, {
-//             noWrap: true,
-//             minZoom: 1,
-//             maxZoom: 8,
-//             bound: [[500,-500], [-500,500]],
-//         })
-
-//     // var bounds = tileLayer.getBounds();
-//     // console.log(bounds.toString())
-//     // var latLng = bounds.getCenter();
-//     // console.log(latLng.toString())
-
-
-//         var map = L.map('wp2', {
-//             zoomControl: false,
-//             minZoom: 4,
-//             maxZoom: 8,
-//             zoom: 4,
-//         });
-
-//         // Define a function to handle click events on the map
-//         function onMapClick(e) {
-//             alert("You clicked the map at " + e.latlng);
-//         }
-
-//         // Add a click event listener to the map, which calls the onMapClick function
-//         map.on('click', onMapClick);
-
-//         var corner1 = L.latLng(40.712, -74.227)
-//         corner2 = L.latLng(40.774, -74.125),
-//         bounds = L.latLngBounds(corner1, corner2);
-        
-//         // Calculate the center of the image bounds
-//         var center = bounds.getCenter();
-
-//         // Set the center of the map to the center of the image bounds
-//         map.setView(center, 4);
-
-//         // Fit the map bounds to the image bounds
-//         map.fitBounds(bounds);
-
-//         tileLayer.addTo(map);
-//         image_map = map;
-//         console.log("hi")
-//         console.log("TO STRING: " + bounds.getCenter().toString())
-//     };
-//     img.src = imageUrl;
-// }
-// document.addEventListener('DOMContentLoaded', get_image_map);
+    // Check if the tile URL or response status matches the condition
+    if (event.request.statusText === "400") {
+        // Stop loading further tiles
+        viewer.clearOverlays(); // Optional: Clear overlays if any
+        viewer.navigator.clearOverlays(); // Optional: Clear navigator overlays if any
+        viewer.setMouseNavEnabled(false); // Disable mouse navigation
+        viewer.setKeyboardNavEnabled(false); // Disable keyboard navigation
+        // Optionally, display a message to the user or perform other actions
+        console.log("Tile loading stopped due to HTTP status: 400");
+    }
+});

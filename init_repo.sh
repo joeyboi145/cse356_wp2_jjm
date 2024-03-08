@@ -8,8 +8,12 @@
 # 2. Install node.js dependences
 #   - express
 #   - mongoose
+#   - connect-mongodb-session
 #   - nodemailer
 #   - nodemailer-smtp-transport
+#   - JIMP
+#   - cookie-session
+#
 # 3. Install mongoDB
 # 4. Install & configure Postfix
 # 5. Install Docker
