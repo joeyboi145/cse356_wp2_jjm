@@ -199,7 +199,8 @@ app.use('/login', async (req,res,next) => {
             console.log("User not verified\n");
             return res.status(400).send({status: "ERROR", message: "User not verified"});
         }
-            
+        
+        console.log(user)
         req.session.username = username;
         if (!req.session.login) {
             console.log("New login");
