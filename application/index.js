@@ -264,8 +264,8 @@ app.get('/', (req, res, next) => {
         express.static(__dirname + "/html")(req, res, next);
     } else {
         console.log('No Session Present\n')
-        //express.static(__dirname + "/html")(req, res, next);
-        next();
+        express.static(__dirname + "/html")(req, res, next);
+        // next();
     }
 })
 
