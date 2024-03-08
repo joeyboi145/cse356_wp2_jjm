@@ -205,6 +205,7 @@ app.get('/login', async (req,res,next) => {
         console.log(req.session)
         console.log()
 
+        req.session.save()
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
