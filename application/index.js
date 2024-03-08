@@ -56,7 +56,6 @@ app.use(cookieSession({
 // )
 
 const User = require('./models/users');
-const { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = require('react/cjs/react.development');
 
 async function send_verification_email(email, verification_key){
     // In /etc/postfix/main.cf:
