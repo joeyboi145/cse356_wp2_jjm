@@ -174,17 +174,48 @@ app.get('/verify', async (req, res) => {
     }
 });
 
-app.use('/login', async (req,res,next) => {
-    let username = null
-    let password = null
-    if (req.method = 'POST'){
-        username = req.query.username;
-        password = req.query.password;
-    } else if  (req.method = 'GET') {
-        ({ username, password } = req.body)
-    }
-    
+app.get('/login', async (req,res,next) => {
+    let username = req.query.username;
+    let password = req.query.password;
     console.log(`\'/login\' GET request `);
+    console.log(`{ ${username}, ${password} }`);
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+    let user = null;
+    try {
+        user = await User.findOne({$and: [{ username }, { password }]});
+        if (user == null){
+            console.log("Invalid Credentials\n")
+            return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
+        } 
+            
+        let verified = user.get("verify");
+        if (!verified) {
+            console.log("User not verified\n");
+            return res.status(400).send({status: "ERROR", message: "User not verified"});
+        }
+            
+        req.session.username = username;
+        if (!req.session.login) {
+            console.log("New login");
+            req.session.login = true;
+        } else {
+            req.session.login = true;
+            console.log("already logged in");
+        }
+        console.log(req.session)
+        console.log()
+
+        res.status(200).send({status: 'OK', message: "Logged in"})
+
+    } catch (err) { 
+        console.log(err);
+        return res.status(500).send({status: "ERROR", message: "Server Error"})
+    }
+})
+
+app.post('/login', async (req,res,next) => {
+    const { username, password } = req.body 
+    console.log(`\'/login\' POST request `);
     console.log(`{ ${username}, ${password} }`);
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     let user = null;
