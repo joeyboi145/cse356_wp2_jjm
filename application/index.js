@@ -181,8 +181,7 @@ app.use('/login', async (req,res,next) => {
         username = req.query.username;
         password = req.query.password;
     } else if  (req.method = 'GET') {
-        username = req.body.username;
-        password = req.body.password;
+        ({ username, password } = req.body)
     }
     
     console.log(`\'/login\' GET request `);
