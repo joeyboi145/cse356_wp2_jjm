@@ -233,13 +233,14 @@ app.post('/login', async (req, res, next) => {
             
         req.session.username = username;
         if (!req.session.login) {
-            console.log("New login\n");
+            console.log("New login");
             req.session.login = true;
         } else {
             req.session.login = true;
-            console.log("already logged in\n");
+            console.log("already logged in");
         }
         console.log(req.session)
+        console.log()
 
         res.status(200).send({status: 'OK', message: "Logged in"})
 
@@ -260,7 +261,7 @@ app.get('/', (req, res, next) => {
         express.static(__dirname + "/html")(req, res, next);
     } else {
         console.log('No Session Present\n')
-        next();
+        express.static(__dirname + "/html")(req, res, next);
     }
 })
 
