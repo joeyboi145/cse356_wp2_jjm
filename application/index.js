@@ -215,9 +215,9 @@ app.use('/login', async (req,res,next) => {
         }
         
         req.session.username = username;
-        if (!req.session.login) console.log("New login!\n");
+        if (!req.session.login) console.log("New login!");
         else {
-            console.log("Already logged in!\n");
+            console.log("Already logged in!");
             //req.session.save()    // FOR: mongodb stored sessions
         }
         req.session.login = true;
@@ -289,7 +289,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
             console.log(`Sending in color: ${filepath}\n`);
         }
     } catch (err) {
-        console.log(err, '\n')
+        console.log(err, '\n\n')
         res.setHeader('content-type', 'application/json');
         return res.status(500).send({status: "ERROR", message: "Server Error"});
     }
