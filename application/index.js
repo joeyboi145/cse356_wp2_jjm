@@ -236,10 +236,10 @@ app.post('/login', async (req, res, next) => {
             console.log("New login\n");
             req.session.login = true;
         } else {
-            console.log(req.session)
             req.session.login = true;
             console.log("already logged in\n");
         }
+        console.log(req.session)
 
         res.status(200).send({status: 'OK', message: "Logged in"})
 
