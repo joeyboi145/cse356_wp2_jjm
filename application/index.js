@@ -40,7 +40,7 @@ app.use(cookieSession({
     keys: ['key1', 'key2'],
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
-    domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
+    domain: '209.151.148.61',
     sameSite: 'None'  // Set to 'None' for cross-origin requests
 }));
 
