@@ -10,7 +10,8 @@
 // }
 
 const express = require('express');
-const cookieSession = require('cookie-session')
+const cookieSession = require('cookie-session');
+const cookieParser = require("cookie-parser");
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -41,6 +42,7 @@ app.use(cookieSession({
     httpOnly: true,
     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
 }));
+app.use(cookieParser());
 
 
 // app.use(
@@ -202,6 +204,9 @@ app.get('/login', async (req,res,next) => {
             req.session.login = true;
             console.log("already logged in");
         }
+        cookie = req.cookies
+        console.log('Cookies:')
+        console.log(cookie)
         console.log(req.session)
         console.log()
 
@@ -240,6 +245,9 @@ app.post('/login', async (req, res, next) => {
             req.session.login = true;
             console.log("already logged in");
         }
+        cookie = req.cookies
+        console.log('Cookies:')
+        console.log(cookie)
         console.log(req.session)
         console.log()
 
