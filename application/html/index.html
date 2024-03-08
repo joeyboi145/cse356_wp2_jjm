@@ -78,18 +78,18 @@
             }
         });
 
-        viewer.addHandler("tile-loaded", function (event) {
-            // Check if the tile URL or response status matches the condition
-            if (event.request.statusText === "400") {
-                // Stop loading further tiles
-                viewer.clearOverlays(); // Optional: Clear overlays if any
-                viewer.navigator.clearOverlays(); // Optional: Clear navigator overlays if any
-                // viewer.setMouseNavEnabled(false); // Disable mouse navigation
-                // viewer.setKeyboardNavEnabled(false); // Disable keyboard navigation
-                // Optionally, display a message to the user or perform other actions
-                console.log("Tile loading stopped due to HTTP status: 400");
-            }
-        });
+        // viewer.addHandler("tile-loaded", function (event) {
+        //     // Check if the tile URL or response status matches the condition
+        //     if (event.request.statusText === "400") {
+        //         // Stop loading further tiles
+        //         viewer.clearOverlays(); // Optional: Clear overlays if any
+        //         viewer.navigator.clearOverlays(); // Optional: Clear navigator overlays if any
+        //         // viewer.setMouseNavEnabled(false); // Disable mouse navigation
+        //         // viewer.setKeyboardNavEnabled(false); // Disable keyboard navigation
+        //         // Optionally, display a message to the user or perform other actions
+        //         console.log("Tile loading stopped due to HTTP status: 400");
+        //     }
+        // });
 
     </script>
 
