@@ -18,7 +18,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
 // var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
-const serverIP = 'jrgroup.cse356.compas.cs.stonybrook.edu';
+const serverIP = '209.151.148.61';
 const port = 80;
 
 mongoose.connect(mongoDB);
@@ -42,7 +42,6 @@ app.use(cookieSession({
     httpOnly: true,
     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
 }));
-app.use(cookieParser());
 
 
 // app.use(
