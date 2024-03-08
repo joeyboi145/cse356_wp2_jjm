@@ -200,12 +200,12 @@ app.get('/login', async (req,res,next) => {
         if (!req.session.login) {
             console.log("New login\n");
             req.session.login = true;
-            // req.cookie.set("token")
         } else {
+            console.log(req.session)
             req.session.login = true;
             console.log("already logged in\n");
         }
-        //res.cookie('token', username)
+
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
