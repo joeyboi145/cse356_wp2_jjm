@@ -72,9 +72,9 @@
             id: "openseadragon-container",
             prefixUrl: `http://${domain}`, // optional path to OpenSeadragon images
             tileSources: {
-                height: 1024*256,
-                width:  1024*256,
-                tileSize: 256, // Size of each tile
+                height: 1024*1024,
+                width:  1024*1024,
+                tileSize: 1025, // Size of each tile
                 tileOverlap: 0, // Overlap between tiles
                 maxLevel:7, // Maximum level
                 getTileUrl: function(level, x, y) {
