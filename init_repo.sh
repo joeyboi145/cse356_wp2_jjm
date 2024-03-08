@@ -27,6 +27,7 @@ sudo apt install -y npm
 
 
 # Install node.js dependences
+cd application
 npm install express
 npm install express-sessions
 npm install mongoose
@@ -34,6 +35,7 @@ npm install nodemailer
 npm install nodemailer-smtp-transport
 npm install jimp
 npm install connect-mongodb-session
+cd ..
 
 # Install mongoDB
 echo Install MongoDB
