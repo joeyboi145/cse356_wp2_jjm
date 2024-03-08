@@ -72,13 +72,13 @@
             id: "openseadragon-container",
             prefixUrl: `http://${domain}`, // optional path to OpenSeadragon images
             tileSources: {
-                width: 256, // Width of each tile
-                height: 256, // Height of each tile
+                height: 1024*256,
+                width:  1024*256,
                 tileSize: 256, // Size of each tile
                 tileOverlap: 0, // Overlap between tiles
                 maxLevel: 8, // Maximum level
                 getTileUrl: function(level, x, y) {
-                    return `/tiles/l${level - 7 }/${y+1}/${x+1}.jpg?style${STYLE}`; // Construct URL for each tile
+                    return `/tiles/l${level - 7 }/${y+1}/${x+1}.jpg?style=${STYLE}`; // Construct URL for each tile
                 }
             }
         });
