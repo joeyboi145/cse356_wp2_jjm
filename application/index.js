@@ -19,6 +19,7 @@ const jimp = require('jimp');
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const serverIP = '209.151.148.61';
 const port = 80;
+let LOGOUT = false;
 
 mongoose.connect(mongoDB);
 const db = mongoose.connection;
@@ -254,17 +255,23 @@ app.post('/login', async (req, res, next) => {
 app.get('/', (req, res, next) => {
     console.log(`\'/\' GET request `);
     console.log(req.session)
-    if (req.session.login) {
-        console.log("Session Present\n");
-        req.session.login = true;
 
-        console.log("Serving HTML");
-        express.static(__dirname + "/html")(req, res, next);
-    } else {
+    if (!LOGOUT)  {
         console.log('No Session Present\n')
         express.static(__dirname + "/html")(req, res, next);
-        // next();
     }
+
+    // if (req.session.login) {
+    //     console.log("Session Present\n");
+    //     req.session.login = true;
+
+    //     console.log("Serving HTML");
+    //     express.static(__dirname + "/html")(req, res, next);
+    // } else {
+    //     console.log('No Session Present\n')
+    //     express.static(__dirname + "/html")(req, res, next);
+    //     // next();
+    // }
 })
 
 app.use('/logout', async (req,res) => {
@@ -276,6 +283,8 @@ app.use('/logout', async (req,res) => {
     } else {
         res.status(400).send({status: "OK", message: 'Log out failed. Not previously logged in'});
     }
+    LOGOUT = true;
+    
 });
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
