@@ -13,13 +13,12 @@ const express = require('express');
 const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
 // var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
-const serverIP = '209.151.148.61';
+const serverIP = '209.151.148.61';  //userArgs[0]
 const port = 80;
-let LOGOUT = true;
+let LOGIN = false;
 
 mongoose.connect(mongoDB);
 const db = mongoose.connection;
@@ -31,9 +30,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // });
 
 const app = express();
-
-// app.set('trust proxy', 1)
-
 app.use(express.json());
 app.use(cookieSession({
     name: 'token',
@@ -42,7 +38,6 @@ app.use(cookieSession({
     httpOnly: true,
     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
 }));
-
 
 // app.use(
 //     session({
@@ -175,9 +170,19 @@ app.get('/verify', async (req, res) => {
     }
 });
 
-app.get('/login', async (req,res,next) => {
-    let username = req.query.username;
-    let password = req.query.password;
+app.use('/login', async (req,res,next) => { 
+    let username = null;
+    let password = null;
+
+    if (req.method == 'GET') {
+        username = req.query.username;
+        password = req.query.password;
+    } else if (req.method == 'POST'){
+        console.log(req.body)
+        username = req.body.username;
+        password = req.body.password;
+    }
+
     console.log(`\'/login\' GET request `);
     console.log(`{ ${username}, ${password} }`);
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
@@ -202,11 +207,13 @@ app.get('/login', async (req,res,next) => {
         } else {
             req.session.login = true;
             console.log("already logged in");
+            //req.session.save()    // FOR: mongodb stored sessions
         }
         console.log(req.session)
         console.log()
 
-        LOGOUT = false
+        // When sessions don't work, use a server variable to log server access
+        LOGIN = true
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -215,68 +222,61 @@ app.get('/login', async (req,res,next) => {
     }
 });
 
-app.post('/login', async (req, res, next) => {
-    const { username, password } = req.body;
-    console.log(`\'/login\' POST request `);
-    console.log(`{ ${username}, ${password} }`);
-    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-    let user = null;
-    try {
-        user = await User.findOne({$and: [{ username }, { password }]});
-        if (user == null){
-            console.log("Invalid Credentials\n")
-            return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
-        } 
+// app.post('/login', async (req, res) => {
+//     const { username, password } = req.body;
+//     console.log(`\'/login\' POST request `);
+//     console.log(`{ ${username}, ${password} }`);
+//     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+//     let user = null;
+//     try {
+//         user = await User.findOne({$and: [{ username }, { password }]});
+//         if (user == null){
+//             console.log("Invalid Credentials\n")
+//             return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
+//         } 
             
-        let verified = user.get("verify");
-        if (!verified) {
-            console.log("User not verified\n");
-            return res.status(400).send({status: "ERROR", message: "User not verified"});
-        }
+//         let verified = user.get("verify");
+//         if (!verified) {
+//             console.log("User not verified\n");
+//             return res.status(400).send({status: "ERROR", message: "User not verified"});
+//         }
             
-        req.session.username = username;
-        if (!req.session.login) {
-            console.log("New login");
-            req.session.login = true;
-        } else {
-            req.session.login = true;
-            console.log("already logged in");
-        }
-        console.log(req.session)
-        console.log()
+//         req.session.username = username;
+//         if (!req.session.login) {
+//             console.log("New login");
+//             req.session.login = true;
+//         } else {
+//             req.session.login = true;
+//             console.log("already logged in");
+//         }
+//         console.log(req.session)
+//         console.log()
 
-        LOGOUT = false
-        res.status(200).send({status: 'OK', message: "Logged in"})
+//         LOGOUT = false
+//         res.status(200).send({status: 'OK', message: "Logged in"})
 
-    } catch (err) { 
-        console.log(err);
-        return res.status(500).send({status: "ERROR", message: "Server Error"})
-    }
-});
+//     } catch (err) { 
+//         console.log(err);
+//         return res.status(500).send({status: "ERROR", message: "Server Error"})
+//     }
+// });
 
 app.get('/', (req, res, next) => {
     console.log(`\'/\' GET request `);
     console.log(req.session)
 
-    if (!LOGOUT)  {
-        console.log('No Session Present\n')
+    if (req.session.login || LOGIN) {
+        console.log("Session Present\n");
+        req.session.login = true;
+
+        console.log("Serving HTML\n");
         express.static(__dirname + "/html")(req, res, next);
-    } else {
+    } else if (!LOGIN){
+        console.log('No Session Present')
         console.log("Logged Out, can't server HTML\n");
-        return res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} ); 
+        res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} ); 
+
     }
-
-    // if (req.session.login) {
-    //     console.log("Session Present\n");
-    //     req.session.login = true;
-
-    //     console.log("Serving HTML");
-    //     express.static(__dirname + "/html")(req, res, next);
-    // } else {
-    //     console.log('No Session Present\n')
-    //     express.static(__dirname + "/html")(req, res, next);
-    //     // next();
-    // }
 })
 
 app.use('/logout', async (req,res) => {
@@ -289,9 +289,8 @@ app.use('/logout', async (req,res) => {
     } else {
         res.status(400).send({status: "OK", message: 'Log out failed. Not previously logged in'});
     }
-    console.log("LOGOUT = true\n")
-    LOGOUT = true;
-    
+    console.log("LOGIN = false\n")
+    LOGIN = false;
 });
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
@@ -309,7 +308,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
             req.session.login = true;
         } 
         
-        if (LOGOUT) {
+        if (!LOGIN) {
             console.log("Logged Out, can't server pictures\n");
             res.setHeader('content-type', 'application/json');
             return res.status(400).send({status: "ERROR", message: "Logged out"});
