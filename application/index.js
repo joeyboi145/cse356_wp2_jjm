@@ -256,10 +256,6 @@ app.get('/', (req, res, next) => {
     if (req.session.login) {
         console.log("Session Present\n");
         req.session.login = true;
-    }
-    if (req.session.login) {
-        console.log("Session Present\n");
-        req.session.login = true;
 
         console.log("Serving HTML");
         express.static(__dirname + "/html")(req, res, next);
