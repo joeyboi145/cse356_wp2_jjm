@@ -277,6 +277,7 @@ app.get('/', (req, res, next) => {
 })
 
 app.use('/logout', async (req,res) => {
+    console.log(`\'/logout\' request `);
     res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     if (req.session.login){
@@ -285,6 +286,7 @@ app.use('/logout', async (req,res) => {
     } else {
         res.status(400).send({status: "OK", message: 'Log out failed. Not previously logged in'});
     }
+    console.log("LOGOUT = true\n")
     LOGOUT = true;
     
 });
