@@ -250,7 +250,7 @@ app.post('/login', async (req, res, next) => {
 });
 
 app.get('/', (req, res, next) => {
-    console.log(`\'/login\' POST request `);
+    console.log(`\'/\' GET request `);
     console.log(req.session)
     if (req.session.login) {
         console.log("Session Present\n");
@@ -263,7 +263,6 @@ app.get('/', (req, res, next) => {
         next();
     }
 })
-
 
 app.post('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
@@ -287,7 +286,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     try {
         console.log(req.session)
         if (req.session.login) {
-            console.log("Session Present\n");
+            console.log("Session Present");
             req.session.login = true;
         }
         
