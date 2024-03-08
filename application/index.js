@@ -56,6 +56,7 @@ app.use(cookieSession({
 // )
 
 const User = require('./models/users');
+const { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = require('react/cjs/react.development');
 
 async function send_verification_email(email, verification_key){
     // In /etc/postfix/main.cf:
@@ -174,9 +175,17 @@ app.get('/verify', async (req, res) => {
     }
 });
 
-app.get('/login', async (req,res,next) => {
-    let username = req.query.username;
-    let password = req.query.password;
+app.use('/login', async (req,res,next) => {
+    let username = null
+    let password = null
+    if (req.method = 'POST'){
+        username = req.query.username;
+        password = req.query.password;
+    } else if  (req.method = 'GET') {
+        username = req.body.username;
+        password = req.body.password;
+    }
+    
     console.log(`\'/login\' GET request `);
     console.log(`{ ${username}, ${password} }`);
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
@@ -196,13 +205,14 @@ app.get('/login', async (req,res,next) => {
             
         req.session.username = username;
         if (!req.session.login) {
-            console.log("New login\n");
+            console.log("New login");
             req.session.login = true;
         } else {
-            console.log(req.session)
             req.session.login = true;
-            console.log("already logged in\n");
+            console.log("already logged in");
         }
+        console.log(req.session)
+        console.log()
 
         res.status(200).send({status: 'OK', message: "Logged in"})
 
