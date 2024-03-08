@@ -78,7 +78,7 @@
                 tileOverlap: 0, // Overlap between tiles
                 maxLevel:7, // Maximum level
                 getTileUrl: function(level, x, y) {
-                    return `/tiles/l${level + 1}/${x+1}/${y+1}.jpg?style=${STYLE}`; // Construct URL for each tile
+                    return `/tiles/l${level + 1}/${y+1}/${x+1}.jpg?style=${STYLE}`; // Construct URL for each tile
                 }
             }
         });
