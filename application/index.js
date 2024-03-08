@@ -118,12 +118,12 @@ app.use('/adduser', async (req, res) => {
         user = await User.findOne({ email });
         if (user != null){
             console.log("ERROR: Duplicate email\n")
-            return res.status(200).send({status: "ERROR", message: "Duplicate email. Email must be unique"});
+            return res.status(200).json({status: "ERROR", message: "Duplicate email. Email must be unique"});
         }
         user = await User.findOne({ username })
         if (user != null){
             console.log("ERROR: Duplicate username\n");
-            return res.status(200).send({status: "ERROR", message: "Duplicate username. Username must be unique."});
+            return res.status(200).json({status: "ERROR", message: "Duplicate username. Username must be unique."});
         }
 
         let verify_key = parseInt(Math.random() * (999999 - 100000) + 100000);
@@ -139,14 +139,14 @@ app.use('/adduser', async (req, res) => {
         let email_sent = await send_verification_email(email, verify_key);
         if (email_sent){
             console.log("Verification Email sent!\n")
-            return res.status(200).send({status: "OK", data: { email: email, message: "Successfully send the mail" }});
+            return res.status(200).json({status: "OK", data: { email: email, message: "Successfully send the mail" }});
         } else {
             console.log("ERROR: Verification Email not sent!\n")
-            return res.status(200).send({ status: 'ERROR', message: "Email not successfully sent" });
+            return res.status(200).json({ status: 'ERROR', message: "Email not successfully sent" });
         }
     } catch (err) { 
         console.log(err);
-        return res.status(500).send({status: "ERROR", message: "Server Error"})
+        return res.status(500).json({status: "ERROR", message: "Server Error"})
     }
 });
 
@@ -165,22 +165,22 @@ app.get('/verify', async (req, res) => {
             let verify_key = user.get("verify_key");
             if (verified){
                 console.log("ERROR: Already Verified\n");
-                return res.status(200).send({status: "ERROR", message: "User already verified"})
+                return res.status(200).json({status: "ERROR", message: "User already verified"})
             } else if (verify_key != key) {
                 console.log("ERROR: Incorrect Key\n")
-                return res.status(200).send({status: "ERROR", message: "Incorrect verification key"})
+                return res.status(200).json({status: "ERROR", message: "Incorrect verification key"})
             } else {
                 await User.updateOne({ email } , { verify: true });
                 console.log("USER VERFIED!\n");
-                return res.status(200).send({status: "OK", message: "Verified"});
+                return res.status(200).json({status: "OK", message: "Verified"});
             }
         } else {
             console.log("ERROR: User not found\n");
-            return res.status(200).send({status: "ERROR", message: "User not found"})
+            return res.status(200).json({status: "ERROR", message: "User not found"})
         }
     } catch (err) { 
         console.log(err); 
-        return res.status(500).send({status: "ERROR", message: "Server Error"})
+        return res.status(500).json({status: "ERROR", message: "Server Error"})
     }
 });
 
@@ -205,13 +205,13 @@ app.use('/login', async (req,res,next) => {
         user = await User.findOne({$and: [{ username }, { password }]});
         if (user == null){
             console.log("ERROR: Invalid Credentials\n")
-            return res.status(400).send({status: "ERROR", message: "Invalid credentials"});
+            return res.status(400).json({status: "ERROR", message: "Invalid credentials"});
         } 
             
         let verified = user.get("verify");
         if (!verified) {
             console.log("ERROR: User not verified\n");
-            return res.status(400).send({status: "ERROR", message: "User not verified"});
+            return res.status(400).json({status: "ERROR", message: "User not verified"});
         }
         
         req.session.username = username;
@@ -225,11 +225,11 @@ app.use('/login', async (req,res,next) => {
 
         // When sessions don't work, use a server variable to log server access
         LOGIN = true
-        res.status(200).send({status: 'OK', message: "Logged in"})
+        res.status(200).json({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
         console.log(err);
-        return res.status(500).send({status: "ERROR", message: "Server Error"})
+        return res.status(500).json({status: "ERROR", message: "Server Error"})
     }
 });
 
@@ -253,9 +253,9 @@ app.use('/logout', async (req,res) => {
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     if (req.session.login){
         req.session = null
-        res.status(200).send({status: "OK", message: "Successfully Logged Out"});
+        res.status(200).json({status: "OK", message: "Successfully Logged Out"});
     } else {
-        res.status(400).send({status: "OK", message: 'Log out failed. Not previously logged in'});
+        res.status(400).json({status: "OK", message: 'Log out failed. Not previously logged in'});
     }
     console.log("LOGIN = false\n")
     LOGIN = false;
@@ -275,7 +275,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
         else if (!LOGIN) {
             console.log("Logged Out, can't server pictures\n");
             res.setHeader('content-type', 'application/json');
-            return res.status(400).send({status: "ERROR", message: "Logged out"});
+            return res.status(400).json({status: "ERROR", message: "Logged out"});
         }
         
         if (style == 'bw'){
@@ -291,7 +291,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
     } catch (err) {
         console.log(err, '\n\n')
         res.setHeader('content-type', 'application/json');
-        return res.status(500).send({status: "ERROR", message: "Server Error"});
+        return res.status(500).json({status: "ERROR", message: "Server Error"});
     }
 });
 
