@@ -1,9 +1,6 @@
 let image_map = null
-var LAYER = 1;
-var V = 1;
-var H = 2;
 var STYLE = "color";
-var domain = "209.151.148.61"
+var domain = "jrgroup.cse356.compas.cs.stonybrook.edu"
 var imageUrl = `http://${domain}/tiles/l${LAYER}/${V}/${H}.jpg?style=${STYLE}`;
 var radioOption = "color";
 

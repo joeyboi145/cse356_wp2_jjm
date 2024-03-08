@@ -18,7 +18,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 const jimp = require('jimp');
 // var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
-const serverIP = '209.151.148.61';
+const serverIP = 'jrgroup.cse356.compas.cs.stonybrook.edu';
 const port = 80;
 
 mongoose.connect(mongoDB);
@@ -204,9 +204,6 @@ app.get('/login', async (req,res,next) => {
             req.session.login = true;
             console.log("already logged in");
         }
-        cookie = req.cookies
-        console.log('Cookies:')
-        console.log(cookie)
         console.log(req.session)
         console.log()
 
@@ -241,16 +238,13 @@ app.post('/login', async (req, res, next) => {
         if (!req.session.login) {
             console.log("New login");
             req.session.login = true;
-            res.set('Set-Cookie', 'token:true')
         } else {
             req.session.login = true;
             console.log("already logged in");
         }
-        cookie = req.cookies
-        console.log('Cookies:')
-        console.log(cookie)
         console.log(req.session)
         console.log()
+
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
