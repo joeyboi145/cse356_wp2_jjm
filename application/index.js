@@ -221,7 +221,7 @@ app.use('/login', async (req,res,next) => {
             //req.session.save()    // FOR: mongodb stored sessions
         }
         req.session.login = true;
-        console.log(req.session.toString() + '\n')
+        console.log(req.session, '\n')
 
         // When sessions don't work, use a server variable to log server access
         LOGIN = true
@@ -283,13 +283,13 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
             const grey_image = image.grayscale();
             const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
             res.status(200).send(Buffer.from(buffer, 'binary'))
-            console.log(`Senting in black and white: ${filepath}\n`);
+            console.log(`Sending in black and white: ${filepath}\n`);
         } else {
             res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
-            console.log(`Senting in color: ${filepath}\n`);
+            console.log(`Sending in color: ${filepath}\n`);
         }
     } catch (err) {
-        console.log(err.toString() + '\n');
+        console.log(err, '\n')
         res.setHeader('content-type', 'application/json');
         return res.status(500).send({status: "ERROR", message: "Server Error"});
     }
