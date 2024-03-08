@@ -41,7 +41,6 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
     domain: '209.151.148.61'
-    // sameSite: 'None'  // Set to 'None' for cross-origin requests
 }));
 
 
@@ -238,12 +237,12 @@ app.post('/login', async (req, res, next) => {
             console.log("New login\n");
             req.session.login = true;
         } else {
+            console.log(req.session)
+            req.session.login = true;
             console.log("already logged in\n");
         }
-        console.log(req.session)
-        // console.log("line 217")
+
         res.status(200).send({status: 'OK', message: "Logged in"})
-        //res.redirect('/')
 
     } catch (err) { 
         console.log(err);
