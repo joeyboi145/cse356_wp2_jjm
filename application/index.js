@@ -103,7 +103,6 @@ app.use('/adduser', async (req, res) => {
         password = req.query.password;
         email = req.query.email;
     } else if (req.method == 'POST'){
-        console.log(req.body)
         username = req.body.username;
         password = req.body.password;
         email = req.body.email;
@@ -136,7 +135,7 @@ app.use('/adduser', async (req, res) => {
         });
     
         await user.save();
-        console.log(`NEW USER: ${username}, Verification: ${verify_key}`);
+        console.log(`NEW USER: ${username}, VERIFICATION: ${verify_key}`);
         let email_sent = await send_verification_email(email, verify_key);
         if (email_sent){
             console.log("Verification Email sent!\n")
@@ -284,13 +283,13 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
             const grey_image = image.grayscale();
             const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
             res.status(200).send(Buffer.from(buffer, 'binary'))
-            console.log(`Sent in black and white: ${filepath}\n`);
+            console.log(`Senting in black and white: ${filepath}\n`);
         } else {
             res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
-            console.log(`Sent in color: ${filepath}\n`);
+            console.log(`Senting in color: ${filepath}\n`);
         }
     } catch (err) {
-        console.log(err);
+        console.log(err.toString() + '\n');
         res.setHeader('content-type', 'application/json');
         return res.status(500).send({status: "ERROR", message: "Server Error"});
     }
