@@ -206,6 +206,7 @@ app.get('/login', async (req,res,next) => {
         console.log(req.session)
         console.log()
 
+        LOGOUT = false
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -244,6 +245,7 @@ app.post('/login', async (req, res, next) => {
         console.log(req.session)
         console.log()
 
+        LOGOUT = false
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -309,6 +311,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
         
         if (LOGOUT) {
             console.log("Logged Out, can't server pictures\n");
+            res.setHeader('content-type', 'application/json');
             return res.status(400).send({status: "ERROR", message: "Logged out"});
         }
         
