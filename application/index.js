@@ -204,6 +204,7 @@ app.get('/login', async (req,res,next) => {
         } else {
             console.log("already logged in\n");
         }
+        res.cookie('token', username)
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
