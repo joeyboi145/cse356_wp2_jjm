@@ -40,7 +40,6 @@ app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
-    sameSite: 'None'
 }));
 
 
