@@ -4,7 +4,7 @@
 
 An **Express** server that provides user verification system.
 
-Run with the following command: `node index.js`
+Run with the following command: `node server.js`
 
 All users are stored in a local MongoDB database called **wp2** in a collection called **Users**. This is done throught the **mongoose** library.
 

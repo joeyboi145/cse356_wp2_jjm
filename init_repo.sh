@@ -18,7 +18,7 @@
 
 
 # Install current nodejs and npm
-echo Install Node.js
+echo -e "\nInstalling Node.js:"
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 
@@ -27,18 +27,17 @@ sudo apt install -y npm
 
 
 # Install node.js dependences
+echo -e "\nInstalling project dependences"
 cd application
 npm install express
 npm install express-sessions
 npm install mongoose
 npm install nodemailer
-npm install nodemailer-smtp-transport
 npm install jimp
-npm install connect-mongodb-session
 cd ..
 
 # Install mongoDB
-echo Install MongoDB
+echo -e "\nInstalling MongoDB:"
 sudo apt-get install -y gnupg curl
 curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
@@ -53,8 +52,8 @@ sudo systemctl start mongod
 # =======>
 # Add 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf
 # =======>
-echo install postfix
-echo domain 'cse356.compas.cs.stonybrook.edu'
+echo -e "\nInstalling postfix"
+echo -e "REMEMBER: set relay domain to \'cse356.compas.cs.stonybrook.edu\'"
 sudo apt install -y postfix
 sudo systemctl reload postfix
 sudo ufw allow 'Postfix'
