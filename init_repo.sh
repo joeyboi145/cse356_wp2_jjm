@@ -13,11 +13,8 @@
 #   - nodemailer-smtp-transport
 #   - JIMP
 #   - cookie-session
-#
 # 3. Install mongoDB
 # 4. Install & configure Postfix
-# 5. Install Docker
-# 6. Start Webserver Container
 
 
 # Install current nodejs and npm
@@ -28,11 +25,8 @@ sudo apt-get install -y nodejs
 echo Install NPM
 sudo apt install -y npm
 
-# Install node.js dependences
-# MANUAL: Reboot first and install each dependency
-# For some reason, the automatic install doesn't seem to work first try
 
-# cd application
+# Install node.js dependences
 npm install express
 npm install express-sessions
 npm install mongoose
@@ -40,7 +34,6 @@ npm install nodemailer
 npm install nodemailer-smtp-transport
 npm install jimp
 npm install connect-mongodb-session
-# cd ..
 
 # Install mongoDB
 echo Install MongoDB
@@ -54,33 +47,15 @@ sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 
 # Install postfix
-# MANUAL:  Add 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf
+# MANUAL:  
+# =======>
+# Add 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf
+# =======>
 echo install postfix
 echo domain 'cse356.compas.cs.stonybrook.edu'
 sudo apt install -y postfix
 sudo systemctl reload postfix
 sudo ufw allow 'Postfix'
-
-# Install Docker
-echo Install Docker
-sudo apt-get update
-sudo apt-get install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# Start Webserver Container
-echo Start test web-server contianer
-sudo docker build -t test-server test-web-server
-sudo docker run --rm -d -p 8080:80 test-server
 
 # Server routing commands
 # RUN THESE EACH RESTART
