@@ -1,14 +1,5 @@
 // Application Server: multi-resolution-user-server
 
-// Used for changing server IP, take in as argument
-let userArgs = process.argv.slice(2);
-
-if (userArgs.length !== 1) {
-    console.log('ERROR: Incorrect number of arguments')
-    console.log('Please include Server IP Address')
-    return
-}
-
 const express = require('express');
 const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
