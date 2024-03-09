@@ -216,7 +216,9 @@ app.use('/login', async (req,res,next) => {
             console.log("Already logged in!");
         }
         req.session.login = true;
-        console.log(req.cookies)
+
+        let cookie = req.headers.cookie;
+        console.log(cookies)
         console.log(req.session, '\n')
 
         // When sessions don't work, use a server variable to log server access
