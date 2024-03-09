@@ -5,7 +5,7 @@ const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const jimp = require('jimp');
-const cookies = require('cookies')
+//const cookies = require('cookies')
 // var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const domain = 'jrgroup.cse356.compas.cs.stonybrook.edu'
@@ -28,9 +28,8 @@ app.use(cookieSession({
     name: 'token',
     keys: ['key1', 'key2'],
     maxAge: 24 * 60 * 60 * 1000,
-    // httpOnly: true,
-    domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
-    path: '/'
+    httpOnly: true,
+    domain: 'jrgroup.cse356.compas.cs.stonybrook.edu'
 }));
 // app.use(cookieParser());
 
