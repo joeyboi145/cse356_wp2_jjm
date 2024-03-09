@@ -29,7 +29,7 @@ sudo apt install -y npm
 echo -e "\n\n\nInstalling project dependences"
 cd application
 npm install express
-npm install express-sessions
+npm install express-session
 npm install mongoose
 npm install nodemailer
 npm install jimp
