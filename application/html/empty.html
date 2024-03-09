@@ -1,7 +1,61 @@
 <!DOCTYPE html>
 
 <html>
+    <head>
+        <title>WP2</title>
+        
+        <style>
+            body {
+                text-align: center;
+                width: 100%;
+            }
+            .box {
+                margin: 10px 30vw;
+                align-items: center;
+                text-align: center;
+                box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.15);
+                border: 1px solid black
+            }
+            .submit_button{
+                margin: 10px;
+            }
+
+        </style>
+
+    </head>
+    <h2>Welcome! Please log in.</h2>
     <body>
-        Not logged in. Please log in to image.
+        <div class="box" id="login_box">
+            <h3>Login</h3>
+            <form id="login_form" action="/login" method="get">
+                <div>
+                    <label for="login_username">Username: </label>
+                    <input id="login_username" type="text" name="username"><br>
+                </div>
+                <div>
+                    <label for="login_password">Password: </label>
+                    <input id="login_password" type="text" name="password"><br>
+                </div>
+                <input class="submit_button" type="submit">
+            </form>
+        </div>
+        <div class="box" id="login_box">
+            <h3>Register</h3>
+            <form id="registration_form" action="/adduser" method="get">
+                <div>
+                    <label for="registration_username">Username: </label>
+                    <input id="registration_username" type="text" name="username"><br>
+                </div>
+                <div>
+                    <label for="registration_password">Password: </label>
+                    <input id="registration_password" type="text" name="password"><br>
+                </div>
+                <div>
+                    <label for="registration_email">Email: </label>
+                    <input id="registration_email" type="text" name="email"><br>
+                </div>
+                <input class="submit_button" type="submit">
+            </form>
+        </div>
     </body>
 </html>

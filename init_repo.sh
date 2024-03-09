@@ -22,9 +22,8 @@ echo -e "\nInstalling Node.js:"
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 
-echo Install NPM
+echo -e "\nInstall NPM"
 sudo apt install -y npm
-
 
 # Install node.js dependences
 echo -e "\nInstalling project dependences"
@@ -48,15 +47,17 @@ sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 
 # Install postfix
-# MANUAL:  
-# =======>
-# Add 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf
-# =======>
 echo -e "\nInstalling postfix"
-echo -e "REMEMBER: set relay domain to \'cse356.compas.cs.stonybrook.edu\'"
+# echo -e "REMEMBER: set relay domain to \'cse356.compas.cs.stonybrook.edu\'"
 sudo apt install -y postfix
 sudo systemctl reload postfix
 sudo ufw allow 'Postfix'
+
+echo -e "\nAdding 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf"
+TARGET_KEY = "relayhost"
+REPLACEMENT_VALUE = "cse356.compas.cs.stonybrook.edu"
+CONFIG_FILE = "/etc/postfix/main.cf"
+sed -c -i "s/\($TARGET_KEY *= *\).*/\1$REPLACEMENT_VALUE/" $CONFIG_FILE
 
 # Server routing commands
 # RUN THESE EACH RESTART
@@ -64,6 +65,5 @@ sudo ip6tables -I OUTPUT -p tcp -m tcp --dport 25 -j DROP
 sudo iptables -t nat -I OUTPUT -o eth0 -p tcp -m tcp --dport 25 -j DNAT --to-destination 130.245.171.151:11587
 
 # Remaining Manual Steps
-# - Change /etc/postfix/main.cf relays option
 # - Make sure that DNS system is set up appropriately
 # - Start Application Server
