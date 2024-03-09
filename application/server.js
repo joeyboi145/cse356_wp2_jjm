@@ -21,6 +21,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // });
 
 const app = express();
+app.use(express.urlencoded());
 app.use(express.json());
 app.use(cookieSession({
     name: 'token',
