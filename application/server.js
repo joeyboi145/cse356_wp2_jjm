@@ -211,15 +211,16 @@ app.use('/login', async (req,res,next) => {
         req.session.username = username;
         if (!req.session.login) {
             console.log("New login!");
+            cookies.set()
             //req.session.save()    // FOR: mongodb stored sessions
         } else {
             console.log("Already logged in!");
         }
         req.session.login = true;
-
-        let cookie = res.headers.cookie;
-        console.log(cookie);
+        // let cookie = req.headers.cookie;
+        // console.log(cookie);
         //res.set("Set-Cookie", cookie)
+        
         console.log(req.session, '\n')
 
         // When sessions don't work, use a server variable to log server access
