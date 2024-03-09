@@ -32,7 +32,7 @@ app.use(cookieSession({
     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
     path: '/'
 }));
-app.use(cookieParser());
+// app.use(cookieParser());
 
 // app.use(
 //     session({
