@@ -2,7 +2,7 @@
 
 const express = require('express');
 const session = require('express-session')
-const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const jimp = require('jimp');
@@ -25,13 +25,13 @@ var store = new MongoDBStore({
 const app = express();
 app.use(express.urlencoded());
 app.use(express.json());
-app.use(cookieSession({
-    name: 'token',
-    keys: ['key1', 'key2'],
-    maxAge: 24 * 60 * 60 * 1000,
-    httpOnly: true,
-    domain: 'jrgroup.cse356.compas.cs.stonybrook.edu'
-}));
+// app.use(cookieSession({
+//     name: 'token',
+//     keys: ['key1', 'key2'],
+//     maxAge: 24 * 60 * 60 * 1000,
+//     httpOnly: true,
+//     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu'
+// }));
 // app.use(cookieParser());
 
 app.use(
