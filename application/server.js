@@ -5,6 +5,7 @@ const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const jimp = require('jimp');
+const cookieParser = require("cookie-parser");
 // var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const domain = 'jrgroup.cse356.compas.cs.stonybrook.edu'
@@ -30,6 +31,7 @@ app.use(cookieSession({
     httpOnly: true,
     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
 }));
+app.use(cookieParser());
 
 // app.use(
 //     session({
@@ -214,6 +216,7 @@ app.use('/login', async (req,res,next) => {
             console.log("Already logged in!");
         }
         req.session.login = true;
+        console.log(req.cookies)
         console.log(req.session, '\n')
 
         // When sessions don't work, use a server variable to log server access
