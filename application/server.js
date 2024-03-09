@@ -247,10 +247,10 @@ app.use('/logout', async (req,res) => {
     if (req.session.login){
         req.session = null
         console.log("Successfully Logged Out!\n")
-        res.status(200).json({status: "OK", message: "Successfully Logged Out"});
+        res.status(200).send({status: "OK", message: "Successfully Logged Out"});
     } else {
         console.log("ERROR: Can't log out. No session present\n")
-        res.status(400).json({status: "ERROR", message: 'Log out failed. Not previously logged in'});
+        res.status(400).send({status: "ERROR", message: 'Log out failed. Not previously logged in'});
     }
     // console.log("LOGIN = false\n")
     // LOGIN = false;
