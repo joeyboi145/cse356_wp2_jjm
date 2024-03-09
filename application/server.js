@@ -217,7 +217,7 @@ app.use('/login', async (req,res,next) => {
         }
         req.session.login = true;
 
-        let cookie = req.headers.cookie;
+        let cookie = res.headers.cookie;
         console.log(cookie);
         //res.set("Set-Cookie", cookie)
         console.log(req.session, '\n')
