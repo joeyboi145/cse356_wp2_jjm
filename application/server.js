@@ -1,6 +1,6 @@
 // Application Server: multi-resolution-user-server
 
-// Ignore: Used for changing server IP, take in as argument
+// Used for changing server IP, take in as argument
 let userArgs = process.argv.slice(2);
 
 if (userArgs.length !== 1) {
@@ -215,17 +215,18 @@ app.use('/login', async (req,res,next) => {
         }
         
         req.session.username = username;
-        if (!req.session.login) console.log("New login!");
-        else {
-            console.log("Already logged in!");
+        if (!req.session.login) {
+            console.log("New login!");
             //req.session.save()    // FOR: mongodb stored sessions
+        } else {
+            console.log("Already logged in!");
         }
         req.session.login = true;
         console.log(req.session, '\n')
 
         // When sessions don't work, use a server variable to log server access
         // LOGIN = true
-        res.status(200).json({status: 'OK', message: "Logged in"})
+        res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
         console.log(err);
