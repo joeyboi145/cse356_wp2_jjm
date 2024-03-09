@@ -16,7 +16,7 @@ const nodemailer = require('nodemailer');
 const jimp = require('jimp');
 // var MongoDBStore = require('connect-mongodb-session')(session);
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
-const serverIP = userArgs[0]
+const domain = 'jrgroup.cse356.compas.cs.stonybrook.edu'
 const port = 80;
 // let LOGIN = true;
 
@@ -72,7 +72,7 @@ async function send_verification_email(email, verification_key){
         });
 
         let email_urlencoded = encodeURIComponent(email)
-        let link = `http://${serverIP}/verify?email=${email_urlencoded}&key=${verification_key}`
+        let link = `http://${domain}/verify?email=${email_urlencoded}&key=${verification_key}`
 
         let mailOptions = {
             from: 'root@cse356.compas.cs.stonybrook.edu',
@@ -300,7 +300,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
 });
 
 const server = app.listen(port, () => {
-    console.log(`\napp listening on ${serverIP} port ${port}\n`)
+    console.log(`\napp listening on port ${port}\n`)
 });
 
 process.on('SIGINT', () => {
