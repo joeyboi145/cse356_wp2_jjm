@@ -232,10 +232,10 @@ app.get('/', (req, res, next) => {
     if (req.session.login) { // || LOGIN
         req.session.login = true;
         console.log("Serving HTML\n");
-        express.static(__dirname + "/html")(req, res, next);
+        res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
     } else  { //if (!LOGIN){ 
         console.log("Logged Out, can't server HTML\n");
-        res.status(200).sendFile('html/empty.html', {root: __dirname + '/'} ); 
+        res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
     }
 })
 
