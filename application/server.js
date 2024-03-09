@@ -1,6 +1,7 @@
 // Application Server: multi-resolution-user-server
 
 const express = require('express');
+const session = require('express-session')
 const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');

@@ -33,6 +33,7 @@ npm install express-sessions
 npm install mongoose
 npm install nodemailer
 npm install jimp
+npm install connect-mongodb-session
 cd ..
 
 # Install mongoDB
