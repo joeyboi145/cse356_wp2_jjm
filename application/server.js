@@ -284,7 +284,8 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
             console.log(`Sending in color: ${filepath}\n`);
         }
     } catch (err) {
-        console.log(err, '\n\n')
+        console.log(err)
+        console.log();
         res.setHeader('content-type', 'application/json');
         return res.status(500).json({status: "ERROR", message: "Server Error"});
     }
