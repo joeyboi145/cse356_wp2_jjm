@@ -2,11 +2,11 @@
 
 ## I've created the server in the **application** directory.  
 
-An **Express** server that provides user verification system and serves a login and home page. The home page displays a multi-resolution immage
+An **Express** server that provides user verification system and serves a login and home page. The home page displays a multi-resolution image.
 
-Run with the following command: `node server.js`, which will run on the `jrgroup.cse356.compas.cs.stonybrook.edu` domain name
+Run with the following command: `node server.js`, which will run on the `jrgroup.cse356.compas.cs.stonybrook.edu` domain name.
 
-All users are stored in a local MongoDB database called **wp2** in a collection called **Users**. This is done throught the **mongoose** library. Sessions are stored in MongoDB under the **session** colletcion
+All users are stored in a local MongoDB database called **wp2** in a collection called **Users**. This is done throught the **mongoose** library. Sessions are stored in MongoDB under the **session** collection.
 
 The following endpoints have been implemented:
 - USE /addusers
