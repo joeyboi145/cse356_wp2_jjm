@@ -15,3 +15,5 @@ The following endpoints have been implemented:
 - USE /logout
 - GET /tiles/l$LAYER/$V/$H.jpg
 
+
+The `init_repo.sh` bash script automatically installs and configures all dependencies for an Ubuntu 22.04 LTS system.
