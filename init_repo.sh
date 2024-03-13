@@ -18,15 +18,15 @@
 
 
 # Install current nodejs and npm
-echo "\n\n\nInstalling Node.js:"
+echo -e "\n\n\nInstalling Node.js:"
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 
-echo "\n\n\nInstall NPM"
+echo -e "\n\n\nInstall NPM"
 sudo apt install -y npm
 
 # Install node.js dependences
-echo "\n\n\nInstalling project dependences"
+echo -e "\n\n\nInstalling project dependences"
 cd application
 npm install express
 npm install express-session
@@ -37,21 +37,21 @@ npm install connect-mongodb-session
 cd ..
 
 # Install mongoDB
-echo "\n\n\nInstalling MongoDB:"
+echo -e "\n\n\nInstalling MongoDB:"
 sudo apt-get install -y gnupg curl
 curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
    sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
    --dearmor
-echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+echo -e "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 sudo apt-get update
 sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 
 # Install postfix
-echo "\n\n\nInstalling postfix"
+echo -e "\n\n\nInstalling postfix"
 sudo apt install -y postfix
 
-echo "\n\nAdding 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf"
+echo -e "\n\nAdding 'cse356.compas.cs.stonybrook.edu' to the relay attribute in /etc/postfix.main.cf"
 CONFIG="/etc/postfix/main.cf"
 REPLACEMENT_VALUE="cse356.compas.cs.stonybrook.edu"
 sudo sed -i "s/^relayhost =.*/relayhost = $REPLACEMENT_VALUE/" $CONFIG
