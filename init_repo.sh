@@ -58,6 +58,7 @@ sudo sed -i "s/^relayhost =.*/relayhost = $REPLACEMENT_VALUE/" $CONFIG
 
 sudo systemctl reload postfix
 sudo ufw allow 'Postfix'
+sudo ufw allow 80
 
 # Server routing commands
 # RUN THESE EACH RESTART
