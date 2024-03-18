@@ -38,7 +38,9 @@ app.use(
     session({
         secret: "wp2 supersecret string",
         cookie: {
-            name: 'token'
+            name: 'token',
+            domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
+            maxAge: 24 * 60 * 60 * 1000
         },
         resave: true,
         saveUninitialized: true,
