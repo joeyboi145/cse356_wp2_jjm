@@ -254,7 +254,7 @@ app.use('/logout', async (req,res) => {
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     console.log(req.session)
     if (req.session.login){
-        req.session = null
+        req.session.destroy()
         console.log("Successfully Logged Out!\n")
         res.status(200).send({status: "OK", message: "Successfully Logged Out"});
     } else {
