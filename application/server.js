@@ -1,7 +1,7 @@
 // Application Server: multi-resolution-user-server
 
 const express = require('express');
-const session = require('express-session')
+const session = require('express-session');
 // const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
@@ -39,7 +39,7 @@ app.use(
         secret: "wp2 supersecret string",
         cookie: {
             name: 'token',
-            domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
+            domain: 'cse356.compas.cs.stonybrook.edu',
             maxAge: 24 * 60 * 60 * 1000
         },
         resave: true,
@@ -243,10 +243,10 @@ app.get('/', (req, res, next) => {
     if (req.session.login) { // || LOGIN
         req.session.login = true;
         console.log("Serving HTML\n");
-        res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
+        return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
     } else  { //if (!LOGIN){ 
         console.log("Logged Out, can't server HTML\n");
-        res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
+        return res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
     }
 })
 
