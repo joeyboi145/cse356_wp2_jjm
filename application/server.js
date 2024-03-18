@@ -23,7 +23,7 @@ var store = new MongoDBStore({
 });
 
 const app = express();
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // app.use(cookieSession({
 //     name: 'token',
@@ -38,8 +38,8 @@ app.use(
     session({
         secret: "wp2 supersecret string",
         cookie: {
-            name: 'token',
-            domain: 'cse356.compas.cs.stonybrook.edu',
+            // name: 'token',
+            domain: 'jrgroup.cse356.compas.cs.stonybrook.edu',
             maxAge: 24 * 60 * 60 * 1000
         },
         resave: true,
