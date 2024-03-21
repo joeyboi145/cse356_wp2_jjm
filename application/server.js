@@ -278,12 +278,14 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
             res.status(200).send(Buffer.from(buffer, 'binary'))
             console.log(`Sending in black and white: ${filepath}\n`);
         } else {
-            res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
-            console.log(`Sending in color: ${filepath}\n`);
+            res.status(200)
+            res.sendFile(filepath, {root: __dirname + '/'} )
+            .then( () => console.log(`Sending in color: ${filepath}\n`))
+            .catch( err => { throw err }) 
+            // console.log(`Sending in color: ${filepath}\n`);
         }
     } catch (err) {
         console.log(err)
-        console.log();
         res.setHeader('content-type', 'application/json');
         return res.status(500).json({status: "ERROR", message: "Server Error"});
     }
