@@ -223,19 +223,19 @@ app.use('/login', async (req,res) => {
     }
 });
 
-// app.get('/', (req, res) => {
-//     console.log(`\'/\' GET request `);
+app.get('/', (req, res) => {
+    console.log(`\'/\' GET request `);
 
-//     if (req.session.login) {
-//         console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
-//         console.log("Serving HTML\n");
-//         return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
-//     } else  {
-//         console.log("Session: {}")
-//         console.log("Logged Out, can't server HTML\n");
-//         return res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
-//     }
-// })
+    if (req.session.login) {
+        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
+        console.log("Serving HTML\n");
+        return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
+    } else  {
+        console.log("Session: {}")
+        console.log("Logged Out, can't server HTML\n");
+        return res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
+    }
+})
 
 app.use('/logout', async (req,res) => {
     console.log(`\'/logout\' request `);
@@ -253,41 +253,41 @@ app.use('/logout', async (req,res) => {
     }
 });
 
-// app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
-//     let filepath = req.path.slice(1);
-//     let style = req.query.style;
-//     console.log("'/tiles' GET request");
-//     console.log(`{ ${filepath}, ${style}}`);
-//     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-//     res.setHeader('content-type', 'image/jpeg');
+app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
+    let filepath = req.path.slice(1);
+    let style = req.query.style;
+    console.log("'/tiles' GET request");
+    console.log(`{ ${filepath}, ${style}}`);
+    res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
+    res.setHeader('content-type', 'image/jpeg');
 
-//     try {
-//         if (!req.session.login) {
-//             console.log("Session: {}")
-//             console.log("Logged Out, can't server pictures\n");
-//             res.setHeader('content-type', 'application/json');
-//             return res.status(400).json({status: "ERROR", message: "Logged out"});
-//         } else {
-//             console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
-//         }
+    try {
+        if (!req.session.login) {
+            console.log("Session: {}")
+            console.log("Logged Out, can't server pictures\n");
+            res.setHeader('content-type', 'application/json');
+            return res.status(400).json({status: "ERROR", message: "Logged out"});
+        } else {
+            console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
+        }
         
-//         if (style == 'bw'){
-//             const image = await jimp.read(filepath)
-//             const grey_image = image.grayscale();
-//             const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
-//             res.status(200).send(Buffer.from(buffer, 'binary'))
-//             console.log(`Sending in black and white: ${filepath}\n`);
-//         } else {
-//             res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
-//             console.log(`Sending in color: ${filepath}\n`);
-//         }
-//     } catch (err) {
-//         console.log(err)
-//         console.log();
-//         res.setHeader('content-type', 'application/json');
-//         return res.status(500).json({status: "ERROR", message: "Server Error"});
-//     }
-// });
+        if (style == 'bw'){
+            const image = await jimp.read(filepath)
+            const grey_image = image.grayscale();
+            const buffer = await grey_image.getBufferAsync(jimp.MIME_JPEG)
+            res.status(200).send(Buffer.from(buffer, 'binary'))
+            console.log(`Sending in black and white: ${filepath}\n`);
+        } else {
+            res.status(200).sendFile(filepath, {root: __dirname + '/'} ); 
+            console.log(`Sending in color: ${filepath}\n`);
+        }
+    } catch (err) {
+        console.log(err)
+        console.log();
+        res.setHeader('content-type', 'application/json');
+        return res.status(500).json({status: "ERROR", message: "Server Error"});
+    }
+});
 
 const server = app.listen(port, () => {
     console.log(`\napp listening on port ${port}\n`)
@@ -298,6 +298,7 @@ process.on('SIGINT', () => {
       db.close()
         .then(() => {
           server.close(() => console.log("\nServer closed. Database instance disconnected\n"))
+          process.exit(0);
         })
         .catch((err) => console.log(err))
     }
