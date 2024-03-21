@@ -1,15 +1,22 @@
 // Application Server: multi-resolution-user-server
 
+// const cookieSession = require('cookie-session');
+//const cookies = require('cookies')
+
 const express = require('express');
 const session = require('express-session');
-// const cookieSession = require('cookie-session');
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const jimp = require('jimp');
-//const cookies = require('cookies')
 var MongoDBStore = require('connect-mongodb-session')(session);
+
+// If you pass an argument throught, it is the IP address
+let useArgs = process.argv
+let domain = ""
+if (useArgs.length == 3) domain = "127.0.0.1";
+else domain = 'jrgroup.cse356.compas.cs.stonybrook.edu';
+
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
-const domain = 'jrgroup.cse356.compas.cs.stonybrook.edu'
 const port = 80;
 // let LOGIN = true;
 
@@ -181,7 +188,7 @@ app.get('/verify', async (req, res) => {
     }
 });
 
-app.use('/login', async (req,res,next) => { 
+app.use('/login', async (req,res) => { 
     let username = null;
     let password = null;
 
@@ -236,11 +243,11 @@ app.use('/login', async (req,res,next) => {
     }
 });
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     console.log(`\'/\' GET request `);
     console.log(req.session)
 
-    if (req.session.login) { // || LOGIN
+    if (req.session) { // || LOGIN
         req.session.login = true;
         console.log("Serving HTML\n");
         return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
