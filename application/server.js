@@ -297,8 +297,10 @@ process.on('SIGINT', () => {
     if (db) {
       db.close()
         .then(() => {
-          server.close(() => console.log("\nServer closed. Database instance disconnected\n"))
-          process.exit(0);
+          server.close(() => {
+            console.log("\nServer closed. Database instance disconnected\n")
+            process.exit(0);
+          })
         })
         .catch((err) => console.log(err))
     }
