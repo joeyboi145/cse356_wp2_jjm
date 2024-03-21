@@ -1,8 +1,5 @@
 // Application Server: multi-resolution-user-server
 
-// const cookieSession = require('cookie-session');
-//const cookies = require('cookies')
-
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -10,15 +7,14 @@ const nodemailer = require('nodemailer');
 const jimp = require('jimp');
 var MongoDBStore = require('connect-mongodb-session')(session);
 
-// If you pass an argument throught, it is the IP address
-let useArgs = process.argv
+// If you pass a '-ip' flag, verification requests are sent to the current machine IP
+let userArgs = process.argv
 let domain = ""
-if (useArgs.length == 3) domain = "127.0.0.1";
+if (userArgs.length == 3 && userArgs[2] == "-ip") domain = "127.0.0.1";
 else domain = 'jrgroup.cse356.compas.cs.stonybrook.edu';
 
 const mongoDB = 'mongodb://127.0.0.1:27017/wp2';
 const port = 80;
-// let LOGIN = true;
 
 mongoose.connect(mongoDB);
 const db = mongoose.connection;
@@ -32,15 +28,6 @@ var store = new MongoDBStore({
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(cookieSession({
-//     name: 'token',
-//     keys: ['key1', 'key2'],
-//     maxAge: 24 * 60 * 60 * 1000,
-//     httpOnly: true,
-//     domain: 'jrgroup.cse356.compas.cs.stonybrook.edu'
-// }));
-// app.use(cookieParser());
-
 app.use(
     session({
         secret: "wp2 supersecret string",
@@ -221,20 +208,13 @@ app.use('/login', async (req,res) => {
         req.session.username = username;
         if (!req.session.login) {
             console.log("New login!");
-            // cookies.set()
-            req.session.save()    // FOR: mongodb stored sessions
+            req.session.save()
         } else {
             console.log("Already logged in!");
         }
-        req.session.login = true;
-        // let cookie = req.headers.cookie;
-        // console.log(cookie);
-        //res.set("Set-Cookie", cookie)
-        
-        console.log(req.session, '\n')
 
-        // When sessions don't work, use a server variable to log server access
-        // LOGIN = true
+        req.session.login = true;
+        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -247,11 +227,12 @@ app.get('/', (req, res) => {
     console.log(`\'/\' GET request `);
     console.log(req.session)
 
-    if (req.session.login) { // || LOGIN
-        req.session.login = true;
+    if (req.session.login) {
+        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
         console.log("Serving HTML\n");
         return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
-    } else  { //if (!LOGIN){ 
+    } else  {
+        console.log("Session: {}")
         console.log("Logged Out, can't server HTML\n");
         return res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
     }
@@ -263,15 +244,15 @@ app.use('/logout', async (req,res) => {
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     console.log(req.session)
     if (req.session.login){
+        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
         req.session.destroy()
         console.log("Successfully Logged Out!\n")
         res.status(200).send({status: "OK", message: "Successfully Logged Out"});
     } else {
+        console.log("Session: {}")
         console.log("ERROR: Can't log out. No session present\n")
         res.status(400).send({status: "ERROR", message: 'Log out failed. Not previously logged in'});
     }
-    // console.log("LOGIN = false\n")
-    // LOGIN = false;
 });
 
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
@@ -284,11 +265,13 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
 
     try {
         console.log(req.session)
-        if (req.session.login) req.session.login = true; // || LOGIN
-        else { //if (!LOGIN) {
+        if (!req.session.login) {
+            console.log("Session: {}")
             console.log("Logged Out, can't server pictures\n");
             res.setHeader('content-type', 'application/json');
             return res.status(400).json({status: "ERROR", message: "Logged out"});
+        } else {
+            console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
         }
         
         if (style == 'bw'){
