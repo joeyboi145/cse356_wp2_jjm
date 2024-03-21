@@ -7,12 +7,10 @@
 # 1. Install node.js and npm
 # 2. Install node.js dependences
 #   - express
+#   - express-session
 #   - mongoose
-#   - connect-mongodb-session
 #   - nodemailer
-#   - nodemailer-smtp-transport
 #   - JIMP
-#   - cookie-session
 # 3. Install mongoDB
 # 4. Install & configure Postfix
 
@@ -23,7 +21,10 @@ curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
 sudo apt-get install -y nodejs
 
 echo -e "\n\n\nInstall NPM"
-sudo apt install -y npm
+sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+source ~/.bashrc
+nvm install v20.10.0
+nvm use v20.10.0
 
 # Install node.js dependences
 echo -e "\n\n\nInstalling project dependences"
@@ -45,6 +46,7 @@ curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
 echo -e "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 sudo apt-get update
 sudo apt-get install -y mongodb-org
+sudo systemctl enable mongod
 sudo systemctl start mongod
 
 # Install postfix
