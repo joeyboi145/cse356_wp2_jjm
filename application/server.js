@@ -214,7 +214,7 @@ app.use('/login', async (req,res) => {
         }
 
         req.session.login = true;
-        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
+        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
         res.status(200).send({status: 'OK', message: "Logged in"})
 
     } catch (err) { 
@@ -227,7 +227,7 @@ app.get('/', (req, res) => {
     console.log(`\'/\' GET request `);
 
     if (req.session.login) {
-        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
+        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
         console.log("Serving HTML\n");
         return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
     } else  {
@@ -242,7 +242,7 @@ app.use('/logout', async (req,res) => {
     res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     if (req.session.login){
-        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
+        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
         req.session.destroy()
         console.log("Successfully Logged Out!\n")
         res.status(200).send({status: "OK", message: "Successfully Logged Out"});
@@ -253,7 +253,7 @@ app.use('/logout', async (req,res) => {
     }
 });
 
-app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
+app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     let filepath = req.path.slice(1);
     let style = req.query.style;
     console.log("'/tiles' GET request");
@@ -268,7 +268,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
             res.setHeader('content-type', 'application/json');
             return res.status(400).json({status: "ERROR", message: "Logged out"});
         } else {
-            console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
+            console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
         }
         
         if (style == 'bw'){
