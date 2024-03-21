@@ -225,7 +225,6 @@ app.use('/login', async (req,res) => {
 
 app.get('/', (req, res) => {
     console.log(`\'/\' GET request `);
-    console.log(req.session)
 
     if (req.session.login) {
         console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
@@ -242,7 +241,6 @@ app.use('/logout', async (req,res) => {
     console.log(`\'/logout\' request `);
     res.setHeader('content-type', 'application/json');
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
-    console.log(req.session)
     if (req.session.login){
         console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}`)
         req.session.destroy()
@@ -264,7 +262,6 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res, next) => {
     res.setHeader('content-type', 'image/jpeg');
 
     try {
-        console.log(req.session)
         if (!req.session.login) {
             console.log("Session: {}")
             console.log("Logged Out, can't server pictures\n");
