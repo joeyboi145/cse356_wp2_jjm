@@ -223,19 +223,19 @@ app.use('/login', async (req,res) => {
     }
 });
 
-app.get('/', (req, res) => {
-    console.log(`\'/\' GET request `);
+// app.get('/', (req, res) => {
+//     console.log(`\'/\' GET request `);
 
-    if (req.session.login) {
-        console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
-        console.log("Serving HTML\n");
-        return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
-    } else  {
-        console.log("Session: {}")
-        console.log("Logged Out, can't server HTML\n");
-        return res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
-    }
-})
+//     if (req.session.login) {
+//         console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
+//         console.log("Serving HTML\n");
+//         return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
+//     } else  {
+//         console.log("Session: {}")
+//         console.log("Logged Out, can't server HTML\n");
+//         return res.status(200).sendFile('login.html', {root: __dirname + '/html/'} ); 
+//     }
+// })
 
 app.use('/logout', async (req,res) => {
     console.log(`\'/logout\' request `);
