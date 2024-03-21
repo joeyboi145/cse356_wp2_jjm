@@ -49,8 +49,8 @@ app.use(
             domain: domain,
             maxAge: 24 * 60 * 60 * 1000
         },
-        resave: true,
-        saveUninitialized: true,
+        resave: false,
+        saveUninitialized: false,
         store: store
     })
 )
@@ -247,7 +247,7 @@ app.get('/', (req, res) => {
     console.log(`\'/\' GET request `);
     console.log(req.session)
 
-    if (req.session) { // || LOGIN
+    if (req.session.login) { // || LOGIN
         req.session.login = true;
         console.log("Serving HTML\n");
         return res.status(200).sendFile('home.html', {root: __dirname + '/html/'} ); 
