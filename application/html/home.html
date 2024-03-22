@@ -85,13 +85,13 @@
         });
 
 
-        viewer.addHandler('tile-loaded', function (event) {
-            var statusCode = event.eventSource.status;
-            if (statusCode === 400) {
-                // Clear the current map
-                viewer.close();
-            }
-        });
+        // viewer.addHandler('tile-loaded', function (event) {
+        //     var statusCode = event.eventSource.status;
+        //     if (statusCode === 400) {
+        //         // Clear the current map
+        //         viewer.close();
+        //     }
+        // });
 
         // viewer.addHandler("tile-loaded", function (event) {
         //     var tile = event.tiledImage;
