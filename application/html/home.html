@@ -85,7 +85,7 @@
         });
 
 
-        viewer.addHandler('tile-drawing-error', function (event) {
+        viewer.addHandler('tile-loaded', function (event) {
             var statusCode = event.eventSource.status;
             if (statusCode === 400) {
                 // Clear the current map
