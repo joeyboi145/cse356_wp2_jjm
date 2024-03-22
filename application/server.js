@@ -257,7 +257,7 @@ app.use('/logout', async (req, res) => {
 app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     let filepath = req.path.slice(1);
     let style = req.query.style;
-    console.log("'/tiles' GET request");
+    console.log("\n'/tiles' GET request");
     console.log(`{ ${filepath}, ${style}}`);
     res.append('X-CSE356', '65b99885c9f3cb0d090f2059');
     res.setHeader('content-type', 'image/jpeg');
@@ -286,10 +286,10 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
     } else {
         res.status(200).sendFile(filepath, { root: __dirname + '/' }, err => {
             if (err) {
-                console.log(`ERROR: file ${filepath} not found!\n`)
+                console.log(`ERROR: file ${filepath} not found!`)
                 res.setHeader('content-type', 'application/json');
                 res.status(404).json({ status: "ERROR", message: "File not found" });
-            } else console.log(`Sending in color: ${filepath}\n`);
+            } else console.log(`Sending in color: ${filepath}`);
         });
     }
 });
