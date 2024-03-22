@@ -84,13 +84,14 @@
             }
         });
 
-        viewer.clearOverlays();
+        viewer.navigator.clearOverlays();
 
         viewer.addHandler("tile-loaded", function (event) {
             // Check if the tile URL or response status matches the condition
             if (event.request.statusText === "400") {
                 // Stop loading further tiles
                 // Optional: Clear overlays if any
+                viwer.clearOverlays();
                 viewer.navigator.clearOverlays();
                 console.log("Tile loading stopped due to HTTP status: 400");
             }
