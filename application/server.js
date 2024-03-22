@@ -229,11 +229,11 @@ app.get('/', (req, res) => {
 
     if (req.session.login) {
         console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
-        console.log("Serving HTML\n");
+        console.log("Serving HTML...\n");
         return res.status(200).sendFile('home.html', { root: __dirname + '/html/' });
     } else {
         console.log("Session: {}")
-        console.log("Logged Out, can't server HTML\n");
+        console.log("Logged Out, can't server HTML!\n");
         return res.status(200).sendFile('login.html', { root: __dirname + '/html/' });
     }
 })
@@ -264,9 +264,9 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
 
     if (!req.session.login) {
         console.log("Session: {}")
-        console.log("Logged Out, can't server pictures\n");
+        console.log("Logged Out, can't server images!\n");
         res.setHeader('content-type', 'application/json');
-        return res.status(200).json({ status: "ERROR", message: "Logged out" });
+        return res.status(400).json({ status: "ERROR", message: "Logged out" });
     } else {
         console.log(`Session: { username: ${req.session.username}, login: ${req.session.login}}`)
     }
@@ -277,7 +277,7 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
                 const grey_image = image.grayscale();
                 const buffer = grey_image.getBufferAsync(jimp.MIME_JPEG)
                 res.status(200).send(Buffer.from(buffer, 'binary'))
-                console.log(`Sending in black and white: ${filepath}\n`);
+                console.log(`Sending in black and white: ${filepath}`);
             }).catch(err => {
                 console.log(`ERROR: file ${filepath} not found!\n`)
                 res.setHeader('content-type', 'application/json');

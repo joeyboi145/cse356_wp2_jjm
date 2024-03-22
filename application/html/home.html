@@ -6,6 +6,7 @@
 
     <!-- Include OpenSeadragon library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/2.4.2/openseadragon.min.js"></script>
+    <!-- <script src="index.js"></script> -->
     <style>
         #wp2 {
             width: 50vh;
@@ -83,18 +84,17 @@
             }
         });
 
-        // viewer.addHandler("tile-loaded", function (event) {
-        //     // Check if the tile URL or response status matches the condition
-        //     if (event.request.statusText === "400") {
-        //         // Stop loading further tiles
-        //         viewer.clearOverlays(); // Optional: Clear overlays if any
-        //         viewer.navigator.clearOverlays(); // Optional: Clear navigator overlays if any
-        //         // viewer.setMouseNavEnabled(false); // Disable mouse navigation
-        //         // viewer.setKeyboardNavEnabled(false); // Disable keyboard navigation
-        //         // Optionally, display a message to the user or perform other actions
-        //         console.log("Tile loading stopped due to HTTP status: 400");
-        //     }
-        // });
+        viewer.navigator.clearOverlays();
+
+        viewer.addHandler("tile-loaded", function (event) {
+            // Check if the tile URL or response status matches the condition
+            if (event.request.statusText === "400") {
+                // Stop loading further tiles
+                // Optional: Clear overlays if any
+                viewer.clearOverlays();
+                console.log("Tile loading stopped due to HTTP status: 400");
+            }
+        });
 
     </script>
 
