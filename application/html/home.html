@@ -93,6 +93,8 @@
                 // Optional: Clear overlays if any
                 viwer.clearOverlays();
                 viewer.navigator.clearOverlays();
+                viewer.setMouseNavEnabled(false); // Disable mouse navigation
+                viewer.setKeyboardNavEnabled(false); // Disable keyboard navigation
                 console.log("Tile loading stopped due to HTTP status: 400");
             }
         });
