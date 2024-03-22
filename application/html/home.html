@@ -84,8 +84,6 @@
             }
         });
 
-        viewer.navigator.clearOverlays();
-
         viewer.addHandler("tile-loaded", function (event) {
             // Check if the tile URL or response status matches the condition
             if (event.request.statusText === "400") {
