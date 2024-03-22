@@ -14,7 +14,7 @@
             position: relative;
             top: 0;
             left: 0;
-        }   
+        }
 
         #openseadragon-container {
             width: 100%;
@@ -84,18 +84,27 @@
             }
         });
 
-        viewer.addHandler("tile-loaded", function (event) {
-            // Check if the tile URL or response status matches the condition
-            if (event.request.statusText === "400") {
-                // Stop loading further tiles
-                // Optional: Clear overlays if any
-                viwer.clearOverlays();
-                viewer.navigator.clearOverlays();
-                viewer.setMouseNavEnabled(false); // Disable mouse navigation
-                viewer.setKeyboardNavEnabled(false); // Disable keyboard navigation
-                console.log("Tile loading stopped due to HTTP status: 400");
+
+        viewer.addHandler('tile-drawing-error', function (event) {
+            var statusCode = event.eventSource.status;
+            if (statusCode === 400) {
+                // Clear the current map
+                viewer.close();
             }
         });
+
+        // viewer.addHandler("tile-loaded", function (event) {
+        //     // Check if the tile URL or response status matches the condition
+        //     if (event.request.statusText === "400") {
+        //         // Stop loading further tiles
+        //         // Optional: Clear overlays if any
+        //         viwer.clearOverlays();
+        //         viewer.navigator.clearOverlays();
+        //         viewer.setMouseNavEnabled(false); // Disable mouse navigation
+        //         viewer.setKeyboardNavEnabled(false); // Disable keyboard navigation
+        //         console.log("Tile loading stopped due to HTTP status: 400");
+        //     }
+        // });
 
     </script>
 
