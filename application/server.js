@@ -279,14 +279,14 @@ app.get('/tiles/l:LAYER/:V/:H.jpg', async (req, res) => {
                 res.status(200).send(Buffer.from(buffer, 'binary'))
                 console.log(`Sending in black and white: ${filepath}\n`);
             }).catch(err => {
-                console.log(err)
+                console.log(`ERROR: file ${filepath} not found!\n`)
                 res.setHeader('content-type', 'application/json');
                 res.status(404).json({ status: "ERROR", message: "File not found" });
             })
     } else {
         res.status(200).sendFile(filepath, { root: __dirname + '/' }, err => {
             if (err) {
-                console.log(err)
+                console.log(`ERROR: file ${filepath} not found!\n`)
                 res.setHeader('content-type', 'application/json');
                 res.status(404).json({ status: "ERROR", message: "File not found" });
             } else console.log(`Sending in color: ${filepath}\n`);
